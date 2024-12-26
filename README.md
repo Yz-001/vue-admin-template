@@ -1,6 +1,12 @@
-# Vue 3 + TypeScript + Vite
+# vue-admin-template
 
 基于 `Vue3.4 + VueRouter + Pinia + elementPlus + TypeScript + Vite + Axios + Sass` 的后台管理系统
+
+## 获取项目代码
+
+```
+git clone git@github.com:Yz-001/vue-admin-template.git
+```
 
 ## 前置环境
 
@@ -9,19 +15,19 @@ node>=18
 pnpm>9
 :::
 
-## 一. 安装依赖
+## 安装依赖
 
 ```
 pnpm i
 ```
 
-## 二. 项目启动
+## 项目启动
 
 ```
 pnpm run dev
 ```
 
-## 三. 项目打包
+## 项目打包
 
 生产包
 
