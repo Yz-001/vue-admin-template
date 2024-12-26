@@ -1,0 +1,82 @@
+@import "./variables";
+@import "./reset";
+@import "./nprogress";
+@import "./element/index";
+@import "./scrollbar";
+
+img {
+  object-fit: cover !important;
+}
+
+// 页面
+.page-container {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden auto;
+  background-color: var(--el-bg-color-overlay);
+  border-radius: $--border-size-radius-base;
+
+  &--nopadding {
+    padding: 0;
+  }
+}
+
+.prefix-title {
+  &::before {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    width: 2px;
+    height: 16px;
+    margin-right: 4px;
+    content: "";
+    background: #0e5eff;
+  }
+}
+
+.oper-hover {
+  &:hover {
+    color: var(--el-color-primary);
+    cursor: pointer;
+
+    .svg-raw {
+      path {
+        fill: var(--el-color-primary);
+      }
+    }
+  }
+}
+
+// 应用默认加载gif
+.app-loading {
+  position: relative;
+  z-index: 20000;
+  width: 100%;
+  height: 100%;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20001;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background-color: rgb(255 255 255 / 100%);
+  }
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 20002;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    margin-top: -75px;
+    margin-left: -75px;
+    content: "";
+    background: url("@/assets/img/appLoading.gif") no-repeat 100% 100%;
+  }
+}

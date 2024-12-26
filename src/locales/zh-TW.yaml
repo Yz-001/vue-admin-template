@@ -1,0 +1,52 @@
+app:
+  PlatformName: xxx
+menus:
+  Home: 首頁
+  Login: 登錄
+  AppInfo: 平臺信息
+  Predev: 开发文檔
+  Version: 關於版本
+operate:
+  create: "創建"
+  newCreate: "新增"
+  edit: "修改"
+  delete: "刪除"
+  Update: "更新"
+  reset: "重置"
+  see: "查看"
+  save: "保存"
+  ok: "確認"
+  cancel: "取消"
+  previousStep: "上一步"
+  nextStep: "下一步"
+  query: "查詢"
+  search: "搜索"
+  loading: "加載中"
+  required: "必填項"
+status:
+  Load: 加載中...
+login:
+  Username: 賬號
+  Password: 密碼
+  Remember: 一週內自動登錄
+  Sure: 確認密碼
+  Forget: 忘記密碼?
+  Login: 登錄
+  LoginSuccess: 登錄成功
+  LoginFail: 登錄失敗
+  UsernameReg: 請輸入賬號
+  PassWordReg: 請輸入密碼
+form:
+  submit: 確定
+  select:
+    placeholder: "請選擇"
+upload:
+  title: "上傳"
+  meg:
+    centertip: "點擊或將文件拖拽到這裏上傳"
+    accept: "支持擴展名"
+    exceed: "當前限制選擇{0}個文件，本次選擇了{1}個文件"
+    size: "文件大小超出範圍，請上傳{0}M以下"
+    type: "文件類型有誤，請上傳{0}格式"
+  oper:
+    remove: "確定是否刪除此文件"

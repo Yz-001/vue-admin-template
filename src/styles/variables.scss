@@ -1,0 +1,41 @@
+// 默认使用配置的elemenet颜色，以下自定义系统其他颜色变量
+// 背景色
+$--bg-color: #fff;
+$--bg-color-page: #f2f3f5;
+$--bg-color-overlay: #fff;
+
+// 边框线
+$--border-color-base: #fafafa;
+$--border-color-regular: #ecf5ff;
+
+// 字体颜色
+$--text-color-base: #333; // 主题文字: 平台
+$--text-color-regular: #666; // 常规文字: 标题
+$--text-color-secondary: #999; // 二级文字: 内容
+$--text-color-placeholder: #999; // 占位符文字
+$--text-color-disabled: #333; // 禁用文字
+
+// 字体大小
+$--font-size-elg: 20px;
+$--font-size-lg: 18px;
+$--font-size-md: 16px;
+$--font-size-base: 14px;
+$--font-size-sm: 13px;
+$--font-size-esm: 12px;
+
+// 间距
+$--spacing-unit: 8px; // （基础单位间距，用于计算其他间距）
+$--spacing-sm: calc(var($--spacing-unit) * 0.5); // （小间距）
+$--spacing-md: var($--spacing-unit * 1.5); // （中等间距）
+$--spacing-base: var($--spacing-unit); // （中等间距）
+$--spacing-lg: calc(var($--spacing-unit) * 2); // （大间距）
+$--spacing-xl: calc(var($--spacing-unit) * 2.5); // （大间距）
+
+// 尺寸
+$--border-size-radius-base: 6px; // （默认圆角大小）
+$--border-size-radius-regular: 8px; // （默认圆角大小）
+$--padding-size-base: var(--spacing-md); // （默认内边距）
+$--margin-size-base: var(--spacing-md); // （默认外边距）
+
+$--color-white: #fff; // （纯白色）
+$--color-black: #000; // （纯黑色）

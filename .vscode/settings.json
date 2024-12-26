@@ -1,0 +1,178 @@
+{
+    "editor.tabSize": 2, // tab大小2个空格
+    "editor.minimap.enabled": false,
+    "eslint.run": "onSave",       // 只在保存时运行 ESLint，而不是实时
+    "eslint.format.enable": true, // 允许eslint 格式化对应的文件
+    "eslint.codeActionsOnSave.mode": "all",
+    "editor.formatOnPaste": true, // 粘贴代码时自动进行格式化，保证粘贴内容的格式与当前文档保持一致
+    "editor.guides.bracketPairs": "active", // 显示括号对之间的指南线，帮助识别嵌套结构
+    "editor.acceptSuggestionOnCommitCharacter": false, // 不在输入触发字符时自动接受建议
+    "editor.quickSuggestions": {
+        "other": true,    // 开启非触发字符的快速建议
+        "comments": true, // 允许在注释中提供建议
+        "strings": true   // 允许在字符串中提供建议
+    },
+    "editor.formatOnSave": true, // 在保存文件时自动格式化整个文档
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.fixAll.tslint": "explicit",
+        "source.fixAll.eslint": "explicit",// 开启保存时执行eslint进行校验和格式化
+        "addMissingImports": "explicit",
+    },
+    "search.followSymlinks": false,
+    "workbench.colorTheme": "Atom One Dark",
+    "[html]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    //CSS 格式化=stylelint
+    "css.validate": false,
+    "scss.validate": false,
+    "less.validate": false,
+    "stylelint.enable": true,
+    "[sass]": {
+       "editor.defaultFormatter": "stylelint.vscode-stylelint", // 设置编辑器默认格式化工具为stylelint
+    },
+    "[css]": {
+        "editor.defaultFormatter": "stylelint.vscode-stylelint",
+        "editor.suggest.insertMode": "replace"
+    },
+    // 控制在保存文件时进行的代码操作的超时时间 (毫秒)。
+    "editor.codeActionsOnSaveTimeout": 750,
+    // javaScript参数名称提示
+    "javascript.inlayHints.parameterNames.enabled": "all",
+    "javascript.inlayHints.variableTypes.enabled": false,
+    //自更新绝对路径
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "i18n-ally.localesPaths": "src/locales",
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.sortKeys": true,
+    "i18n-ally.namespace": true,
+    "i18n-ally.enabledParsers": [
+        "yaml",
+        "js"
+    ],
+    "i18n-ally.sourceLanguage": "en",
+    "i18n-ally.displayLanguage": "zh-CN",
+    "i18n-ally.enabledFrameworks": [
+        "vue"
+    ],
+    "better-comments.tags": [
+        {
+            "tag": "!",
+            "color": "#FF2D00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "//",
+            "color": "#474747",
+            "strikethrough": true,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "*",
+            "color": "#98C379",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": ":",
+            "color": "#54f",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "?",
+            "color": "#FF8C00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "@",
+            "color": "#3498DB",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "#",
+            "color": "#98f",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "->",
+            "color": "#5f9",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "~",
+            "color": "yellow",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "=>",
+            "color": "blue",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        },
+        {
+            "tag": "TODO",
+            "color": "#FF6347",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+        }
+    ]
+}

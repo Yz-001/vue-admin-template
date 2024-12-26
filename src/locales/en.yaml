@@ -1,0 +1,52 @@
+app:
+  PlatformName: xxx
+menus:
+  Home: Home
+  Login: Login
+  AppInfo: App Info
+  Predev: Predev
+  Version: Version
+operate:
+  create: "Create"
+  newCreate: "Add"
+  edit: "Modify"
+  delete: "Delete"
+  Update: "Update"
+  reset: Reset"
+  see: See"
+  save: "Save"
+  ok: "Confirm"
+  cancel: Cancel"
+  previousStep: "previous step"
+  nextStep: nextstep"
+  query: "Query"
+  search: "Search"
+  loading: "Loading"
+  required: "Required fields"
+status:
+  Load: Loading...
+login:
+  Username: Username
+  Password: Password
+  Remember: Automatic login within a week
+  Sure: Sure Password
+  Forget: Forget Password?
+  Login: Login
+  LoginSuccess: Login Success
+  LoginFail: Login Fail
+  UsernameReg: Please enter username
+  PassWordReg: Please enter password
+form:
+  submit: submit
+  select:
+    placeholder: "Please select"
+  upload:
+    title: "Upload"
+  meg:
+    centertip: "Click or drag the file here to upload"
+    accept: "Support extensions"
+    exceed: "{0} files are currently selected, {1} files are selected this time"
+    size: "File size out of range, please upload {0}M below"
+    type: "File type is incorrect, please upload {0} format"
+  oper:
+    remove: "Determine whether to delete this file"
