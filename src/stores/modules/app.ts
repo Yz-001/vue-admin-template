@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
+import { layoutModeEnum, layoutDeviceEnum } from "@/apis/interface/common";
 
 export const useAppStore = defineStore("app", {
   state: () => {
     return {
-      device: "",
+      device: layoutDeviceEnum.DESKTOP as layoutDeviceEnum,
       sidebar: { collapse: false, opened: true } as layoutSidebar,
-      layoutMode: "vertical" as layoutModeType
+      layoutMode: layoutModeEnum.VERTICAL as layoutModeEnum
     };
   },
   actions: {
@@ -15,14 +16,14 @@ export const useAppStore = defineStore("app", {
     setSidebarOpened(openedBol: boolean) {
       this.sidebar.opened = openedBol;
     },
-    setLayoutMode(mode: layoutModeType) {
-      if (mode == "vertical") {
+    setLayoutMode(mode: layoutModeEnum) {
+      if (mode == layoutModeEnum.VERTICAL) {
         //左右侧
         this.setSidebarOpened(true);
-      } else if (mode == "horizontal") {
+      } else if (mode == layoutModeEnum.HORIZONTAL) {
         // 上下侧
         this.setSidebarOpened(false);
-      } else if (mode == "mixin") {
+      } else if (mode == layoutModeEnum.MIXIN) {
         // 混合
       }
       this.layoutMode = mode;
@@ -34,15 +35,15 @@ export const useAppStore = defineStore("app", {
        * width > 990 展开侧边栏
        */
       if (width <= 768) {
-        this.device = "mobile";
+        this.device = layoutDeviceEnum.MOBILE;
         this.setSidebarOpened(false);
         this.setSidebarCollapse(false);
       } else if (width > 760 && width <= 990) {
-        this.device = "desktop";
+        this.device = layoutDeviceEnum.DESKTOP;
         this.setSidebarOpened(true);
         this.setSidebarCollapse(true);
       } else if (width > 990) {
-        this.device = "desktop";
+        this.device = layoutDeviceEnum.DESKTOP;
         this.setSidebarOpened(true);
         this.setSidebarCollapse(false);
       }
@@ -51,8 +52,6 @@ export const useAppStore = defineStore("app", {
   }
 });
 
-export type layoutModeType = "vertical" | "horizontal" | "mixin";
-export type layoutDeviceType = "mobile" | "desktop";
 export interface layoutSidebar {
   collapse: boolean;
   opened: boolean;

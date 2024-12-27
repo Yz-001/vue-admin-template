@@ -8,7 +8,8 @@ import { computed, ref } from "vue";
 defineOptions({
   name: "BaseSidebar"
 });
-const props = withDefaults(defineProps<{ menuList?: any[] }>(), {
+const props = withDefaults(defineProps<{ markVisible?: Boolean; menuList?: any[] }>(), {
+  markVisible: true,
   menuList: () => []
 });
 const { setSidebarCollapse } = useAppStore();
@@ -17,7 +18,7 @@ const { desktopDevice, sidebarCollapse } = useLayout();
 
 <template>
   <div :class="['layout-sidebar', sidebarCollapse ? 'layout-sidebar--collapse' : 'layout-sidebar--expand']">
-    <BaseMark :collapse="sidebarCollapse" />
+    <BaseMark v-if="markVisible" :collapse="sidebarCollapse" />
     <BaseMenu :collapse="sidebarCollapse" :menuList="menuList" />
     <div v-if="desktopDevice" class="layout-sidebar__collapse">
       <el-icon size="24" color="#999" @click="setSidebarCollapse(!sidebarCollapse)">
