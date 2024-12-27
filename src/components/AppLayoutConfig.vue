@@ -6,6 +6,7 @@ import { handleThemeMode, handleThemeStyle } from "@/utils/theme";
 import { onMounted, reactive } from "vue";
 import { Moon, Sunny } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
+import { layoutModeEnum, layoutDeviceEnum } from "@/apis/interface/common";
 defineOptions({
   name: "AppLayoutConfig"
 });
@@ -33,10 +34,10 @@ const { setSidebarCollapse, device, sidebar, layoutMode } = useAppStore();
 const appStore = useAppStore();
 const route = useRoute();
 const handleModeChange = (mode: layoutModeType) => {
-  if (mode == "vertical") {
+  if (mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;
   }
-  // else if (mode == "mixin") {
+  // else if (mode == layoutModeEnum.MIXIN) {
   //   // 设置混合时侧边栏根据有没有子菜单决定是否打开
   //   const hasChildren = route.matched[route.matched.length - 1]?.children;
   //   return setSidebarCollapse(!!hasChildren);
@@ -46,7 +47,7 @@ const { theme, SET_THEME, themeMode, SET_THEMEMODE, locale, SET_LOCALE, maxTabCo
   useSettingsStore();
 const handleLayoutConfigGet = () => {
   form.mode = layoutMode;
-  if (form.mode == "vertical") {
+  if (form.mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;
   }
   form.theme = theme;
@@ -84,14 +85,14 @@ onMounted(handleLayoutConfigGet);
   >
     <div class="layout-config__content">
       <el-form :model="form" label-width="130" label-position="left">
-        <el-form-item v-if="appStore.device != 'mobile'" label="布局配置">
+        <el-form-item v-if="appStore.device != layoutDeviceEnum.MOBILE" label="布局配置">
           <BaseSelectLayoutMode @onChange="handleModeChange" />
         </el-form-item>
         <el-form-item v-if="form.mode == 'vertical'" label="侧边栏配置">
           <el-radio-group
             v-model="form.collapse"
             class="ml-4"
-            :disabled="appStore.device == 'mobile'"
+            :disabled="appStore.device == layoutDeviceEnum.MOBILE"
             @change="setSidebarCollapse"
           >
             <el-radio :value="true" size="large">折叠</el-radio>

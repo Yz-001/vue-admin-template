@@ -2,6 +2,8 @@
 import useLayout from "@/hooks/use-layout";
 import { type ThemeMode } from "@/src/stores/modules/settings";
 import { useAppStore } from "@/stores/modules/app";
+import { layoutModeEnum } from "@/apis/interface/common";
+
 const { verticalMode, horizontalMode, mixinMode } = useLayout();
 const { setLayoutMode } = useAppStore();
 const emit = defineEmits(["on-change"]);
@@ -18,7 +20,7 @@ const handleModeSwitch = (mode: ThemeMode) => {
       <el-container
         class="layout-mode vertical"
         :class="{ active: verticalMode }"
-        @click="handleModeSwitch('vertical')"
+        @click="handleModeSwitch(layoutModeEnum.VERTICAL)"
       >
         <el-aside />
         <el-container>
@@ -31,14 +33,18 @@ const handleModeSwitch = (mode: ThemeMode) => {
       <el-container
         class="layout-mode horizontal"
         :class="{ active: horizontalMode }"
-        @click="handleModeSwitch('horizontal')"
+        @click="handleModeSwitch(layoutModeEnum.HORIZONTAL)"
       >
         <el-header />
         <el-main />
       </el-container>
     </el-tooltip>
     <el-tooltip content="混合模式">
-      <el-container class="layout-mode mixin" :class="{ active: mixinMode }" @click="handleModeSwitch('mixin')">
+      <el-container
+        class="layout-mode mixin"
+        :class="{ active: mixinMode }"
+        @click="handleModeSwitch(layoutModeEnum.MIXIN)"
+      >
         <el-header />
         <el-container>
           <el-aside />

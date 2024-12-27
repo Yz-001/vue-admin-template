@@ -4,7 +4,7 @@
       <Expand v-if="sidebarOpened" />
       <Fold v-else />
     </el-icon>
-    <BaseMark v-if="(desktopDevice && horizontalMode) || mobileDevice" :collapse="mobileDevice" />
+    <BaseMark v-if="(desktopDevice && (horizontalMode || mixinMode)) || mobileDevice" :collapse="mobileDevice" />
     <slot />
     <div class="layout-head__right">
       <el-icon @click="toggle"><FullScreen /></el-icon>
@@ -41,7 +41,7 @@ const userStore = useUserStore();
 const mobileSidebarClick = () => {
   emit("on-mobile-sidebar-click");
 };
-const { layoutDevice, mobileDevice, desktopDevice, layoutMode, horizontalMode, sidebarOpened } = useLayout();
+const { layoutDevice, mobileDevice, desktopDevice, layoutMode, horizontalMode, mixinMode, sidebarOpened } = useLayout();
 // 顶部右侧配置相关
 const { toggle } = useFullscreen();
 const configOpenVisible = ref(false);
