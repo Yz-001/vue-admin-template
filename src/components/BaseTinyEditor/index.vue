@@ -3,6 +3,7 @@ import { computed, reactive, watch, ref, nextTick, onMounted } from "vue"; //全
 import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import * as defineConfig from "./config";
+import type { BaseTinyEditorProps, CustomTinyConfig } from "./index.d.ts";
 
 const props = withDefaults(defineProps<BaseTinyEditorProps>(), {
   enabled: true,
@@ -137,13 +138,17 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+.base-editor {
+  border: 1px solid #dddfe5;
+}
+
 :deep(.tox-tinymce) {
-  border: 1px solid #dcdfe6;
+  border: 1px solid #dddfe5;
   border-radius: 4px;
 
-  .tox-statusbar {
-    display: none;
-  }
+  // .tox-statusbar {
+  //   display: none;
+  // }
 }
 </style>
 <style lang="scss">

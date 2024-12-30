@@ -1,6 +1,7 @@
 import { createRouter, type RouteRecordRaw, createWebHashHistory } from "vue-router";
 import { BasicRouter } from "./modules/basic";
 import { ExploitRouter } from "./modules/exploit";
+import { NotifRouter } from "./modules/notif";
 // import { encryptQuery, decodeQuery } from "@/utils/cryptoJS";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -11,6 +12,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import("@views/login/index.vue")
   },
   ...BasicRouter,
+  NotifRouter,
   ExploitRouter,
   {
     path: "/:pathMatch(.*)*",

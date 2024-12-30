@@ -1,4 +1,4 @@
-import type { CustomTinyConfig } from "@/components/BaseTinyEditor/index.vue";
+import type { CustomTinyConfig } from "@/components/BaseTinyEditor/index.d.ts";
 export default function useExpression() {
   const customTinyConfig: CustomTinyConfig = {
     inline: true,

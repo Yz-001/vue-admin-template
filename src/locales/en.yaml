@@ -6,6 +6,8 @@ menus:
   AppInfo: App Info
   Predev: Predev
   Version: Version
+  NotifMain: Notification management
+  NotifList: Notification List
 operate:
   create: "Create"
   newCreate: "Add"

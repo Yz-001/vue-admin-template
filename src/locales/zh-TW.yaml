@@ -6,6 +6,8 @@ menus:
   AppInfo: 平臺信息
   Predev: 开发文檔
   Version: 關於版本
+  NotifMain: 通知管理
+  NotifList: 通知列表
 operate:
   create: "創建"
   newCreate: "新增"
