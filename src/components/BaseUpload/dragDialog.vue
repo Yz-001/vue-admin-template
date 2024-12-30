@@ -1,58 +1,3 @@
-<template>
-  <div class="el-dialog-custom">
-    <ElDialog
-      :modelValue="uploadDialogShow"
-      :title="$t('upload.title')"
-      width="30%"
-      :show-close="false"
-      :before-close="handleDialogClose"
-      :close-on-click-modal="false"
-    >
-      <ElUpload
-        ref="uploadRef"
-        drag
-        class="base-drag-upload"
-        :action="action"
-        :headers="headers"
-        :file-list="fileData"
-        :disabled="uploadLosding"
-        :accept="uploadAcceptLimit"
-        :limit="limit"
-        :on-progress="handleProgress"
-        :before-upload="handBeforeUpload"
-        :on-success="handleSuccess"
-        :on-error="handleError"
-        :on-exceed="handleExceed"
-        :before-remove="handleRemove"
-        :show-file-list="!uploadLosding"
-      >
-        <div v-if="uploadLosding" class="base-drag-upload__progress">
-          <p class="base-drag-upload__progress__info">
-            <span :title="uploadPercentagFile?.name">{{ uploadPercentagFile?.name }}</span>
-          </p>
-          <p class="base-drag-upload__num">
-            <ElProgress :percentage="uploadPercentage" />
-            <ElIcon class="base-drag-upload__close" @click.stop="handleUploadCancel"><Close /></ElIcon>
-          </p>
-        </div>
-        <div v-else>
-          <el-icon class="base-drag-upload__icon"><Upload /></el-icon>
-          <div class="base-drag-upload__centertip">{{ centerTip || $t("upload.meg.centertip") }}</div>
-          <span class="base-drag-upload__accept">{{ $t("upload.meg.accept") }}：{{ acceptTip }} </span>
-        </div>
-      </ElUpload>
-      <template #footer>
-        <span class="el-dialog-custom__foot">
-          <ElButton :disabled="!!uploadPercentage" @click="handleDialogClose">{{ $t("operate.cancel") }}</ElButton>
-          <ElButton :disabled="!!uploadPercentage" type="primary" @click="handleDialogAdd">{{
-            $t("operate.newCreate")
-          }}</ElButton>
-        </span>
-      </template>
-    </ElDialog>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { COMMON_UPLOAD_FILE } from "@/apis/common";
 import { baseUrl } from "@/apis/request";
@@ -84,7 +29,8 @@ const props = withDefaults(defineProps<BaseUploadProps>(), {
     ".pdf"
   ],
   limit: 10,
-  size: 200
+  size: 200,
+  closeMsgBox: true
 });
 
 const emit = defineEmits([
@@ -127,11 +73,67 @@ interface BaseUploadProps {
   limit?: number; // 文件限制上传个数
   size?: number; // 文件限制大小 MB单位
   type?: string; // 用于区分上传组件类型
+  closeMsgBox?: boolean; //关闭弹窗提示
 }
 </script>
 
+<template>
+  <div class="el-dialog-custom">
+    <ElDialog
+      :modelValue="uploadDialogShow"
+      :title="$t('upload.title')"
+      width="30%"
+      :show-close="false"
+      :before-close="handleDialogClose"
+      :close-on-click-modal="false"
+    >
+      <ElUpload
+        ref="uploadRef"
+        drag
+        class="base-drag-upload-dialog"
+        :action="action"
+        :headers="headers"
+        :file-list="fileData"
+        :disabled="uploadLosding"
+        :accept="uploadAcceptLimit"
+        :limit="limit"
+        :on-progress="handleProgress"
+        :before-upload="handBeforeUpload"
+        :on-success="handleSuccess"
+        :on-error="handleError"
+        :on-exceed="handleExceed"
+        :before-remove="handleRemove"
+        :show-file-list="!uploadLosding"
+      >
+        <div v-if="uploadLosding" class="base-drag-upload__progress">
+          <p class="base-drag-upload__progress__info">
+            <span :title="uploadPercentagFile?.name">{{ uploadPercentagFile?.name }}</span>
+          </p>
+          <p class="base-drag-upload__num">
+            <ElProgress :percentage="uploadPercentage" />
+            <ElIcon class="base-drag-upload__close" @click.stop="handleUploadCancel"><Close /></ElIcon>
+          </p>
+        </div>
+        <div v-else>
+          <el-icon class="base-drag-upload__icon"><Upload /></el-icon>
+          <div class="base-drag-upload__centertip">{{ centerTip || $t("upload.meg.centertip") }}</div>
+          <span class="base-drag-upload__accept">{{ $t("upload.meg.accept") }}：{{ acceptTip }} </span>
+        </div>
+      </ElUpload>
+      <template #footer>
+        <span class="el-dialog-custom__foot">
+          <ElButton :disabled="!!uploadPercentage" @click="handleDialogClose">{{ $t("operate.cancel") }}</ElButton>
+          <ElButton :disabled="!!uploadPercentage" type="primary" @click="handleDialogAdd">{{
+            $t("operate.newCreate")
+          }}</ElButton>
+        </span>
+      </template>
+    </ElDialog>
+  </div>
+</template>
+
 <style lang="scss" scoped>
-.base-drag-upload {
+.base-drag-upload-dialog {
   width: calc(100% - 40px);
   margin: 0 auto;
 

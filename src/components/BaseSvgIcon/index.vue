@@ -6,10 +6,10 @@ defineOptions({
 });
 
 const modules = import.meta.glob("@/assets/svg/*.svg", { eager: true, as: "component" });
-const props = withDefaults(defineProps<{ name: string; w?: string; h?: string; f?: string }>(), {
+const props = withDefaults(defineProps<{ name: string; width?: string; height?: string; fill?: string }>(), {
   //采用缩写 避免和svg标签attrs原生属性重名
-  w: "18px",
-  h: "18px"
+  width: "18px",
+  height: "18px"
 });
 const attrs = useAttrs();
 const instance = getCurrentInstance();
@@ -78,11 +78,11 @@ path {
 }
 
 .svg-raw {
-  width: v-bind("props.w");
-  height: v-bind("props.h");
+  width: v-bind("props.width");
+  height: v-bind("props.height");
 
   path {
-    fill: v-bind("props.f");
+    fill: v-bind("props.fill");
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseSelectLayoutMode from "@/components/BaseSelectLayoutMode.vue";
+import BaseSelectLayoutMode from "@/components/BaseSelectLayoutMode/index.vue";
 import { layoutModeType, layoutSidebar, useAppStore } from "@/stores/modules/app";
 import { ThemeMode, Locale, useSettingsStore } from "@/stores/modules/settings";
 import { handleThemeMode, handleThemeStyle } from "@/utils/theme";

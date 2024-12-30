@@ -1,6 +1,3 @@
-<template>
-  <div ref="elEcharts" class="base-echarts" />
-</template>
 <script setup lang="ts">
 import { shallowRef, onMounted, watch } from "vue";
 import { useEcharts, type EChartsCoreOption } from "@/hooks/use-echart";
@@ -12,7 +9,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 const emit = defineEmits(["dataZoomChange", "itemClick"]);
-const elEcharts = shallowRef();
+const baseEchartRef = shallowRef();
 const currentOptions = shallowRef(props.options);
 const addOnDataZoom = () => {
   charts.value?.on("dataZoom", handleDataZoomChange);
@@ -31,7 +28,7 @@ const handleDataZoomChange = (data: EcZoomDataRow) => {
 const handleChartItemClick = (params: any) => {
   emit("itemClick", params);
 };
-const { charts, setOptions, initCharts } = useEcharts(elEcharts, currentOptions.value);
+const { charts, setOptions, initCharts } = useEcharts(baseEchartRef, currentOptions.value);
 
 watch(
   () => props.options,
@@ -90,6 +87,10 @@ export interface ChartItem {
   color: string; // 数据图形的颜色。当 componentType 为 'series' 时有意义。
 }
 </script>
+
+<template>
+  <div ref="baseEchartRef" class="base-echarts" />
+</template>
 
 <style lang="scss" scoped>
 .base-echarts {

@@ -1,16 +1,3 @@
-<template>
-  <el-breadcrumb class="base-breadCrumb" separator="/">
-    <template v-for="item in breadCrumbList" :key="item.path">
-      <el-breadcrumb-item v-if="!item?.noTo" :to="{ path: item.path }">
-        {{ item.meta?.title ? $t(item.meta.title) : "" }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item v-else>
-        {{ item.meta?.title ? $t(item.meta.title) : "" }}
-      </el-breadcrumb-item>
-    </template>
-  </el-breadcrumb>
-</template>
-
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 defineOptions({
@@ -42,6 +29,19 @@ interface BreadCrumb {
   noTo: Boolean;
 }
 </script>
+
+<template>
+  <el-breadcrumb class="base-breadCrumb" separator="/">
+    <template v-for="item in breadCrumbList" :key="item.path">
+      <el-breadcrumb-item v-if="!item?.noTo" :to="{ path: item.path }">
+        {{ item.meta?.title ? $t(item.meta.title) : "" }}
+      </el-breadcrumb-item>
+      <el-breadcrumb-item v-else>
+        {{ item.meta?.title ? $t(item.meta.title) : "" }}
+      </el-breadcrumb-item>
+    </template>
+  </el-breadcrumb>
+</template>
 
 <style lang="scss" scoped>
 .base-breadCrumb {

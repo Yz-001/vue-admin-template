@@ -1,11 +1,3 @@
-<!-- 适配 -->
-<template>
-  <div class="warpBox" :style="boxStyles">
-    <div class="scale-box" :style="style">
-      <slot />
-    </div>
-  </div>
-</template>
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 
@@ -25,7 +17,6 @@ const getScale = () => {
 const scale = ref(getScale());
 const style = computed(() => {
   return {
-    // ...this.styles,
     transform: `scale(${scale.value}) translate(-50%, -50%)`,
     WebkitTransform: `scale(${scale.value}) translate(-50%, -50%)`,
     width: `${props.width}px`,
@@ -33,17 +24,29 @@ const style = computed(() => {
   };
 });
 
+const setScale = () => {
+  const nowscale = getScale();
+  scale.value = nowscale;
+};
+
 onMounted(() => {
   window.addEventListener("resize", setScale, false);
 });
 
-const setScale = () => {
-  let nowscale = getScale();
-  scale.value = nowscale;
-};
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", setScale, false);
+});
 </script>
 
-<style scoped>
+<template>
+  <div class="warpBox" :style="boxStyles">
+    <div class="scale-box" :style="style">
+      <slot />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
 .scale-box {
   position: absolute;
   top: 50%;

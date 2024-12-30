@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import BaseMark from "@/layout/component/BaseMark.vue";
-import AppLayoutConfig from "@/components/AppLayoutConfig.vue";
+import AppLayoutConfig from "@/layout/component/AppLayoutConfig.vue";
 import { useUserStore } from "@/stores/modules/user";
 import { useFullscreen } from "@vueuse/core";
 import useLayout from "@/hooks/use-layout.ts";
