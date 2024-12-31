@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseSelectLayoutMode from "@/components/BaseSelectLayoutMode/index.vue";
-import { layoutModeType, layoutSidebar, useAppStore } from "@/stores/modules/app";
+import { useAppStore } from "@/stores/modules/app";
 import { ThemeMode, Locale, useSettingsStore } from "@/stores/modules/settings";
 import { handleThemeMode, handleThemeStyle } from "@/utils/theme";
 import { onMounted, reactive } from "vue";
@@ -14,6 +14,7 @@ const visible = defineModel<boolean>("visible");
 const form = reactive<LayoutConfigForm>({
   mode: undefined,
   collapse: undefined,
+  enableTabs: undefined,
   theme: undefined,
   themeMode: undefined,
   locale: undefined,
@@ -23,8 +24,9 @@ const handleClose = () => {
   visible.value = false;
 };
 interface LayoutConfigForm {
-  mode: layoutModeType;
+  mode: layoutModeEnum;
   collapse: boolean;
+  enableTabs: boolean;
   theme: string;
   themeMode: ThemeMode;
   locale: Locale;
@@ -33,7 +35,7 @@ interface LayoutConfigForm {
 const { setSidebarCollapse, device, sidebar, layoutMode } = useAppStore();
 const appStore = useAppStore();
 const route = useRoute();
-const handleModeChange = (mode: layoutModeType) => {
+const handleModeChange = (mode: layoutModeEnum) => {
   if (mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;
   }
@@ -43,9 +45,20 @@ const handleModeChange = (mode: layoutModeType) => {
   //   return setSidebarCollapse(!!hasChildren);
   // }
 };
-const { theme, SET_THEME, themeMode, SET_THEMEMODE, locale, SET_LOCALE, maxTabCount, SET_MAXTABCOUNT } =
-  useSettingsStore();
+const {
+  theme,
+  SET_THEME,
+  themeMode,
+  SET_THEMEMODE,
+  locale,
+  SET_LOCALE,
+  maxTabCount,
+  SET_MAXTABCOUNT,
+  enableTabs,
+  SET_ENABLETABS
+} = useSettingsStore();
 const handleLayoutConfigGet = () => {
+  form.enableTabs = enableTabs;
   form.mode = layoutMode;
   if (form.mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;
@@ -58,6 +71,9 @@ const handleLayoutConfigGet = () => {
 const handleThemeChange = (color: string) => {
   SET_THEME(color);
   handleThemeStyle(color);
+};
+const handleEnableTabsBolChange = (bol: Boolean) => {
+  SET_ENABLETABS(bol);
 };
 const handleThemeModeChange = (mode: ThemeMode) => {
   SET_THEMEMODE(mode);
@@ -88,7 +104,7 @@ onMounted(handleLayoutConfigGet);
         <el-form-item v-if="appStore.device != layoutDeviceEnum.MOBILE" label="布局配置">
           <BaseSelectLayoutMode @onChange="handleModeChange" />
         </el-form-item>
-        <el-form-item v-if="form.mode == 'vertical'" label="侧边栏配置">
+        <el-form-item v-if="form.mode == layoutModeEnum.VERTICAL" label="侧边栏配置">
           <el-radio-group
             v-model="form.collapse"
             class="ml-4"
@@ -98,6 +114,15 @@ onMounted(handleLayoutConfigGet);
             <el-radio :value="true" size="large">折叠</el-radio>
             <el-radio :value="false" size="large">展开</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="是否启用标签页" class="mt-[12px]">
+          <el-switch
+            v-model="form.enableTabs"
+            class="ml-4"
+            :active-value="true"
+            :inactive-value="false"
+            @change="handleEnableTabsBolChange"
+          />
         </el-form-item>
         <el-form-item label="系统主题色">
           <el-color-picker v-model="form.theme" class="ml-4" @change="handleThemeChange" />

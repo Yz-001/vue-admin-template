@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { BaseHead, BaseSidebar, AppTabs, AppMain } from "@/layout/component/";
-import useLayout from "@/hooks/use-layout.ts";
+import useLayout from "@/hooks/use-layout";
 import useMenu from "@/hooks/use-menu";
 import BaseBreadCrumb from "@/components/BaseBreadCrumb/index.vue";
 
@@ -43,12 +43,14 @@ const mobileSidebarClick = () => {
   overflow: hidden;
 
   &-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     overflow: auto;
 
     .layout-main {
-      height: calc(100% - 50px - 42px);
+      flex-grow: 1;
     }
   }
 

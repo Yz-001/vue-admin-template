@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-tabs">
+  <div v-if="enableTabs" class="layout-tabs">
     <el-tabs v-model="activeTabId" type="card" @tab-click="handleTabClick" @tab-remove="handleTabsRemove">
       <el-tab-pane
         v-for="key in Object.keys(tabMaps)"
@@ -29,16 +29,20 @@ import { useSettingsStore } from "@/stores/modules/settings";
 import { getFixationRoutes } from "@/utils/layout";
 import useMenu from "@/hooks/use-menu";
 import { type TabsPaneContext } from "element-plus";
+import { messageWarning } from "@/utils/element-utils/notification-common";
 
-const emit = defineEmits(["on-click"]);
+const emit = defineEmits(["on-click", "on-remove"]);
 const route = useRoute();
 const router = useRouter();
 const settingStore = useSettingsStore();
+const enableTabs = computed(() => {
+  return settingStore.$state.enableTabs;
+});
 const tabMaps = computed<{ [key: string]: any }>(() => {
-  return settingStore.tabMaps || {};
+  return settingStore.$state.tabMaps || {};
 });
 const activeTabId = computed(() => {
-  return settingStore.activeTabId;
+  return settingStore.$state.activeTabId;
 });
 const routeTabChange = toRoute => {
   // 普通页面跳转 多开则待新增的tagid
