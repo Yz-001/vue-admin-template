@@ -117,7 +117,6 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
   // }
 
   :deep(.el-menu) {
-    max-width: 500px;
     height: 100%;
     border: none;
   }

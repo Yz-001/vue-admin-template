@@ -5,7 +5,9 @@
       <Fold v-else />
     </el-icon>
     <BaseMark v-if="(desktopDevice && (horizontalMode || mixinMode)) || mobileDevice" :collapse="mobileDevice" />
-    <slot />
+    <div class="layout-head__content">
+      <slot />
+    </div>
     <div class="layout-head__right">
       <el-icon @click="toggle"><FullScreen /></el-icon>
       <el-icon @click="handleConfigOpen"><Tools /></el-icon>
@@ -33,7 +35,7 @@ import BaseMark from "@/layout/component/BaseMark.vue";
 import AppLayoutConfig from "@/layout/component/AppLayoutConfig.vue";
 import { useUserStore } from "@/stores/modules/user";
 import { useFullscreen } from "@vueuse/core";
-import useLayout from "@/hooks/use-layout.ts";
+import useLayout from "@/hooks/use-layout";
 
 defineOptions({ name: "BaseHead" });
 const emit = defineEmits(["on-mobile-sidebar-click"]);
@@ -59,7 +61,7 @@ const handleConfigOpen = () => {
   justify-content: space-between;
   width: 100%;
   height: 50px;
-  padding: 10px 36px 10px 10px;
+  padding: 10px 20px 10px 10px;
   color: #fff;
   border-bottom: 3px solid $--border-color-base;
 
@@ -67,9 +69,8 @@ const handleConfigOpen = () => {
     cursor: pointer;
   }
 
-  :deep(.base-menu .el-menu) {
-    min-width: 300px;
-    height: 48px;
+  &__content {
+    width: 100%;
   }
 
   &__right {
