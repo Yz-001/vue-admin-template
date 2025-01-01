@@ -41,8 +41,6 @@
       </div>
     </div>
   </div>
-
-  <AppAutoLoginVal v-model:from="from" right="10px" />
 </template>
 
 <script setup lang="ts">

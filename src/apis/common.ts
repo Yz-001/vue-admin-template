@@ -1,7 +1,17 @@
 import request from "./request";
 
 // 公共上传接口
-export const COMMON_UPLOAD_FILE = "/v1/file-storage/upload";
+export const COMMON_UPLOAD_FILE = "/file-storage/upload";
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 上传到服务器的文件
+ */
+export const uploadServerFileApi = async data => {
+  return await request.Post(COMMON_UPLOAD_FILE, data);
+};
 
 /**
  *

@@ -61,7 +61,7 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
 
 <template>
   <div class="base-menu" :mode="mode">
-    <el-menu :default-active="defaultActiveMenu" :collapse="collapse" :mode="mode">
+    <el-menu :default-active="defaultActiveMenu" :collapse="collapse" :mode="mode" :collapse-transition="false">
       <template v-for="(item, index) in menuList" :key="index">
         <el-sub-menu v-if="item?.children?.length" :index="item?.name">
           <template #title>
@@ -117,7 +117,6 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
   // }
 
   :deep(.el-menu) {
-    max-width: 500px;
     height: 100%;
     border: none;
   }
