@@ -23,7 +23,7 @@
       <el-table-column prop="title" label="标题" width="180" />
       <el-table-column prop="content" label="通知内容" />
       <el-table-column prop="timeRange" label="通知时间范围" width="200">
-        <template #default="scope"> {{ scope.row.startTime }} 至 {{ scope.row.endTime }} </template>
+        <template #default="scope"> {{ scope.row.timeRange?.[0] }} 至 {{ scope.row.timeRange?.[1] }} </template>
       </el-table-column>
       <el-table-column prop="updatedBy" label="更新人" width="100" />
       <el-table-column fixed="right" label="操作" width="150">
@@ -48,7 +48,7 @@ import type { NotifRow } from "@/apis/interface/notif";
 
 const searchForm = reactive({
   title: "",
-  dateRange: [] as [string, string]
+  dateRange: []
 });
 
 const notifList = ref<NotifRow[]>([]);

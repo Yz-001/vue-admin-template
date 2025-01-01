@@ -14,10 +14,7 @@ const form = reactive({
   id: props.row?.id || null,
   title: props.row?.title || "",
   content: props.row?.content || "",
-  timeRange: [props.row?.startTime, props.row?.endTime],
-  startTime: props.row?.startTime || "",
-  endTime: props.row?.endTime || "",
-  updatedBy: props.row?.updatedBy || ""
+  timeRange: [props.row?.startTime, props.row?.endTime]
 });
 
 // 监听 row 变化，同步更新 form
@@ -28,9 +25,7 @@ watch(
       form.id = newVal.id;
       form.title = newVal.title || "";
       form.content = newVal.content || "";
-      form.startTime = newVal.startTime || "";
-      form.endTime = newVal.endTime || "";
-      form.updatedBy = newVal.updatedBy || "";
+      form.timeRange = newVal.timeRange || [];
     }
   },
   { deep: true, immediate: true }
@@ -46,13 +41,12 @@ const handleDialogClose = () => {
 // 提交表单
 const handleSubmit = async () => {
   try {
-    let response;
     if (form.id) {
       // 修改通知
-      response = await postNotifCreateApi(form);
+      await postNotifCreateApi(form);
       messageSuccess("通知修改成功");
     } else {
-      response = await postNotifUpdateApi(form);
+      await postNotifUpdateApi(form);
       messageSuccess("通知新增成功");
     }
 
@@ -68,17 +62,17 @@ const handleSubmit = async () => {
   <ElDialog
     :modelValue="visible"
     :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}通知`"
-    width="60%"
+    width="70%"
     :before-close="handleDialogClose"
     :close-on-click-modal="false"
     class="notifFrom-dlg"
   >
-    <el-form :model="form" label-width="100px" style="padding: 20px">
+    <el-form :model="form" label-width="100px">
       <el-form-item label="标题" prop="title">
         <el-input v-model="form.title" placeholder="请输入标题" />
       </el-form-item>
       <el-form-item label="通知内容" prop="content">
-        <BaseTinyEditor v-model:htmlContent="form.content" />
+        <BaseTinyEditor v-model:htmlContent="form.content" class="h-[350px]" />
       </el-form-item>
       <el-form-item label="通知时间范围" prop="timeRange">
         <el-date-picker
@@ -89,9 +83,6 @@ const handleSubmit = async () => {
           end-placeholder="结束日期"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
-      </el-form-item>
-      <el-form-item label="更新人" prop="updatedBy">
-        <el-input v-model="form.updatedBy" placeholder="请输入更新人" />
       </el-form-item>
     </el-form>
 

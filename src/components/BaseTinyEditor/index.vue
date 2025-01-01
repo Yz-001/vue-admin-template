@@ -4,6 +4,7 @@ import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import * as defineConfig from "./config";
 import type { BaseTinyEditorProps, CustomTinyConfig } from "./index.d.ts";
+import { uploadServerFileApi } from "@/apis/common";
 
 const props = withDefaults(defineProps<BaseTinyEditorProps>(), {
   enabled: true,
@@ -24,32 +25,23 @@ const handleInit = reactive({
   },
   //图片上传
   images_upload_handler: function (blobInfo, progress) {
-    // 实际项目再配置
-    // new Promise((resolve, reject) => {
-    //   let file = blobInfo.blob();
-    //   if (file.size / 1024 / 1024 > 200) {
-    //     reject({
-    //       message: "上传失败，图片大小请控制在 200M 以内",
-    //       remove: true
-    //     });
-    //   }
-    //   const formData = new FormData();
-    //   formData.append("file", file);
-    //   console.log(formData);
-    //   axios
-    //     .post("/api/upload/upload", formData, {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data"
-    //       },
-    //       onUploadProgress: progressEvent => {
-    //         progress(Math.round((progressEvent.loaded / progressEvent.total) * 100));
-    //       }
-    //     })
-    //     .then(res => {
-    //       resolve(res.data.url);
-    //     })
-    //     .catch();
-    // });
+    new Promise((resolve, reject) => {
+      let file = blobInfo.blob();
+      if (file.size / 1024 / 1024 > 200) {
+        reject({
+          message: "上传失败，图片大小请控制在 200M 以内",
+          remove: true
+        });
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+      uploadServerFileApi(formData)
+        .then(res => {
+          resolve(res.data.url);
+        })
+        .catch();
+    });
   }
 });
 
@@ -143,6 +135,7 @@ defineExpose({
 }
 
 :deep(.tox-tinymce) {
+  height: 100% !important;
   border: 1px solid #dddfe5;
   border-radius: 4px;
 
