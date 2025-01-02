@@ -119,7 +119,7 @@ import {
   ElNotification // $notify 全局属性对象globalProperties
 } from "element-plus";
 
-const components = [
+export const ElComponents = [
   ElAffix,
   ElAlert,
   ElAutocomplete,
@@ -230,7 +230,7 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 /** 按需引入`element-plus` */
 export function useElementPlus(app: App) {
   // 全局注册组件
-  components.forEach((component: Component) => {
+  ElComponents.forEach((component: Component) => {
     app.component(String(component.name), component);
   });
   // 全局注册icon
