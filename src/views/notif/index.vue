@@ -84,8 +84,8 @@ const handleSearch = async () => {
   try {
     const response = await getNotifListApi({
       title: searchForm.title,
-      startDate: searchForm.dateRange[0],
-      endDate: searchForm.dateRange[1]
+      startDate: searchForm.dateRange?.[0],
+      endDate: searchForm.dateRange?.[1]
     });
     notifList.value = response.data;
   } catch (error) {

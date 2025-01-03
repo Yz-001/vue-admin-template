@@ -1,10 +1,13 @@
-export interface FilterFormProps {
+import type { VNodeChild } from "vue";
+
+export interface FormProps {
   componentList?: ComponentItem[];
   formRules?: Record<string, any[]>;
   labelWidth?: string;
   operSpan?: {
-    [key: SpanType]: number;
+    [key in keyof typeof SpanEnum]: number;
   };
+  formLine?: boolean;
 }
 
 export interface ComponentItem {
@@ -12,7 +15,7 @@ export interface ComponentItem {
   prop?: string; // 表单项对应的 model 属性名
   label?: string; // 表单项标签
   rules?: any[]; // 表单项验证规则
-  props?: {
+  attrs?: {
     //单项属性
     [key: string]: any;
   };
@@ -22,7 +25,7 @@ export interface ComponentItem {
   };
   span?: {
     //单项响应式大小
-    [key: SpanType]: number;
+    [key in keyof typeof SpanEnum]: number;
   };
   slots?: {
     //单项插槽
@@ -30,4 +33,8 @@ export interface ComponentItem {
   };
 }
 
-export type SpanType = "sm" | "md" | "lg";
+export enum SpanEnum {
+  sm = "sm",
+  md = "md",
+  lg = "lg"
+}
