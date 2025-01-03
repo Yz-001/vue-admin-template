@@ -10,7 +10,7 @@
       <slot name="operBtnBefore" />
       <el-button type="primary" plain @click="handleSearch">查询</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="info" plain @click="handleRefresh">刷新</el-button>
+      <!-- <el-button type="info" plain @click="handleRefresh">刷新</el-button> -->
       <slot name="operBtnAfter" />
     </template>
   </AppForm>
@@ -20,6 +20,7 @@
 import { ref } from "vue";
 import AppForm from "@/components/AppForm/index.vue";
 import type { FilterFormProps } from "./type";
+import { deepCopy } from "@/utils/common";
 
 const props = withDefaults(defineProps<FilterFormProps>(), {
   componentList: () => [],
@@ -39,11 +40,11 @@ const handleSearch = async () => {
 };
 const handleRefresh = () => {
   appFormRef.value.handleReset();
-  emit("on-refresh", formModel.value);
+  emit("on-refresh", deepCopy(formModel.value));
 };
 const handleReset = () => {
   appFormRef.value.handleReset();
-  emit("on-reset", formModel.value);
+  emit("on-reset", deepCopy(formModel.value));
 };
 </script>
 
