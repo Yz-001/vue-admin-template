@@ -1,31 +1,28 @@
 <template>
-  <div class="page-container notification-list">
+  <div class="page-container notif-list">
     <AppFilterForm
       v-model:formModel="searchForm"
       :componentList="componentList"
       @onSearch="handleSearch"
       @onReset="handleSearch"
-      @onRefresh="handleSearch"
-    >
-      <template #operBtnAfter>
-        <el-button type="primary" class="ml-auto" @click="handleAdd">新增</el-button>
-      </template>
-    </AppFilterForm>
+    />
 
-    <el-table :data="notifList" class="w-full">
-      <el-table-column prop="title" label="标题" width="180" />
-      <el-table-column prop="content" label="通知内容" />
-      <el-table-column prop="timeRange" label="通知时间范围" width="200">
-        <template #default="scope"> {{ scope.row.timeRange?.[0] }} 至 {{ scope.row.timeRange?.[1] }} </template>
-      </el-table-column>
-      <el-table-column prop="updatedBy" label="更新人" width="100" />
-      <el-table-column fixed="right" label="操作" width="150">
-        <template #default="scope">
-          <el-button type="text" size="small" @click="handleEdit(scope.row)">修改</el-button>
-          <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <AppTable
+      ref="appTableRef"
+      class="notif-list__table"
+      :columns="tableColumns"
+      :remoteConfig="remoteConfig"
+      @update:data="handleUpdateData"
+    >
+      <template #leftOper>
+        <el-button type="primary" class="ml-auto" @click="handleAdd">新增通知</el-button>
+      </template>
+      <template #template="scope">
+        <el-button link type="primary" size="small" @click="handleEdit(scope.row)">修改</el-button>
+        <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+      </template>
+    </AppTable>
+
     <AppNotifFromDlg
       v-if="notifFromDlgProp.visible"
       v-model:visible="notifFromDlgProp.visible"
@@ -38,7 +35,12 @@
 import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
+import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
 
+const searchForm = reactive({
+  title: "",
+  dateRange: []
+});
 const componentList = [
   {
     componentName: "ElInput",
@@ -73,24 +75,45 @@ const componentList = [
   }
 ];
 
-const searchForm = reactive({
-  title: "",
-  dateRange: []
-});
+// 表格列配置
+const tableColumns = [
+  { label: "标题", prop: "title" },
+  { label: "内容", prop: "content" },
+  { label: "更新人", prop: "updatedInfo", sunValue: "name", type: TableTypeEnum.OBJECT },
+  {
+    label: "发布状态",
+    prop: "status",
+    type: TableTypeEnum.SECTION,
+    selectList: [
+      { value: 1, name: "已发布" },
+      { value: 2, name: "未发布" }
+    ]
+  },
+  {
+    label: "通知时间范围",
+    prop: "dateRange",
+    type: TableTypeEnum.DATE,
+    dateStartProp: "dateRangeStart",
+    dateEndProp: "dateRangeEnd"
+  },
+  { label: "创建时间", prop: "createDate", type: TableTypeEnum.DATE },
+  { label: "可见用户", prop: "showUsers", type: TableTypeEnum.LIST },
+  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+];
 
-const notifList = ref<NotifRow[]>([]);
-
-const handleSearch = async () => {
-  try {
-    const response = await getNotifListApi({
-      title: searchForm.title,
-      startDate: searchForm.dateRange?.[0],
-      endDate: searchForm.dateRange?.[1]
-    });
-    notifList.value = response.data;
-  } catch (error) {
-    console.error("Failed to fetch notifList:", error);
-  }
+// 远程配置
+const remoteConfig = {
+  remoteApi: getNotifListApi,
+  defaultParams: {},
+  autoRequest: true
+};
+const appTableRef = ref(null);
+const handleSearch = (data: { [key: string]: any }) => {
+  if (appTableRef.value) appTableRef.value.refresh(data);
+};
+const tableData = ref([]);
+const handleUpdateData = (tableData: any[]) => {
+  tableData.value = tableData || [];
 };
 const notifFromDlgProp = reactive({
   visible: false,
@@ -109,12 +132,53 @@ const handleDelete = (row: NotifRow) => {
   // 删除逻辑...
 };
 
-// 初始加载数据
-handleSearch();
+// 手动请求
+// :data="tableData"
+// <!-- :pagination="pagination" -->
+// const tableData = reactive([
+// {
+//   id: 1,
+//   title: "Alice",
+//   content: "本平台通知新用户",
+//   updatedInfo: { id: 1, name: "超级管理员" },
+//   createDate: new Date(),
+//   status: 1,
+//   showUsers: [{ name: "测试1" }, { name: "测试2" }],
+//   dateRangeStart: new Date(),
+//   dateRangeEnd: new Date()
+// }
+// ]);
+// 分页配置
+// const pagination = reactive({
+//   currentPage: 1,
+//   pageSize: 10,
+//   total: tableData.length,
+//   showPagination: true
+// });
+// const handleSearch = () => {
+//   try {
+//     const response = await getNotifListApi({
+//       title: searchForm.title,
+//       startDate: searchForm.dateRange?.[0],
+//       endDate: searchForm.dateRange?.[1]
+//     });
+//     tableData.value = response.data;
+//   } catch (error) {
+//     console.error("Failed to fetch tableData:", error);
+//   }
+// };
 </script>
 
-<style scoped>
-.notification-list {
+<style lang="scss" scoped>
+.notif-list {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+
+  &__table {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
