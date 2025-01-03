@@ -1,23 +1,16 @@
 <template>
   <div class="page-container notification-list">
-    <el-form :inline="true" :model="searchForm">
-      <el-form-item label="标题">
-        <el-input v-model="searchForm.title" placeholder="请输入标题" />
-      </el-form-item>
-      <el-form-item label="通知时间范围">
-        <el-date-picker
-          v-model="searchForm.dateRange"
-          type="datetimerange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" plain @click="handleSearch">查询</el-button>
+    <AppFilterForm
+      v-model:formModel="searchForm"
+      :componentList="componentList"
+      @onSearch="handleSearch"
+      @onReset="handleSearch"
+      @onRefresh="handleSearch"
+    >
+      <template #operBtnAfter>
         <el-button type="primary" class="ml-auto" @click="handleAdd">新增</el-button>
-      </el-form-item>
-    </el-form>
+      </template>
+    </AppFilterForm>
 
     <el-table :data="notifList" class="w-full">
       <el-table-column prop="title" label="标题" width="180" />
@@ -46,6 +39,40 @@ import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
 
+const componentList = [
+  {
+    componentName: "ElInput",
+    label: "标题",
+    prop: "title",
+    labelWidth: 60,
+    span: {
+      sm: 12,
+      md: 6,
+      lg: 4
+    },
+    attrs: {
+      placeholder: "请输入标题"
+    }
+  },
+  {
+    componentName: "ElDatePicker",
+    label: "通知时间范围",
+    prop: "dateRange",
+    span: {
+      sm: 12,
+      md: 8,
+      lg: 6
+    },
+    attrs: {
+      type: "datetimerange",
+      rangeSeparator: "至",
+      startPlaceholder: "开始日期",
+      endPlaceholder: "结束日期",
+      placeholder: "请输入标题"
+    }
+  }
+];
+
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -57,8 +84,8 @@ const handleSearch = async () => {
   try {
     const response = await getNotifListApi({
       title: searchForm.title,
-      startDate: searchForm.dateRange[0],
-      endDate: searchForm.dateRange[1]
+      startDate: searchForm.dateRange?.[0],
+      endDate: searchForm.dateRange?.[1]
     });
     notifList.value = response.data;
   } catch (error) {
