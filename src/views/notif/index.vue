@@ -36,14 +36,14 @@ import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
 import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
-
+import { FormComponentEnum } from "@/components/AppForm/type";
 const searchForm = reactive({
   title: "",
   dateRange: []
 });
 const componentList = [
   {
-    componentName: "ElInput",
+    componentName: FormComponentEnum.ElInput,
     label: "标题",
     prop: "title",
     labelWidth: 60,
@@ -57,7 +57,7 @@ const componentList = [
     }
   },
   {
-    componentName: "ElDatePicker",
+    componentName: FormComponentEnum.ElDatePicker,
     label: "通知时间范围",
     prop: "dateRange",
     span: {
@@ -84,6 +84,8 @@ const tableColumns = [
     label: "发布状态",
     prop: "status",
     type: TableTypeEnum.SECTION,
+    tagSuccess: { value: 1 },
+    tagError: { value: 2 },
     selectList: [
       { value: 1, name: "已发布" },
       { value: 2, name: "未发布" }
@@ -94,7 +96,8 @@ const tableColumns = [
     prop: "dateRange",
     type: TableTypeEnum.DATE,
     dateStartProp: "dateRangeStart",
-    dateEndProp: "dateRangeEnd"
+    dateEndProp: "dateRangeEnd",
+    width: 320
   },
   { label: "创建时间", prop: "createDate", type: TableTypeEnum.DATE },
   { label: "可见用户", prop: "showUsers", type: TableTypeEnum.LIST },

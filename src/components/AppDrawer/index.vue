@@ -24,8 +24,12 @@ const props = defineProps<{ visible: Boolean }>();
 const emit = defineEmits([]);
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-drawer {
+  .el-drawer__title {
+    text-align: left;
+  }
+
   &-footer {
     text-align: right;
   }

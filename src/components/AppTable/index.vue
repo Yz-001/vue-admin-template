@@ -10,7 +10,7 @@
         <slot name="rightOperAfter" />
       </div>
     </div>
-    <el-table class="app-table__content" :data="tableData" :border="tableBorder">
+    <el-table class="app-table__content" :data="tableData" :border="tableBorder" @cell-click="handleCellClick">
       <el-table-column
         v-for="column in tableColumns"
         :key="column.prop"
@@ -21,7 +21,13 @@
         <template #default="scope">
           <slot v-if="column.type === TableTypeEnum.TEMPLATE" :name="column.slotName || column.prop" :row="scope.row" />
           <span v-else-if="column.type === TableTypeEnum.OBJECT">{{ getObjectValue(scope.row, column) }}</span>
-          <span v-else-if="column.type === TableTypeEnum.SECTION">{{ getSectionValue(scope.row, column) }}</span>
+          <el-tag
+            v-else-if="column.type === TableTypeEnum.SECTION"
+            :type="getTagType(column, scope.row)"
+            :color="getTagColor(column, scope.row)"
+          >
+            {{ getSectionValue(scope.row, column) }}
+          </el-tag>
           <el-image
             v-else-if="column.type === TableTypeEnum.IMG"
             :src="getImageSrc(scope.row, column)"
@@ -46,6 +52,25 @@
               {{ formatDate(scope.row[column.prop], column.dateFormat) }}
             </template>
           </span>
+          <span v-else-if="column.type === TableTypeEnum.FILES">
+            <a v-for="(fileUrl, index) in getFileUrls(scope.row, column)" :key="index" :href="fileUrl" target="_blank">
+              <el-image
+                v-if="isImageUrl(fileUrl)"
+                :src="fileUrl"
+                class="app-table__img mr-[5px]"
+                :preview-src-list="[fileUrl]"
+              />
+              <el-icon v-else :size="20" class="mr-[5px]" @click="handleFileClick(fileUrl, column)">
+                <Document />
+              </el-icon>
+            </a>
+          </span>
+          <span v-else-if="column.type === TableTypeEnum.NUMBER">
+            {{ formatNumber(scope.row[column.prop], column.decimalPlaces) }}
+          </span>
+          <span v-else-if="column.masked">
+            {{ maskText(scope.row[column.prop]) }}
+          </span>
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
@@ -66,37 +91,31 @@
 
 <script setup lang="ts">
 import { ref, computed, PropType, onMounted, watch } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
 import { useDateFormat } from "@vueuse/core";
 import { TableTypeEnum, DateFormatEnum, type TableColumn, type Pagination, type RemoteConfig } from "./type";
-import { Refresh } from "@element-plus/icons-vue";
+import { Refresh, Document } from "@element-plus/icons-vue";
+import { maskText, copyText, downloadFile } from "@/utils/common";
+import { messageError } from "@/utils/element-utils/notification-common";
 
-const props = defineProps({
-  data: {
-    type: Array as PropType<any[]>,
-    required: false
-  },
-  columns: {
-    type: Array as PropType<TableColumn[]>,
-    required: true
-  },
-  pagination: {
-    type: Object as PropType<Pagination>,
-    default: () => ({
+const props = withDefaults(
+  defineProps<{
+    columns: TableColumn[];
+    data?: any[];
+    pagination?: Pagination;
+    remoteConfig?: RemoteConfig;
+    tableBorder?: Boolean;
+  }>(),
+  {
+    pagination: {
       currentPage: 1,
       pageSize: 10,
       showPagination: true
-    })
-  },
-  remoteConfig: {
-    type: Object as PropType<RemoteConfig>,
-    default: () => ({})
-  },
-  tableBorder: {
-    type: Boolean,
-    default: true
+    },
+    remoteConfig: () => {},
+    tableBorder: true
   }
-});
+);
 
 const emit = defineEmits(["update:pagination", "refresh", "update:data"]);
 
@@ -176,7 +195,7 @@ async function fetchData(filterParams: { [key: string]: any } = {}) {
       tableTotal.value = result.data?.total;
       emit("update:data", result); // 更新外部组件的数据
     } catch (error) {
-      if (error?.message) ElMessage.error(error?.message);
+      if (error?.message) messageError(error?.message);
     }
   }
 }
@@ -199,6 +218,45 @@ defineExpose({
   refresh,
   clearData
 });
+
+function handleCellClick(row: any, column: any, cell: HTMLElement, event: Event) {
+  if (column.property == "template") return;
+  const text = cell.innerText.trim();
+  if (text) {
+    copyText(text);
+  }
+}
+
+function getFileUrls(row: any, column: TableColumn): string[] {
+  const fileUrls = row[column.prop];
+  return Array.isArray(fileUrls) ? fileUrls : [fileUrls];
+}
+
+function isImageUrl(url: string): boolean {
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+  const extensionMatch = url.match(/\.([^.]+)$/i);
+  return extensionMatch && imageExtensions.includes(extensionMatch[1].toLowerCase());
+}
+
+function handleFileClick(fileUrl: string, column: TableColumn) {
+  downloadFile(fileUrl);
+}
+
+function formatNumber(value: number, decimalPlaces: number = 2): string {
+  return value.toFixed(decimalPlaces);
+}
+
+function getTagType(column: TableColumn, row: any): string {
+  if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return "success";
+  if (column.tagError && row[column.prop] === column.tagError.value) return "danger";
+  return column.tagType || "info";
+}
+
+function getTagColor(column: TableColumn, row: any): string {
+  if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return column.tagSuccess.color || undefined;
+  if (column.tagError && row[column.prop] === column.tagError.value) return column.tagError.color || undefined;
+  return undefined;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -234,6 +292,10 @@ defineExpose({
   &__operations {
     margin-top: 10px;
     text-align: right;
+  }
+
+  .el-tag {
+    color: var(--el-text-color-regular);
   }
 }
 </style>
