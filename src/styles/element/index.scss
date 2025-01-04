@@ -26,33 +26,4 @@
       color: $--text-color-regular;
     }
   }
-
-  .el-dialog {
-    border-radius: 8px;
-
-    &__title {
-      font-weight: bold;
-      color: $--text-color-base;
-
-      &::before {
-        position: relative;
-        top: 3px;
-        left: -5px;
-        display: inline-block;
-        width: 4px;
-        height: 18px;
-        content: "";
-        background: var(--el-color-primary);
-        border-radius: 3px;
-      }
-    }
-
-    &__body {
-      padding: 9px 0;
-    }
-
-    &__footer {
-      padding-top: 0;
-    }
-  }
 }
