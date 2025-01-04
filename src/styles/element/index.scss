@@ -6,19 +6,6 @@
 }
 
 .custom {
-  .el-drawer {
-    &__header {
-      padding: 9px 16px;
-      margin-bottom: 0;
-      font-weight: bold;
-      color: $--text-color-base;
-    }
-
-    &__body {
-      padding: 14px;
-    }
-  }
-
   .el-form-item {
     margin-bottom: 8px;
 

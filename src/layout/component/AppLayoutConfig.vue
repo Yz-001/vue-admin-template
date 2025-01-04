@@ -91,13 +91,12 @@ onMounted(handleLayoutConfigGet);
 </script>
 
 <template>
-  <el-drawer
-    v-model="visible"
+  <AppDrawer
+    :visible="visible"
     title="系统默认配置"
     :before-close="handleClose"
     direction="rtl"
     class="layout-config custom"
-    width="30%"
   >
     <div class="layout-config__content">
       <el-form :model="form" label-width="130" label-position="left">
@@ -160,7 +159,7 @@ onMounted(handleLayoutConfigGet);
         <el-icon><Warning /></el-icon> 屏幕适配优先级高于默认布局配置
       </p>
     </div>
-  </el-drawer>
+  </AppDrawer>
 </template>
 
 <style lang="scss" scoped>
