@@ -1,6 +1,7 @@
 import { ElMessageBox } from "element-plus";
 import { getStorage, setStorage } from "@/utils/storage";
 import type { Action } from "element-plus";
+import { messageWarning, messageSuccess } from "@/utils/element-utils/notification-common";
 
 /**
  * 替换图片源地址为本地源，解决本地测试环境下的图片跨域问题
@@ -195,6 +196,20 @@ export function exportExcel(data, name) {
   openFile(url, name);
 }
 
+// 下载文件
+export function downloadFile(fileUrl: string) {
+  const link = document.createElement("a");
+  link.href = fileUrl;
+  link.download = fileUrl.split("/").pop();
+  link.target = "_blank";
+  document.body.appendChild(link);
+  link.click();
+  const timer = setTimeout(() => {
+    document.body.removeChild(link);
+    clearTimeout(timer);
+  }, 0);
+}
+
 /**
  * 删除url上的query某个字段
  * @param {*} keyToDelete 会被删除的字段
@@ -239,4 +254,45 @@ export function isValidNumericTimestamp(timestamp: number) {
   return (
     !isNaN(date.getTime()) && date.getTime() === timestamp && timestamp >= minTimestamp && timestamp <= maxTimestamp
   );
+}
+/**
+ * @event maskText
+ * @description 脱敏
+ */
+export function maskText(text: string): string {
+  if (text.length <= 5) return text;
+  return text.slice(0, 2) + "*".repeat(text.length - 5) + text.slice(-3);
+}
+/**
+ * @event copyText
+ * @description 复制
+ */
+export function copyText(value, desensitize = false) {
+  let text = "";
+  if (desensitize) {
+    text = maskText(value);
+  } else {
+    text = typeof value === "number" ? value : value.replace(/[\t\n]/g, " ");
+  }
+  // 动态创建 textarea 标签
+  const textarea = document.createElement("textarea");
+  // 将该 textarea 设为 readonly 防止 iOS 下自动唤起键盘，同时将 textarea 移出可视区域
+  textarea.readOnly = true;
+  textarea.style.position = "absolute";
+  textarea.style.left = "-9999px";
+  // 将要 copy 的值赋给 textarea 标签的 value 属性
+  textarea.value = text;
+  // 将 textarea 插入到 body 中
+  document.body.appendChild(textarea);
+  // 选中值并复制
+  textarea.select();
+  const result = document.execCommand("Copy");
+  if (result) {
+    if (text === "") {
+      messageWarning("没有可复制数据！");
+    } else {
+      messageSuccess("复制成功！");
+    }
+  }
+  document.body.removeChild(textarea);
 }

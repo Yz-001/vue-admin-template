@@ -59,12 +59,10 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <ElDialog
-    :modelValue="visible"
+  <AppDialog
+    :visible="visible"
     :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}通知`"
-    width="70%"
     :before-close="handleDialogClose"
-    :close-on-click-modal="false"
     class="notifFrom-dlg"
   >
     <el-form :model="form" label-width="100px">
@@ -74,7 +72,7 @@ const handleSubmit = async () => {
       <el-form-item label="通知内容" prop="content">
         <BaseTinyEditor v-model:htmlContent="form.content" class="h-[350px]" />
       </el-form-item>
-      <el-form-item label="通知时间范围" prop="timeRange">
+      <el-form-item label="通知时间" prop="timeRange">
         <el-date-picker
           v-model="form.timeRange"
           type="datetimerange"
@@ -87,12 +85,10 @@ const handleSubmit = async () => {
     </el-form>
 
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="handleDialogClose">取消</el-button>
-        <el-button type="primary" @click="handleSubmit">确定</el-button>
-      </span>
+      <el-button @click="handleDialogClose">取消</el-button>
+      <el-button type="primary" @click="handleSubmit">确定</el-button>
     </template>
-  </ElDialog>
+  </AppDialog>
 </template>
 
 <style lang="scss" scoped>

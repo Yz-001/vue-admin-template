@@ -1,3 +1,43 @@
+<script setup lang="ts">
+import { ref, defineAsyncComponent, computed, onMounted, shallowRef, onBeforeUnmount, defineModel } from "vue";
+import { FormComponentEnum, type FormProps } from "./type";
+import useForm from "./use-form";
+
+const props = withDefaults(defineProps<FormProps>(), {
+  componentList: () => [],
+  formRules: () => ({}),
+  labelWidth: "auto",
+  formLine: false,
+  operSpan: () => ({ sm: 16, md: 8, lg: 6 }),
+  collapseCount: 3
+});
+const emit = defineEmits(["on-validate-success", "on-validate-error", "on-reset"]);
+const formModel = defineModel("formModel") as Record<string, any>;
+// 重置方法
+const handleReset = () => {
+  if (!formRef.value) return;
+  formRef.value.resetFields();
+  emit("on-reset", formModel.value);
+};
+const {
+  formRef,
+  componentMapping,
+  initComponentMapping,
+  resolveComponent,
+  isCollapsed,
+  visibleComponentList,
+  toggleCollapse,
+  getValidate
+} = useForm(props, emit);
+initComponentMapping();
+
+defineExpose({
+  formRef,
+  getValidate,
+  handleReset
+});
+</script>
+
 <template>
   <el-form
     ref="formRef"
@@ -8,15 +48,16 @@
     :label-width="labelWidth"
   >
     <el-row :gutter="10">
+      <!-- 动态显示组件 -->
       <el-col
-        v-for="(item, index) in componentList"
+        v-for="(item, index) in visibleComponentList"
         :key="index"
         :sm="item?.span?.sm"
         :md="item?.span?.md"
         :lg="item?.span?.lg"
       >
         <el-form-item :prop="item.prop" :label="item.label" :rules="item.rules">
-          <template v-if="item.componentName == 'CustomTemplate'">
+          <template v-if="item.componentName === FormComponentEnum.CustomTemplate">
             <slot :name="`${item.prop}`" />
           </template>
           <template v-else>
@@ -33,82 +74,33 @@
           </template>
         </el-form-item>
       </el-col>
-      <el-col :sm="operSpan?.sm || 16" :md="operSpan?.md || 8" :lg="operSpan?.lg || 6">
-        <el-form-item class="filter-form__btns">
+
+      <!-- 操作栏 -->
+      <el-col :sm="operSpan?.sm" :md="operSpan?.md" :lg="operSpan?.lg" class="app-form__btns">
+        <el-form-item>
           <slot name="oper" />
+          <el-button v-if="formLine && componentList.length > collapseCount" link @click="toggleCollapse">
+            {{ isCollapsed ? "展开" : "折叠" }}
+            <el-icon class="ml-[6px]"> <ArrowDown v-if="isCollapsed" /><ArrowUp v-else /> </el-icon>
+          </el-button>
         </el-form-item>
       </el-col>
     </el-row>
   </el-form>
 </template>
 
-<script setup lang="ts">
-import { ref, defineAsyncComponent } from "vue";
-import { ElComponents } from "@/plugins/elementPlus";
-import { type FormProps } from "./type";
-const props = withDefaults(defineProps<FormProps>(), {
-  componentList: () => [],
-  formRules: () => ({}),
-  labelWidth: "auto",
-  formLine: false
-  // operSpan: {
-  //   [SpanEnum.sm]: 16,
-  //   [SpanEnum.md]: 8,
-  //   [SpanEnum.lg]: 6
-  // }
-});
-const emit = defineEmits(["on-validate-success", "on-validate-error", "on-reset"]);
-const formModel = defineModel("formModel") as Record<string, any>;
-const formRef = ref(null);
-
-// 组件映射，将字符串名称映射到实际的组件
-const componentMapping = shallowRef({});
-const initComponentMapping = () => {
-  const initMap = {};
-  ElComponents.forEach(component => {
-    initMap[component.name] = component;
-  });
-  componentMapping.value = initMap;
-};
-
-// 解析组件名称为实际组件
-function resolveComponent(componentName: string) {
-  return componentName in componentMapping
-    ? defineAsyncComponent(() => componentMapping.value[componentName])
-    : componentName;
-}
-
-const getValidate = () => {
-  return new Promise<void>((resolve, reject) => {
-    formRef.value.validate(valid => {
-      if (valid) {
-        resolve(valid);
-        emit("on-validate-success", valid);
-      } else {
-        reject(valid);
-        emit("on-validate-error", valid);
-      }
-    });
-  });
-};
-const handleReset = () => {
-  formRef.value.resetFields();
-  emit("on-reset", formModel.value);
-};
-defineExpose({
-  formRef,
-  getValidate,
-  handleReset
-});
-onMounted(() => {
-  initComponentMapping();
-});
-</script>
-
 <style lang="scss" scoped>
 .app-form {
   &__btns {
-    margin-left: 10px;
+    margin-left: auto !important;
+
+    .el-form-item {
+      text-align: right;
+
+      :deep(.el-form-item__content) {
+        justify-content: flex-end;
+      }
+    }
   }
 
   .el-form-item {
