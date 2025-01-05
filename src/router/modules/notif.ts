@@ -8,7 +8,7 @@ export const NotifRouter: RouteRecordRaw = {
     icon: "Notification",
     title: "menus.NotifMain"
   },
-  component: () => Layout,
+  component: Layout,
   children: [
     {
       path: "list",
