@@ -77,9 +77,10 @@
     </el-table>
     <div class="app-table__pagination">
       <el-pagination
-        v-if="pagination.showPagination"
-        :current-page="pagination.currentPage"
-        :page-size="pagination.pageSize"
+        v-if="showPagination"
+        v-model:current-page="pagination.currentPage"
+        v-model:page-size="pagination.pageSize"
+        :page-sizes="[10, 20, 50, 100, 200, 300, 500]"
         :total="tableTotal"
         layout="total, sizes, prev, pager, next, jumper"
         @size-change="handleSizeChange"
@@ -102,26 +103,31 @@ const props = withDefaults(
   defineProps<{
     columns: TableColumn[];
     data?: any[];
-    pagination?: Pagination;
     remoteConfig?: RemoteConfig;
+    filterParams?: { [key: string]: any }; // 检索参数
+    defaultPageSize?: number;
+    defaultPageNumber?: number;
+    showPagination?: boolean;
     tableBorder?: Boolean;
   }>(),
   {
-    pagination: {
-      currentPage: 1,
-      pageSize: 10,
-      showPagination: true
-    },
     remoteConfig: () => {},
+    defaultPageNumber: 1,
+    defaultPageSize: 20,
+    showPagination: true,
     tableBorder: true
   }
 );
 
-const emit = defineEmits(["update:pagination", "refresh", "update:data"]);
+const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
 
 const tableData = ref(props.data);
 const tableColumns = computed(() => props.columns);
-const tableTotal = ref(undefined);
+const tableTotal = ref(0);
+const pagination = reactive({
+  currentPage: props.defaultPageNumber,
+  pageSize: props.defaultPageSize
+});
 
 // 获取对象中指定值
 function getObjectValue(row: any, column: TableColumn): string {
@@ -169,26 +175,28 @@ function formatDateRange(
 }
 
 function handleSizeChange(newSize: number) {
-  emit("update:pagination", { ...props.pagination, pageSize: newSize });
+  emit("update:pageSize", { currentPage: pagination.currentPage, pageSize: newSize });
+  fetchData();
 }
 
 function handleCurrentChange(newPage: number) {
-  emit("update:pagination", { ...props.pagination, currentPage: newPage });
+  emit("update:currentPage", { currentPage: newPage, pageSize: pagination.pageSize });
+  fetchData();
 }
 
-function refresh(filterParams: { [key: string]: any } = {}) {
-  fetchData(filterParams);
+function refresh() {
+  fetchData();
   emit("refresh");
 }
 
-async function fetchData(filterParams: { [key: string]: any } = {}) {
+async function fetchData() {
   if (props.remoteConfig.autoRequest && props.remoteConfig.remoteApi) {
     try {
       const params = {
-        ...filterParams,
+        ...(props.filterParams || {}),
         ...props.remoteConfig.defaultParams,
-        pageNumber: props.pagination.currentPage,
-        pageSize: props.pagination.pageSize
+        pageNumber: pagination.currentPage,
+        pageSize: pagination.pageSize
       };
       const result = await props.remoteConfig.remoteApi(params);
       tableData.value = result.data?.rows || [];
@@ -212,11 +220,11 @@ onMounted(() => {
   }
 });
 
-watch(() => props.pagination, fetchData, { deep: true });
-
 defineExpose({
   refresh,
-  clearData
+  clearData,
+  handleSizeChange,
+  handleCurrentChange
 });
 
 function handleCellClick(row: any, column: any, cell: HTMLElement, event: Event) {

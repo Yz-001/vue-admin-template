@@ -72,7 +72,7 @@ const handleSubmit = async () => {
       <el-form-item label="通知内容" prop="content">
         <BaseTinyEditor v-model:htmlContent="form.content" class="h-[350px]" />
       </el-form-item>
-      <el-form-item label="通知时间范围" prop="timeRange">
+      <el-form-item label="通知时间" prop="timeRange">
         <el-date-picker
           v-model="form.timeRange"
           type="datetimerange"

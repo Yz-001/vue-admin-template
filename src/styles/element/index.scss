@@ -5,12 +5,6 @@
   // element 变量
 }
 
-.custom {
-  .el-form-item {
-    margin-bottom: 8px;
-
-    &__label {
-      color: $--text-color-regular;
-    }
-  }
+.el-button {
+  border-radius: 2px;
 }

@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<FormProps>(), {
   labelWidth: "auto",
   formLine: false,
   operSpan: () => ({ sm: 16, md: 8, lg: 6 }),
-  collapseCount: 3 // 默认折叠时只显示1个组件
+  collapseCount: 3
 });
 
 const emit = defineEmits(["on-validate-success", "on-validate-error", "on-reset"]);
@@ -30,24 +30,7 @@ const initComponentMapping = () => {
 // 解析组件名称为实际组件
 function resolveComponent(componentName: string | ComponentName) {
   const componentNameStr = String(componentName);
-
-  // 检查 componentMapping 中是否存在对应的组件
-  if (componentMapping.value[componentNameStr]) {
-    return componentMapping.value[componentNameStr];
-  }
-
-  // 如果组件未预先加载，则尝试动态加载
-  const importComponent = async () => {
-    try {
-      const component = await import(`element-plus/lib/components/${componentNameStr}/index`);
-      return component.default || component; // 确保返回的是组件本身
-    } catch (error) {
-      console.error(`Failed to load component ${componentNameStr}`, error);
-      return null;
-    }
-  };
-
-  return defineAsyncComponent(() => importComponent());
+  return componentMapping.value[componentNameStr];
 }
 
 // 控制是否折叠的状态
@@ -55,7 +38,7 @@ const isCollapsed = ref(true); // 默认折叠
 
 // 根据折叠状态计算出需要显示的组件列表
 const visibleComponentList = computed(() => {
-  if (isCollapsed.value && props.componentList.length > props.collapseCount) {
+  if (props?.formLine && isCollapsed.value && props.componentList.length > props.collapseCount) {
     return props.componentList.slice(0, props.collapseCount); // 如果折叠，则只显示指定数量的组件
   }
   return props.componentList; // 否则显示所有组件
@@ -139,10 +122,10 @@ defineExpose({
       </el-col>
 
       <!-- 操作栏 -->
-      <el-col :sm="operSpan?.sm || 16" :md="operSpan?.md || 8" :lg="operSpan?.lg || 6">
-        <el-form-item class="filter-form__btns">
+      <el-col :sm="operSpan?.sm" :md="operSpan?.md" :lg="operSpan?.lg" class="app-form__btns">
+        <el-form-item>
           <slot name="oper" />
-          <el-button v-if="componentList.length > collapseCount" link @click="toggleCollapse">
+          <el-button v-if="formLine && componentList.length > collapseCount" link @click="toggleCollapse">
             {{ isCollapsed ? "展开" : "折叠" }}
             <el-icon class="ml-[6px]"> <ArrowDown v-if="isCollapsed" /><ArrowUp v-else /> </el-icon>
           </el-button>
@@ -155,7 +138,15 @@ defineExpose({
 <style lang="scss" scoped>
 .app-form {
   &__btns {
-    margin-left: 10px;
+    margin-left: auto !important;
+
+    .el-form-item {
+      text-align: right;
+
+      :deep(.el-form-item__content) {
+        justify-content: flex-end;
+      }
+    }
   }
 
   .el-form-item {

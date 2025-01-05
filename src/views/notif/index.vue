@@ -12,6 +12,7 @@
       class="notif-list__table"
       :columns="tableColumns"
       :remoteConfig="remoteConfig"
+      :filterParams="filterParams"
       @update:data="handleUpdateData"
     >
       <template #leftOper>
@@ -37,6 +38,7 @@ import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
 import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
 import { FormComponentEnum } from "@/components/AppForm/type";
+
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -50,7 +52,7 @@ const componentList = [
     span: {
       sm: 12,
       md: 6,
-      lg: 4
+      lg: 5
     },
     attrs: {
       placeholder: "请输入标题"
@@ -58,7 +60,7 @@ const componentList = [
   },
   {
     componentName: FormComponentEnum.ElDatePicker,
-    label: "通知时间范围",
+    label: "通知时间",
     prop: "dateRange",
     span: {
       sm: 12,
@@ -92,7 +94,7 @@ const tableColumns = [
     ]
   },
   {
-    label: "通知时间范围",
+    label: "通知时间",
     prop: "dateRange",
     type: TableTypeEnum.DATE,
     dateStartProp: "dateRangeStart",
@@ -111,8 +113,10 @@ const remoteConfig = {
   autoRequest: true
 };
 const appTableRef = ref(null);
+const filterParams = ref({});
 const handleSearch = (data: { [key: string]: any }) => {
-  if (appTableRef.value) appTableRef.value.refresh(data);
+  filterParams.value = data;
+  if (appTableRef.value) appTableRef.value.refresh();
 };
 const tableData = ref([]);
 const handleUpdateData = (tableData: any[]) => {
