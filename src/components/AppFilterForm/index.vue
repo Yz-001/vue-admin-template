@@ -22,7 +22,6 @@
 import { ref } from "vue";
 import AppForm from "@/components/AppForm/index.vue";
 import type { FilterFormProps } from "./type";
-import { deepCopy } from "@/utils/common";
 import { Search } from "@element-plus/icons-vue";
 
 const props = withDefaults(defineProps<FilterFormProps>(), {
@@ -39,18 +38,18 @@ const appFormRef = ref(null);
 const handleSearch = async () => {
   try {
     await appFormRef.value.getValidate();
-    emit("on-search", formModel.value);
+    emit("on-search", JSON.parse(JSON.stringify(formModel.value)));
   } catch (error) {
     emit("on-search-valid-error", error);
   }
 };
 const handleRefresh = () => {
   appFormRef.value.handleReset();
-  emit("on-refresh", deepCopy(formModel.value));
+  emit("on-refresh", JSON.parse(JSON.stringify(formModel.value)));
 };
 const handleReset = () => {
   appFormRef.value.handleReset();
-  emit("on-reset", deepCopy(formModel.value));
+  emit("on-reset", JSON.parse(JSON.stringify(formModel.value)));
 };
 </script>
 
