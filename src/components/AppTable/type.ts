@@ -1,3 +1,14 @@
+export interface TableProps {
+  columns: TableColumn[];
+  data?: any[];
+  remoteConfig?: RemoteConfig;
+  filterParams?: { [key: string]: any }; // 检索参数
+  defaultPageSize?: number;
+  defaultPageNumber?: number;
+  showPagination?: boolean;
+  tableBorder?: Boolean;
+}
+
 // 表格类型枚举
 export enum TableTypeEnum {
   TEMPLATE = "TEMPLATE",

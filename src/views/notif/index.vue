@@ -116,7 +116,9 @@ const appTableRef = ref(null);
 const filterParams = ref({});
 const handleSearch = (data: { [key: string]: any }) => {
   filterParams.value = data;
-  if (appTableRef.value) appTableRef.value.refresh();
+  nextTick(() => {
+    if (appTableRef.value) appTableRef.value.refresh();
+  });
 };
 const tableData = ref([]);
 const handleUpdateData = (tableData: any[]) => {

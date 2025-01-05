@@ -1,3 +1,62 @@
+<script setup lang="ts">
+import { ref, computed, PropType, onMounted, watch } from "vue";
+import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
+import { TableTypeEnum, DateFormatEnum, type TableProps } from "./type";
+import { Refresh, Document } from "@element-plus/icons-vue";
+import useTable from "./use-table";
+
+const props = withDefaults(defineProps<TableProps>(), {
+  remoteConfig: () => {},
+  defaultPageNumber: 1,
+  defaultPageSize: 20,
+  showPagination: true,
+  tableBorder: true
+});
+const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
+
+const {
+  tableData,
+  tableColumns,
+  tableTotal,
+  pagination,
+  getObjectValue,
+  getSectionValue,
+  getImageSrc,
+  handlePreviewImage,
+  getListValues,
+  formatDate,
+  formatDateRange,
+  handleSizeChange,
+  handleCurrentChange,
+  refresh,
+  fetchData,
+  clearData,
+  handleCellClick,
+  maskText,
+  copyText,
+  downloadFile,
+  getFileUrls,
+  isImageUrl,
+  handleFileClick,
+  formatNumber,
+  getTagType,
+  getTagColor
+} = useTable(props, emit);
+
+onMounted(() => {
+  if (props.remoteConfig.autoRequest) {
+    fetchData();
+  }
+});
+
+defineExpose({
+  refresh,
+  clearData,
+  handleSizeChange,
+  handleCurrentChange
+});
+</script>
+
 <template>
   <div class="app-table">
     <div class="app-table__oper">
@@ -89,183 +148,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, PropType, onMounted, watch } from "vue";
-import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { useDateFormat } from "@vueuse/core";
-import { TableTypeEnum, DateFormatEnum, type TableColumn, type Pagination, type RemoteConfig } from "./type";
-import { Refresh, Document } from "@element-plus/icons-vue";
-import { maskText, copyText, downloadFile } from "@/utils/common";
-import { messageError } from "@/utils/element-utils/notification-common";
-
-const props = withDefaults(
-  defineProps<{
-    columns: TableColumn[];
-    data?: any[];
-    remoteConfig?: RemoteConfig;
-    filterParams?: { [key: string]: any }; // 检索参数
-    defaultPageSize?: number;
-    defaultPageNumber?: number;
-    showPagination?: boolean;
-    tableBorder?: Boolean;
-  }>(),
-  {
-    remoteConfig: () => {},
-    defaultPageNumber: 1,
-    defaultPageSize: 20,
-    showPagination: true,
-    tableBorder: true
-  }
-);
-
-const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
-
-const tableData = ref(props.data);
-const tableColumns = computed(() => props.columns);
-const tableTotal = ref(0);
-const pagination = reactive({
-  currentPage: props.defaultPageNumber,
-  pageSize: props.defaultPageSize
-});
-
-// 获取对象中指定值
-function getObjectValue(row: any, column: TableColumn): string {
-  const valueKey = column.sunValue || "name";
-  return row[column.prop]?.[valueKey] || "";
-}
-
-function getSectionValue(row: any, column: TableColumn): string {
-  if (!column.selectList) return "";
-  const labelValue = column.labelValue || "value";
-  const labelName = column.labelName || "name";
-  const item = column.selectList.find(item => item[labelValue] === row[column.prop]);
-  return item ? item[labelName] : "";
-}
-
-function getImageSrc(row: any, column: TableColumn): string {
-  return row[column.prop] || "";
-}
-
-function handlePreviewImage(row: any, column: TableColumn) {
-  // 图片预览逻辑可以在这里实现
-}
-
-function getListValues(row: any, column: TableColumn): string[] {
-  const items = row[column.prop] || [];
-  const valueKey = column.sunValue || "name";
-  return items.map(item => item[valueKey]);
-}
-
-function formatDate(date: string | Date, formatStr: DateFormatEnum = DateFormatEnum.YYYY_MM_DD_HH_MM_SS): string {
-  if (!date) return "";
-  const formattedDate = useDateFormat(new Date(date), formatStr, { locales: "en-US" }).value;
-  return formattedDate;
-}
-
-function formatDateRange(
-  startDate: string | Date,
-  endDate: string | Date,
-  formatStr: DateFormatEnum = DateFormatEnum.YYYY_MM_DD_HH_MM_SS,
-  separator: string = "-"
-): string {
-  const startFormatted = formatDate(startDate, formatStr);
-  const endFormatted = formatDate(endDate, formatStr);
-  return `${startFormatted} ${separator} ${endFormatted}`;
-}
-
-function handleSizeChange(newSize: number) {
-  emit("update:pageSize", { currentPage: pagination.currentPage, pageSize: newSize });
-  fetchData();
-}
-
-function handleCurrentChange(newPage: number) {
-  emit("update:currentPage", { currentPage: newPage, pageSize: pagination.pageSize });
-  fetchData();
-}
-
-function refresh() {
-  fetchData();
-  emit("refresh");
-}
-
-async function fetchData() {
-  if (props.remoteConfig.autoRequest && props.remoteConfig.remoteApi) {
-    try {
-      const params = {
-        ...(props.filterParams || {}),
-        ...props.remoteConfig.defaultParams,
-        pageNumber: pagination.currentPage,
-        pageSize: pagination.pageSize
-      };
-      const result = await props.remoteConfig.remoteApi(params);
-      tableData.value = result.data?.rows || [];
-      tableTotal.value = result.data?.total;
-      emit("update:data", result); // 更新外部组件的数据
-    } catch (error) {
-      if (error?.message) messageError(error?.message);
-    }
-  }
-}
-
-function clearData() {
-  tableData.value = [];
-  tableTotal.value = 0;
-  emit("update:data", []);
-}
-
-onMounted(() => {
-  if (props.remoteConfig.autoRequest) {
-    fetchData();
-  }
-});
-
-defineExpose({
-  refresh,
-  clearData,
-  handleSizeChange,
-  handleCurrentChange
-});
-
-function handleCellClick(row: any, column: any, cell: HTMLElement, event: Event) {
-  if (column.property == "template") return;
-  const text = cell.innerText.trim();
-  if (text) {
-    copyText(text);
-  }
-}
-
-function getFileUrls(row: any, column: TableColumn): string[] {
-  const fileUrls = row[column.prop];
-  return Array.isArray(fileUrls) ? fileUrls : [fileUrls];
-}
-
-function isImageUrl(url: string): boolean {
-  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
-  const extensionMatch = url.match(/\.([^.]+)$/i);
-  return extensionMatch && imageExtensions.includes(extensionMatch[1].toLowerCase());
-}
-
-function handleFileClick(fileUrl: string, column: TableColumn) {
-  downloadFile(fileUrl);
-}
-
-function formatNumber(value: number, decimalPlaces: number = 2): string {
-  return value.toFixed(decimalPlaces);
-}
-
-function getTagType(column: TableColumn, row: any): string {
-  if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return "success";
-  if (column.tagError && row[column.prop] === column.tagError.value) return "danger";
-  return column.tagType || "info";
-}
-
-function getTagColor(column: TableColumn, row: any): string {
-  if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return column.tagSuccess.color || undefined;
-  if (column.tagError && row[column.prop] === column.tagError.value) return column.tagError.color || undefined;
-  return undefined;
-}
-</script>
 
 <style lang="scss" scoped>
 .app-table {
