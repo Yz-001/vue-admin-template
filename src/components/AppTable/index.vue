@@ -4,13 +4,15 @@ import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
 import { TableTypeEnum, DateFormatEnum, type TableProps } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
 import useTable from "./use-table";
+import AppExportExcel from "@/components/AppExportExcel/index.vue";
 
 const props = withDefaults(defineProps<TableProps>(), {
   remoteConfig: () => {},
   defaultPageNumber: 1,
   defaultPageSize: 20,
   showPagination: true,
-  tableBorder: true
+  tableBorder: true,
+  showExportExcel: true
 });
 const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
 
@@ -62,6 +64,7 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
+        <AppExportExcel v-if="showExportExcel" v-bind="exportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />

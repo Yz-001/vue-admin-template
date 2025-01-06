@@ -13,6 +13,7 @@
       :columns="tableColumns"
       :remoteConfig="remoteConfig"
       :filterParams="filterParams"
+      :exportExcelConfig="exportExcelConfig"
       @update:data="handleUpdateData"
     >
       <template #leftOper>
@@ -38,7 +39,7 @@ import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
 import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
 import { FormComponentEnum } from "@/components/AppForm/type";
-
+import { ExportModeEnum } from "@/components/AppExportExcel/type";
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -121,8 +122,8 @@ const handleSearch = (data: { [key: string]: any }) => {
   });
 };
 const tableData = ref([]);
-const handleUpdateData = (tableData: any[]) => {
-  tableData.value = tableData || [];
+const handleUpdateData = (data: any[]) => {
+  tableData.value = JSON.parse(JSON.stringify(data || []));
 };
 const notifFromDlgProp = reactive({
   visible: false,
@@ -141,6 +142,19 @@ const handleDelete = (row: NotifRow) => {
   // 删除逻辑...
 };
 
+const exportExcelConfig = computed(() => {
+  const config = {
+    filename: `通知列表${new Date().getTime()}`,
+    excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    // excelData: tableData.value,
+    remoteConfig: {
+      remoteApi: getNotifListApi,
+      defaultParams: filterParams.value
+    },
+    buttonLabel: "导出表格"
+  };
+  return config;
+});
 // 手动请求
 // :data="tableData"
 // <!-- :pagination="pagination" -->

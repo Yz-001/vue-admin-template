@@ -81,7 +81,7 @@ export default function useTable(props, emit) {
         const result = await props.remoteConfig.remoteApi(params);
         tableData.value = result.data?.rows || [];
         tableTotal.value = result.data?.total;
-        emit("update:data", result); // 更新外部组件的数据
+        emit("update:data", JSON.parse(JSON.stringify(result.data?.rows || []))); // 更新外部组件的数据
       } catch (error) {
         if (error?.message) ElMessage({ message: error.message, type: "error" });
       }

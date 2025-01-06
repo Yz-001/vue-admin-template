@@ -1,3 +1,5 @@
+import type { ExportExcelProps } from "@/components/AppExportExcel/type";
+
 export interface TableProps {
   columns: TableColumn[];
   data?: any[];
@@ -6,7 +8,9 @@ export interface TableProps {
   defaultPageSize?: number;
   defaultPageNumber?: number;
   showPagination?: boolean;
-  tableBorder?: Boolean;
+  tableBorder?: boolean;
+  showExportExcel?: boolean;
+  exportExcelConfig?: ExportExcelProps;
 }
 
 // 表格类型枚举
