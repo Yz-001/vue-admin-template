@@ -11,6 +11,7 @@
       ref="appTableRef"
       class="notif-list__table"
       :columns="tableColumns"
+      :tableConfig="tableConfig"
       :remoteConfig="remoteConfig"
       :filterParams="filterParams"
       :exportExcelConfig="exportExcelConfig"
@@ -42,6 +43,9 @@ import { FormComponentEnum } from "@/components/AppForm/type";
 const searchForm = reactive({
   title: "",
   dateRange: []
+});
+const tableConfig = reactive({
+  border: true
 });
 const componentList = [
   {

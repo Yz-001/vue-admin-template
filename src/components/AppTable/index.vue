@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableTypeEnum, type TableProps } from "./type";
+import { TableTypeEnum, type TableProps, type TableConfig } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
 import useTable from "./use-table";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
@@ -11,10 +11,9 @@ const props = withDefaults(defineProps<TableProps>(), {
   defaultPageNumber: 1,
   defaultPageSize: 20,
   showPagination: true,
-  tableBorder: true,
   showExportExcel: true
 });
-const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
+const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data", "cell-click"]);
 
 const {
   tableData,
@@ -48,10 +47,12 @@ onMounted(() => {
     fetchData();
   }
 });
+const safeTableConfig = computed<TableConfig>(() => ({
+  ...(props.tableConfig ?? ({} as TableConfig))
+}));
 const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
   ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
 }));
-
 defineExpose({
   refresh,
   clearData,
@@ -73,7 +74,7 @@ defineExpose({
         <slot name="rightOperAfter" />
       </div>
     </div>
-    <el-table class="app-table__content" :data="tableData" :border="tableBorder" @cell-click="handleCellClick">
+    <el-table class="app-table__content" :data="tableData" v-bind="safeTableConfig" @cell-click="handleCellClick">
       <el-table-column
         v-for="column in tableColumns"
         :key="column.prop"

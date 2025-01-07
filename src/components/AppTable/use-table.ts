@@ -94,12 +94,13 @@ export default function useTable(props, emit) {
     emit("update:data", []);
   }
 
-  function handleCellClick(_: any, column: any, cell: HTMLElement) {
+  function handleCellClick(row: any, column: any, cell: HTMLElement) {
     if (column.property == "template") return;
     const text = cell.innerText.trim();
     if (text) {
       copyText(text);
     }
+    emit("cell-click", { row, column, cell });
   }
 
   function maskText(text: string): string {

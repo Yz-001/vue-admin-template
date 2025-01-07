@@ -3,12 +3,12 @@ import type { ExportExcelProps } from "@/components/AppExportExcel/type";
 export interface TableProps {
   columns: TableColumn[];
   data?: any[];
+  tableConfig?: TableConfig;
   remoteConfig?: RemoteConfig;
   filterParams?: { [key: string]: any }; // 检索参数
   defaultPageSize?: number;
   defaultPageNumber?: number;
   showPagination?: boolean;
-  tableBorder?: boolean;
   showExportExcel?: boolean;
   exportExcelConfig?: ExportExcelProps;
 }
@@ -33,6 +33,18 @@ export enum DateFormatEnum {
   YYYY_MM_DD_HH_MM_SS = "YYYY/MM/DD HH:mm:ss",
   MM_DD_YYYY_HH_MM_SS = "MM/DD/YYYY HH:mm:ss",
   DD_MM_YYYY_HH_MM_SS = "DD/MM/YYYY HH:mm:ss"
+}
+
+// 表格本身配置
+export interface TableConfig {
+  selection?: boolean; // 是否有选择框
+  loading?: boolean; // 加载状态
+  stripe?: boolean; // 是否为斑马纹表格
+  border?: boolean; // 是否带有纵向边框
+  showSummary?: boolean; // 是否显示合计行
+  summaryMethod?: Function; // 合计行计算方法
+  rowClassName?: (row: any, index: number) => string; // 行类名
+  headerCellClassName?: (column: any) => string; // 表头单元格类名
 }
 
 // 表格列配置
