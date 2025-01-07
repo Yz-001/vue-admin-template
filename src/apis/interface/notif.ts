@@ -8,7 +8,8 @@ export interface NotifRow {
   id: number;
   title: string;
   content: string;
-  startTime: string;
-  endTime: string;
-  updatedBy: string;
+  startTime?: string;
+  endTime?: string;
+  updatedBy?: string;
+  timeRange?: string[];
 }

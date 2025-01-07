@@ -53,7 +53,7 @@ export interface TableColumn {
   separator?: string; // 日期之间的分隔符，默认为 "-"
   masked?: boolean; // 脱敏属性
   decimalPlaces?: number; // 小数位精度
-  tagType?: string; // 标签颜色类型
+  tagType?: TagTypeEnum; // 标签颜色类型
   tagSuccess?: { value: any; color?: string }; // 成功标签条件及颜色
   tagError?: { value: any; color?: string }; // 错误标签条件及颜色
 }
@@ -71,4 +71,13 @@ export interface RemoteConfig {
   remoteApi?: (params: object) => Promise<any>;
   defaultParams?: object;
   autoRequest?: boolean;
+}
+
+// 标签类型枚举
+export enum TagTypeEnum {
+  Success = "success",
+  Warning = "warning",
+  Info = "info",
+  Primary = "primary",
+  Danger = "danger"
 }

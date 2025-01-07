@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import { PropType, ref, withDefaults } from "vue";
+import { withDefaults } from "vue";
 import useExportExcel from "./use-export-excel";
 import { type ExportExcelProps, ExportModeEnum } from "./type";
-import { getExportApi } from "@/apis/common";
 
 const props = withDefaults(defineProps<ExportExcelProps>(), {
   filename: "导出文件",
   buttonLabel: "导出",
-  exportModel: ExportModeEnum.APILISTDATA,
-  remoteConfig: {
-    remoteApi: getExportApi,
-    defaultParams: {}
-  }
+  exportModel: ExportModeEnum.APILISTDATA
 });
-const { handleExport, getFormatExportData, applyStyles } = useExportExcel(props);
+const { handleExport } = useExportExcel(props);
 </script>
 
 <template>

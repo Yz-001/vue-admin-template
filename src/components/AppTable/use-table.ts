@@ -1,4 +1,4 @@
-import { DateFormatEnum, type TableColumn } from "./type";
+import { DateFormatEnum, TagTypeEnum, type TableColumn } from "./type";
 import { useDateFormat } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 import { ref, computed } from "vue";
@@ -169,10 +169,10 @@ export default function useTable(props, emit) {
     return value.toFixed(decimalPlaces);
   }
 
-  function getTagType(column: TableColumn, row: any): string {
-    if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return "success";
-    if (column.tagError && row[column.prop] === column.tagError.value) return "danger";
-    return column.tagType || "info";
+  function getTagType(column: TableColumn, row: any): TagTypeEnum {
+    if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return TagTypeEnum.Success;
+    if (column.tagError && row[column.prop] === column.tagError.value) return TagTypeEnum.Danger;
+    return column.tagType || TagTypeEnum.Info;
   }
 
   function getTagColor(column: TableColumn, row: any): string {

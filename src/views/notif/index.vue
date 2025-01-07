@@ -37,9 +37,8 @@
 import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
-import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
+import { TableTypeEnum } from "@/components/AppTable/type";
 import { FormComponentEnum } from "@/components/AppForm/type";
-import { ExportModeEnum } from "@/components/AppExportExcel/type";
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -146,7 +145,6 @@ const exportExcelConfig = computed(() => {
   const config = {
     filename: `通知列表${new Date().getTime()}`,
     excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
-    // excelData: tableData.value,
     remoteConfig: {
       remoteApi: getNotifListApi,
       defaultParams: filterParams.value
@@ -155,41 +153,6 @@ const exportExcelConfig = computed(() => {
   };
   return config;
 });
-// 手动请求
-// :data="tableData"
-// <!-- :pagination="pagination" -->
-// const tableData = reactive([
-// {
-//   id: 1,
-//   title: "Alice",
-//   content: "本平台通知新用户",
-//   updatedInfo: { id: 1, name: "超级管理员" },
-//   createDate: new Date(),
-//   status: 1,
-//   showUsers: [{ name: "测试1" }, { name: "测试2" }],
-//   dateRangeStart: new Date(),
-//   dateRangeEnd: new Date()
-// }
-// ]);
-// 分页配置
-// const pagination = reactive({
-//   currentPage: 1,
-//   pageSize: 10,
-//   total: tableData.length,
-//   showPagination: true
-// });
-// const handleSearch = () => {
-//   try {
-//     const response = await getNotifListApi({
-//       title: searchForm.title,
-//       startDate: searchForm.dateRange?.[0],
-//       endDate: searchForm.dateRange?.[1]
-//     });
-//     tableData.value = response.data;
-//   } catch (error) {
-//     console.error("Failed to fetch tableData:", error);
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

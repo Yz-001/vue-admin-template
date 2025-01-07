@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, PropType, onMounted, watch } from "vue";
-import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableTypeEnum, DateFormatEnum, type TableProps } from "./type";
+import { onMounted } from "vue";
+import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
+import { TableTypeEnum, type TableProps } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
 import useTable from "./use-table";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
+import { type ExportExcelProps } from "@/components/AppExportExcel/type";
 
 const props = withDefaults(defineProps<TableProps>(), {
   defaultPageNumber: 1,
@@ -34,8 +35,6 @@ const {
   clearData,
   handleCellClick,
   maskText,
-  copyText,
-  downloadFile,
   getFileUrls,
   isImageUrl,
   handleFileClick,
@@ -49,6 +48,9 @@ onMounted(() => {
     fetchData();
   }
 });
+const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
+  ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
+}));
 
 defineExpose({
   refresh,
@@ -63,7 +65,7 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
-        <AppExportExcel v-if="showExportExcel" v-bind="exportExcelConfig" />
+        <AppExportExcel v-if="showExportExcel" v-bind="safeExportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />
