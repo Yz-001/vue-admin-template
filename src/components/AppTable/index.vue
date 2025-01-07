@@ -7,7 +7,6 @@ import useTable from "./use-table";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
 
 const props = withDefaults(defineProps<TableProps>(), {
-  remoteConfig: () => {},
   defaultPageNumber: 1,
   defaultPageSize: 20,
   showPagination: true,

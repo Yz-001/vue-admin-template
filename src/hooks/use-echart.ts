@@ -1,7 +1,7 @@
 import { type Ref, shallowRef, onMounted, onDeactivated, onBeforeUnmount } from "vue";
 import echarts from "@/plugins/echarts";
 export type EChartsCoreOption = echarts.EChartsCoreOption;
-const useEcharts = (elRef: Ref<HTMLDivElement>, options: EChartsCoreOption) => {
+export default function useEcharts(elRef: Ref<HTMLDivElement>, options: EChartsCoreOption) {
   const charts = shallowRef<echarts.ECharts>();
 
   const initCharts = (themeColor?: Array<string>) => {
@@ -38,5 +38,4 @@ const useEcharts = (elRef: Ref<HTMLDivElement>, options: EChartsCoreOption) => {
     echartsResize
     // getEcharGradation
   };
-};
-export { useEcharts };
+}

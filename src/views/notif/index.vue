@@ -50,7 +50,7 @@ const componentList = [
     label: "标题",
     prop: "title",
     labelWidth: 60,
-    span: {
+    colLayout: {
       sm: 12,
       md: 6,
       lg: 5
@@ -63,7 +63,7 @@ const componentList = [
     componentName: FormComponentEnum.ElDatePicker,
     label: "通知时间",
     prop: "dateRange",
-    span: {
+    colLayout: {
       sm: 12,
       md: 8,
       lg: 6
