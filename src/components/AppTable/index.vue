@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, defineExpose } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableTypeEnum, type TableProps, type TableConfig } from "./type";
+import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
 import useTable from "./use-table";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
@@ -47,9 +47,9 @@ onMounted(() => {
     fetchData();
   }
 });
-const safeTableConfig = computed<TableConfig>(() => ({
-  ...(props.tableConfig ?? ({} as TableConfig))
-}));
+const safeTableConfig = computed<TableConfig>(() => {
+  return props?.tableConfig ?? ({} as TableConfig);
+});
 const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
   ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
 }));
@@ -74,13 +74,22 @@ defineExpose({
         <slot name="rightOperAfter" />
       </div>
     </div>
-    <el-table class="app-table__content" :data="tableData" v-bind="safeTableConfig" @cell-click="handleCellClick">
+    <el-table
+      class="app-table__content"
+      :data="tableData"
+      v-bind="safeTableConfig"
+      @selectionChange="safeTableConfig?.selectionChange"
+      @cell-click="handleCellClick"
+    >
       <el-table-column
         v-for="column in tableColumns"
         :key="column.prop"
         :label="column.label"
         :prop="column.prop"
         :width="column.width"
+        :type="column?.colType || TableColTypeEnum.DEFAULT"
+        :selectable="column?.selectableFn"
+        :index="column?.indexFn"
       >
         <template #default="scope">
           <slot v-if="column.type === TableTypeEnum.TEMPLATE" :name="column.slotName || column.prop" :row="scope.row" />
@@ -135,7 +144,9 @@ defineExpose({
           <span v-else-if="column.masked">
             {{ maskText(scope.row[column.prop]) }}
           </span>
-          <span v-else>{{ scope.row[column.prop] }}</span>
+          <span v-else-if="!Object.hasOwn(column, 'colType') || column.colType == TableColTypeEnum.DEFAULT">
+            {{ scope.row[column.prop] }}
+          </span>
         </template>
       </el-table-column>
     </el-table>

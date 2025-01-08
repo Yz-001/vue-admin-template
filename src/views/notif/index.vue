@@ -44,8 +44,13 @@ const searchForm = reactive({
   title: "",
   dateRange: []
 });
+const selectList = ref([]);
+const handleSelectionChange = (newSelList: any) => {
+  selectList.value = newSelList;
+};
 const tableConfig = reactive({
-  border: true
+  border: true,
+  selectionChange: handleSelectionChange
 });
 const componentList = [
   {
@@ -83,6 +88,15 @@ const componentList = [
 
 // 表格列配置
 const tableColumns = [
+  { label: "", prop: "index", colType: "selection" },
+  // {
+  //   label: "序号",
+  //   prop: "index",
+  //   colType: "index",
+  //   indexFn: (index: number) => {
+  //     return index + 1;
+  //   }
+  // },
   { label: "标题", prop: "title" },
   { label: "内容", prop: "content" },
   { label: "更新人", prop: "updatedInfo", sunValue: "name", type: TableTypeEnum.OBJECT },

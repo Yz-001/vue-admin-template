@@ -13,7 +13,15 @@ export interface TableProps {
   exportExcelConfig?: ExportExcelProps;
 }
 
-// 表格类型枚举
+// 表格列类型枚举
+export enum TableColTypeEnum {
+  DEFAULT = "default",
+  SELECTION = "selection",
+  INDEX = "index",
+  EXPAND = "expand"
+}
+
+// 表格值类型枚举
 export enum TableTypeEnum {
   TEMPLATE = "TEMPLATE",
   OBJECT = "OBJECT",
@@ -21,8 +29,8 @@ export enum TableTypeEnum {
   IMG = "IMG",
   LIST = "LIST",
   DATE = "DATE",
-  FILES = "FILES", // 新增文件类型
-  NUMBER = "NUMBER" // 新增数字类型
+  FILES = "FILES", // 文件类型
+  NUMBER = "NUMBER" // 数字类型
 }
 
 // 表格类型枚举
@@ -45,12 +53,16 @@ export interface TableConfig {
   summaryMethod?: Function; // 合计行计算方法
   rowClassName?: (row: any, index: number) => string; // 行类名
   headerCellClassName?: (column: any) => string; // 表头单元格类名
+  selectionChange?: (row: any) => any; // 选中
 }
 
 // 表格列配置
 export interface TableColumn {
   label: string;
   prop: string;
+  colType?: TableColTypeEnum; // 列类型 选中 序号
+  selectableFn?: (index: number) => number; // 是否禁用
+  indexFn?: (index: number) => number; // 自定义索引
   type?: TableTypeEnum;
   sunValue?: string;
   slotName?: string;
