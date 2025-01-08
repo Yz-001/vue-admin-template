@@ -104,14 +104,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         // 别名路径
-        "@": path.resolve(__dirname, "src"),
-        "@apis": path.resolve(__dirname, "src/apis"),
-        "@assets": path.resolve(__dirname, "src/assets"),
-        "@components": path.resolve(__dirname, "src/components"),
-        "@stores": path.resolve(__dirname, "src/stores"),
-        "@utils": path.resolve(__dirname, "src/utils"),
-        "@views": path.resolve(__dirname, "src/views"),
-        "@hooks": path.resolve(__dirname, "src/hooks")
+        "@": path.resolve(__dirname, "src")
       }
     },
     server: {

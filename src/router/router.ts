@@ -9,7 +9,7 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "Login",
     meta: { hidden: true, title: "menus.Login" },
-    component: () => import("@views/login/index.vue")
+    component: () => import("@/views/login/index.vue")
   },
   ...BasicRouter,
   NotifRouter,
@@ -18,7 +18,7 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/:pathMatch(.*)*",
     name: "Error",
     meta: { hidden: true, title: "404" },
-    component: () => import("@views/error/404.vue")
+    component: () => import("@/views/error/404.vue")
   }
 ];
 
