@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/modules/settings";
+import { computed } from "vue";
 const settingStore = useSettingsStore();
 const tabMaps = computed<{ [key: string]: any }>(() => {
   return settingStore.tabMaps || {};

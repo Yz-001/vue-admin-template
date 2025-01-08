@@ -30,6 +30,8 @@ import { getFixationRoutes } from "@/utils/layout";
 import useMenu from "@/hooks/use-menu";
 import { type TabsPaneContext } from "element-plus";
 import { messageWarning } from "@/utils/element-utils/notification-common";
+import { useRoute, useRouter } from "vue-router";
+import { computed, watch } from "vue";
 
 const emit = defineEmits(["on-click", "on-remove"]);
 const route = useRoute();

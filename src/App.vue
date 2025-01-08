@@ -8,6 +8,7 @@
 import { handleThemeMode, handleThemeStyle } from "@/utils/theme";
 import { ElConfigProvider } from "element-plus";
 import { useSettingsStore } from "@/stores/modules/settings";
+import { computed, onMounted } from "vue";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import zhTw from "element-plus/dist/locale/zh-tw.mjs";
 import en from "element-plus/dist/locale/en.mjs";

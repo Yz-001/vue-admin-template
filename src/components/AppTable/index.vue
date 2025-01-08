@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, defineExpose } from "vue";
+import { onMounted, defineExpose, computed } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
 import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";

@@ -1,6 +1,7 @@
 import { filterHiddenRoutes } from "@/utils/layout";
 import { usePermissionStore } from "@/stores/modules/permission";
 import type { RouteLocationNormalizedLoaded } from "vue-router";
+import { computed } from "vue";
 export default function useMenu() {
   const permissionStore = usePermissionStore();
   const menuList = computed(() => {

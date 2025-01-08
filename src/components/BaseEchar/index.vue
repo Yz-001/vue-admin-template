@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, onMounted, watch } from "vue";
+import { shallowRef, onMounted, watch, nextTick, onDeactivated } from "vue";
 import useEcharts, { type EChartsCoreOption } from "@/hooks/use-echart";
 
 interface Props {

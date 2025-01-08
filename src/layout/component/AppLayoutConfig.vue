@@ -34,7 +34,6 @@ interface LayoutConfigForm {
 }
 const { setSidebarCollapse, device, sidebar, layoutMode } = useAppStore();
 const appStore = useAppStore();
-const route = useRoute();
 const handleModeChange = (mode: layoutModeEnum) => {
   if (mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;

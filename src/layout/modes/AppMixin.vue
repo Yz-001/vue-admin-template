@@ -25,7 +25,8 @@ import useMenu from "@/hooks/use-menu";
 import { useAppStore } from "@/stores/modules/app";
 import { deepCopy } from "@/utils/common";
 import { getNodeOrParentChildren } from "@/utils/layout";
-import { type RouteLocationNormalizedLoaded } from "vue-router";
+import { useRoute, useRouter, type RouteLocationNormalizedLoaded } from "vue-router";
+import { onMounted, ref } from "vue";
 
 const route = useRoute();
 const router = useRouter();

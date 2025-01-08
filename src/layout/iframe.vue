@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
 defineOptions({
   name: "LayoutIframe"
 });
 const route = useRoute();
 const iframeLink = computed(() => {
-  return route?.meta?.iframeLink;
+  return route?.meta?.iframeLink as string;
 });
 </script>
 

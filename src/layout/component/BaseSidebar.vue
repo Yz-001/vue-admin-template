@@ -3,12 +3,11 @@ import BaseMark from "@/layout/component/BaseMark.vue";
 import BaseMenu from "@/layout/component/BaseMenu.vue";
 import { useAppStore } from "@/stores/modules/app";
 import useLayout from "@/hooks/use-layout";
-import { computed, ref } from "vue";
 
 defineOptions({
   name: "BaseSidebar"
 });
-const props = withDefaults(defineProps<{ markVisible?: Boolean; menuList?: any[] }>(), {
+const props = withDefaults(defineProps<{ markVisible?: boolean; menuList?: any[] }>(), {
   markVisible: true,
   menuList: () => []
 });

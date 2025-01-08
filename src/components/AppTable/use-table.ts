@@ -1,7 +1,7 @@
 import { DateFormatEnum, TagTypeEnum, type TableColumn } from "./type";
 import { useDateFormat } from "@vueuse/core";
 import { ElMessage } from "element-plus";
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 
 export default function useTable(props, emit) {
   const tableData = ref(props.data);
@@ -29,8 +29,9 @@ export default function useTable(props, emit) {
     return row[column.prop] || "";
   }
 
-  function handlePreviewImage(_: any, __: TableColumn) {
+  function handlePreviewImage(_row: any, _column: TableColumn) {
     // 图片预览逻辑可以在这里实现
+    console.log("handlePreviewImage: ", _row, _column);
   }
 
   function getListValues(row: any, column: TableColumn): string[] {
@@ -162,8 +163,9 @@ export default function useTable(props, emit) {
     return extensionMatch && imageExtensions.includes(extensionMatch[1].toLowerCase());
   }
 
-  function handleFileClick(fileUrl: string, _: TableColumn) {
+  function handleFileClick(fileUrl: string, _column: TableColumn) {
     downloadFile(fileUrl);
+    console.log("handleFileClick: ", _column);
   }
 
   function formatNumber(value: number, decimalPlaces: number = 2): string {

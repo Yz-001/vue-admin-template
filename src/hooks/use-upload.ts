@@ -1,6 +1,7 @@
 import { delUploadServerFileApi } from "@/apis/common";
 import type { Wapper } from "@/utils/http/types";
 import { ElMessage, type UploadFile, type UploadProgressEvent } from "element-plus";
+import { computed, reactive, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 export default function useUpload(props: any, emit: any) {
