@@ -104,7 +104,6 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         // 别名路径
-        "/imgs": path.resolve(__dirname, "src/assets/img"), //动态vite导入图片  结合u
         "@": path.resolve(__dirname, "src"),
         "@apis": path.resolve(__dirname, "src/apis"),
         "@assets": path.resolve(__dirname, "src/assets"),
@@ -112,8 +111,7 @@ export default ({ mode }) => {
         "@stores": path.resolve(__dirname, "src/stores"),
         "@utils": path.resolve(__dirname, "src/utils"),
         "@views": path.resolve(__dirname, "src/views"),
-        "@hooks": path.resolve(__dirname, "src/hooks"),
-        "@types": path.resolve(__dirname, "src/types")
+        "@hooks": path.resolve(__dirname, "src/hooks")
       }
     },
     server: {

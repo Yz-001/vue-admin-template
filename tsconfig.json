@@ -2,15 +2,13 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // 修改为 node 模式，通常比 bundler 更快
     "strict": false,
     "jsx": "preserve",
     "importHelpers": true,
     "experimentalDecorators": true,
-    "strictFunctionTypes": false,
-    "skipLibCheck": true,
+    "skipLibCheck": true, // 跳过 .d.ts 文件检查以加快编译速度
     "esModuleInterop": true,
-    "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
@@ -30,24 +28,20 @@
       ]
     },
     "types": [
-      "node",
-      "vite/client",
-      "element-plus/global",
-      "vite-svg-loader",
-    ]
+      "vite/client" // 只保留必要的类型声明，移除不必要的条目
+    ],
+    "incremental": true, // 启用增量编译
+    "tsBuildInfoFile": "./.tsbuildinfo" // 指定增量编译信息文件的位置
   },
   "include": [
-    "mock/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "types/*.d.ts",
-    "vite.config.ts",
-    "types/auto-import.d.ts"
+    "src/**/*.vue", // 根据需要包含或排除特定类型的文件
+    "vite.config.ts"
   ],
   "exclude": [
     "dist",
-    "**/*.js",
-    "node_modules"
+    "node_modules",
+    "**/*.js" // 确保排除所有 .js 文件，如果你不需要对它们进行类型检查的话
   ]
 }
