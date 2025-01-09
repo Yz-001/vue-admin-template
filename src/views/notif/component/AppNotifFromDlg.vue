@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{ row?: NotifRow }>(), {
 });
 
 const form = reactive<NotifRow>({
-  id: props.row?.id || null,
+  id: props.row?.id,
   title: props.row?.title || "",
   content: props.row?.content || "",
   timeRange: [props.row?.startTime, props.row?.endTime]

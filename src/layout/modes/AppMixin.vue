@@ -78,8 +78,8 @@ onMounted(() => {
 
     &__right {
       display: flex;
-      flex-direction: column;
       flex-grow: 1;
+      flex-direction: column;
       height: 100%;
 
       .layout-main {

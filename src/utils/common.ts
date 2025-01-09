@@ -75,7 +75,7 @@ export async function checkForUpdate(versionUrl: string, interval: number = 1000
         closeOnPressEscape: false, // 禁止按Esc键关闭
         closeOnClickModal: false, // 禁止点击遮罩层关闭
         showClose: false,
-        callback: (_: Action) => {
+        callback: (_action: Action) => {
           setStorage("appVersion", remoteVersion);
           window.location.reload();
         }
