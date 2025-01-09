@@ -30,7 +30,7 @@ import { getFixationRoutes } from "@/utils/layout";
 import useMenu from "@/hooks/use-menu";
 import { type TabsPaneContext } from "element-plus";
 import { messageWarning } from "@/utils/element-utils/notification-common";
-import { useRoute, useRouter } from "vue-router";
+import { RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
 import { computed, watch } from "vue";
 
 const emit = defineEmits(["on-click", "on-remove"]);
@@ -46,9 +46,12 @@ const tabMaps = computed<{ [key: string]: any }>(() => {
 const activeTabId = computed(() => {
   return settingStore.$state.activeTabId;
 });
-const routeTabChange = toRoute => {
+const routeTabChange = (toRoute: RouteLocationNormalizedLoaded) => {
   // 普通页面跳转 多开则待新增的tagid
-  if (settingStore.IS_ALLOW_REPEAT_TAB(toRoute) && !settingStore.IS_EXIST_TABID(settingStore.GET_TABID(toRoute))) {
+  if (
+    settingStore.IS_ALLOW_REPEAT_TAB(toRoute) &&
+    !settingStore.IS_EXIST_TABID(settingStore.GET_TABID(toRoute) || "")
+  ) {
     // 二次捕获最大页面限制
     if (settingStore.IS_OVER_MAXTAGCOUNT()) {
       messageWarning(`打开页面请勿超过${settingStore.maxTabCount}个！`);
@@ -61,7 +64,7 @@ const routeTabChange = toRoute => {
       router.push("/404");
       return;
     }
-    const newTab = settingStore.ADD_TAB(toRoute, toRoute.params?.tagId ? toRoute.params?.tagId : null);
+    const newTab = settingStore.ADD_TAB(toRoute, toRoute.params?.tagId ? Number(toRoute.params?.tagId) : null);
     settingStore.SET_ACTIVE_TABID(newTab.tagId);
   } else {
     // 不允许多开的跳转 回到已有TAG
@@ -85,7 +88,7 @@ const createFixationTabData = () => {
   if (fixations?.length) {
     fixations.forEach((item, index) => {
       // 排除掉当前页
-      if (item.path != route.path) {
+      if (item?.path != route.path) {
         settingStore.ADD_TAB(item, index);
       }
     });

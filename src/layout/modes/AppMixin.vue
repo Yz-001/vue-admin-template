@@ -38,7 +38,7 @@ const sidebarMenu = ref([]); //侧边栏菜单
 const headMenu = ref([]); //顶部栏菜单
 const setLayoutMenu = () => {
   const headList = deepCopy(menuList.value);
-  headMenu.value = headList.map(i => {
+  headMenu.value = headList.map((i: any) => {
     if (i.children) delete i.children;
     return i;
   });

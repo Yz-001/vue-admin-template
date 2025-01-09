@@ -16,7 +16,7 @@ export const postUserLoginApi = async (data: { password: string; username: strin
  * @returns
  * @description 获取用户信息
  */
-export const getUserInfoApi = async parmas => {
+export const getUserInfoApi = async (parmas: any) => {
   return await request.Get("/user/get_user_info", parmas);
 };
 

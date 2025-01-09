@@ -10,9 +10,9 @@ export default function useMenu() {
   const setMenuList = async (routes: RouteLocationNormalizedLoaded) => {
     let list = await filterHiddenRoutes(routes);
     // 单独处理Home
-    list = list.map(i => {
+    list = list.map((i: any) => {
       if (i.path == "") {
-        return i.children.find(c => c.name == "Home");
+        return i?.children?.find((c: RouteLocationNormalizedLoaded) => c.name == "Home");
       } else {
         return i;
       }

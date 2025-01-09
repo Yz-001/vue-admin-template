@@ -15,7 +15,7 @@ const form = reactive<NotifRow>({
   id: props.row?.id,
   title: props.row?.title || "",
   content: props.row?.content || "",
-  timeRange: [props.row?.startTime, props.row?.endTime]
+  timeRange: [String(props.row?.startTime), String(props.row?.endTime)]
 });
 
 // 监听 row 变化，同步更新 form

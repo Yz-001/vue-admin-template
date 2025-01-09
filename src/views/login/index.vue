@@ -74,13 +74,14 @@ const loginFormRef = ref<FormInstance>();
 const submitLoading = ref(false);
 const handleSubmitLogin = async () => {
   submitLoading.value = true;
-  await loginFormRef.value.validate((valid, fields) => {
+  await loginFormRef.value?.validate((valid, fields) => {
     if (valid) {
       const apiData = JSON.parse(JSON.stringify(from));
       apiData.password = encrypt(apiData.password);
       loginByUser(apiData)
-        .then(async ({ data }: { data: UserResult }) => {
-          if (data?.token) setToken(data.token, from.exemption ? 7 : null);
+        .then(async (res: any) => {
+          const data = res?.data;
+          if (data?.token) setToken(data.token, from.exemption ? 7 : undefined);
           await setUserInfo(data as UserResult);
           messageSuccess(t("login.LoginSuccess"));
           router.push({ name: "Home" });

@@ -3,7 +3,7 @@ import { type ExcelColumn, ExcelFormatEnum, ExportDateFormatEnum, ExportModeEnum
 import { useDateFormat } from "@vueuse/core";
 import { ElMessage } from "element-plus";
 
-export default function useExport(props) {
+export default function useExport(props: any) {
   // 格式化excel数据
   function getFormatExcelData(exportData: any[], excelColumns: ExcelColumn[]): any[] {
     return exportData.map(data => {
@@ -56,21 +56,21 @@ export default function useExport(props) {
       // 请求接口-获取全部列表数据导出
       props.remoteConfig
         .remoteApi(props.remoteConfig.defaultParams)
-        .then(res => {
+        .then((res: any) => {
           const exportData = getFormatExcelData(res?.data?.rows || [], props.excelColumns);
           const worksheet = XLSX.utils.json_to_sheet(exportData);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, name);
           XLSX.writeFile(workbook, `${name}.xlsx`);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           if (error?.message) ElMessage({ message: error.message, type: "error" });
         });
     } else if (props.exportModel == ExportModeEnum.BINARYSTREAM) {
       // 请求接口-二进制
       props.remoteConfig
         .remoteApi(props.remoteConfig.defaultParams)
-        .then(blobData => {
+        .then((blobData: any) => {
           const url = window.URL.createObjectURL(
             new Blob([blobData], {
               type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
@@ -78,7 +78,7 @@ export default function useExport(props) {
           );
           downloadFile(url, name);
         })
-        .catch(error => {
+        .catch((error: Error) => {
           if (error?.message) ElMessage({ message: error.message, type: "error" });
         });
     }
@@ -88,7 +88,7 @@ export default function useExport(props) {
     // 这里可以添加更复杂的样式逻辑
     // 目前只演示如何设置单元格样式
     if (props.excelStyle?.headerStyle) {
-      const range = XLSX.utils.decode_range(worksheet["!ref"]);
+      const range = XLSX.utils.decode_range(String(worksheet["!ref"]));
       for (let C = range.s.c; C <= range.e.c; ++C) {
         const address = XLSX.utils.encode_cell({ c: C, r: 0 });
         if (!worksheet[address]) continue;
@@ -123,7 +123,7 @@ export default function useExport(props) {
   function getListValues(row: any, column: ExcelColumn): string[] {
     const items = row[column.prop] || [];
     const valueKey = column.sunValue || "name";
-    return items.map(item => item[valueKey]);
+    return items.map((item: any) => item[valueKey]);
   }
 
   function formatDate(
@@ -158,7 +158,7 @@ export default function useExport(props) {
   function downloadFile(fileUrl: string, name: string = "下载文件") {
     const link = document.createElement("a");
     link.href = fileUrl;
-    link.download = fileUrl.split("/").pop();
+    link.download = fileUrl.split("/")?.pop() || "";
     link.target = "_blank";
     document.body.appendChild(link);
     link.download = name;

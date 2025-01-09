@@ -19,12 +19,12 @@ const handleInit = reactive({
   ...defineConfig.initOption,
   selector: "#" + tinymceId.value, //富文本编辑器的id,
   ...props.customConfig,
-  setup: function (editor) {
+  setup: function (editor: any) {
     editorRef.value = editor;
     editorManagerRef.value = editor.editorManager;
   },
   //图片上传
-  images_upload_handler: function (blobInfo, progress) {
+  images_upload_handler: function (blobInfo: any, progress: any) {
     new Promise((resolve, reject) => {
       let file = blobInfo.blob();
       if (file.size / 1024 / 1024 > 200) {
@@ -37,7 +37,7 @@ const handleInit = reactive({
       formData.append("file", file);
       console.log(formData);
       uploadServerFileApi(formData)
-        .then(res => {
+        .then((res: any) => {
           resolve(res.data.url);
         })
         .catch();
@@ -50,7 +50,7 @@ watch(
   () => props.readonly,
   newValue => {
     nextTick(() => {
-      tinymce.activeEditor.mode.set(newValue ? "readonly" : "design");
+      if (tinymce) tinymce.activeEditor.mode.set(newValue ? "readonly" : "design");
     });
   },
   { immediate: true }

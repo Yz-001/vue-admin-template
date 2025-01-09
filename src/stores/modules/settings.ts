@@ -69,7 +69,7 @@ export const useSettingsStore = defineStore("settings", {
       // 创建TABID
       return String(Date.now());
     },
-    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId = null) {
+    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId: number | null = null) {
       // 创建TAB
       const newTagId = customTagId != null ? customTagId : this.CREATE_NEW_TAGID();
       this.tabMaps[newTagId] = deepCopy(route);

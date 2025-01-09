@@ -17,8 +17,8 @@ const addOnDataZoom = () => {
 const addItemClick = () => {
   charts.value?.on("click", handleChartItemClick);
 };
-const handleDataZoomChange = (data: EcZoomDataRow) => {
-  const option = charts.value?.getOption();
+const handleDataZoomChange = (data: any) => {
+  const option = charts.value?.getOption() as any;
   const startValue = option?.dataZoom?.[0]?.startValue;
   const endValue = option?.dataZoom?.[0]?.endValue;
   const xAxisStartValue = option?.xAxis?.[0]?.data[startValue];
