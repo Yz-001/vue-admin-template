@@ -6,7 +6,6 @@ import pluginPrettier from "eslint-plugin-prettier";
 import { defineFlatConfig } from "eslint-define-config";
 import * as parserTypeScript from "@typescript-eslint/parser";
 import pluginTypeScript from "@typescript-eslint/eslint-plugin";
-import pluginImport from "eslint-plugin-import";
 
 export default defineFlatConfig([
   // 基础 JavaScript 文件配置
@@ -89,8 +88,7 @@ export default defineFlatConfig([
       }
     },
     plugins: {
-      "@typescript-eslint": pluginTypeScript, // 使用 @typescript-eslint 插件来处理 TypeScript 特定的 ESLint 规则。
-      import: pluginImport
+      "@typescript-eslint": pluginTypeScript // 使用 @typescript-eslint 插件来处理 TypeScript 特定的 ESLint 规则。
     },
     rules: {
       // 应用严格的 TypeScript 规则，确保代码遵循最佳实践。
