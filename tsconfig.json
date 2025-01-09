@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node", // 修改为 node 模式，通常比 bundler 更快
-    "strict": false,
+    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "experimentalDecorators": true,
