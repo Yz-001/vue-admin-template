@@ -4,8 +4,8 @@ export interface FormProps {
   componentList?: ComponentItem[];
   formRules?: Record<string, any[]>;
   labelWidth?: string;
-  operSpan?: {
-    [key in keyof typeof SpanEnum]: number;
+  operColLayout?: {
+    [key in keyof typeof ColLayoutEnum]?: number;
   };
   formLine?: boolean;
   collapseCount?: number; // 指定折叠时显示的组件数量，默认为1
@@ -24,9 +24,9 @@ export interface ComponentItem {
     //单项事件
     [key: string]: ((...args: any[]) => void) | Array<(...args: any[]) => void>;
   };
-  span?: {
+  colLayout?: {
     //单项响应式大小
-    [key in keyof typeof SpanEnum]: number;
+    [key in keyof typeof ColLayoutEnum]?: number;
   };
   slots?: {
     //单项插槽
@@ -34,10 +34,14 @@ export interface ComponentItem {
   };
 }
 
-export enum SpanEnum {
-  sm = "sm",
-  md = "md",
-  lg = "lg"
+// 布局枚举
+export enum ColLayoutEnum {
+  sm = "sm", // ≥768px 分辨率下大小
+  md = "md", // ≥992px 分辨率下大小
+  lg = "lg", // ≥1200px 分辨率下大小
+  offset = "offset", // 左侧间隔格数
+  push = "push", // 向右移动格数
+  pull = "pull" // 向左移动格数
 }
 
 // Form组件枚举

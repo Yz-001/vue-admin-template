@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<{ row?: NotifRow }>(), {
   row: () => ({}) as NotifRow
 });
 
-const form = reactive({
+const form = reactive<NotifRow>({
   id: props.row?.id || null,
   title: props.row?.title || "",
   content: props.row?.content || "",

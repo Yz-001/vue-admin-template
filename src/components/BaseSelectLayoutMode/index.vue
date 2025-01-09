@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import useLayout from "@/hooks/use-layout";
-import { type ThemeMode } from "@/src/stores/modules/settings";
 import { useAppStore } from "@/stores/modules/app";
 import { layoutModeEnum } from "@/apis/interface/common";
 
@@ -8,7 +7,7 @@ const { verticalMode, horizontalMode, mixinMode } = useLayout();
 const { setLayoutMode } = useAppStore();
 const emit = defineEmits(["on-change"]);
 
-const handleModeSwitch = (mode: ThemeMode) => {
+const handleModeSwitch = (mode: layoutModeEnum) => {
   setLayoutMode(mode);
   emit("on-change", mode);
 };

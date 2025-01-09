@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { shallowRef, onMounted, watch } from "vue";
-import { useEcharts, type EChartsCoreOption } from "@/hooks/use-echart";
+import useEcharts, { type EChartsCoreOption } from "@/hooks/use-echart";
 
 interface Props {
   options: EChartsCoreOption;

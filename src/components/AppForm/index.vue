@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineAsyncComponent, computed, onMounted, shallowRef, onBeforeUnmount, defineModel } from "vue";
+import { defineModel } from "vue";
 import { FormComponentEnum, type FormProps } from "./type";
 import useForm from "./use-form";
 
@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<FormProps>(), {
   formRules: () => ({}),
   labelWidth: "auto",
   formLine: false,
-  operSpan: () => ({ sm: 16, md: 8, lg: 6 }),
+  operColLayout: () => ({ sm: 16, md: 8, lg: 6 }),
   collapseCount: 3
 });
 const emit = defineEmits(["on-validate-success", "on-validate-error", "on-reset"]);
@@ -49,13 +49,7 @@ defineExpose({
   >
     <el-row :gutter="10">
       <!-- 动态显示组件 -->
-      <el-col
-        v-for="(item, index) in visibleComponentList"
-        :key="index"
-        :sm="item?.span?.sm"
-        :md="item?.span?.md"
-        :lg="item?.span?.lg"
-      >
+      <el-col v-for="(item, index) in visibleComponentList" :key="index" v-bind="item?.colLayout || {}">
         <el-form-item :prop="item.prop" :label="item.label" :rules="item.rules">
           <template v-if="item.componentName === FormComponentEnum.CustomTemplate">
             <slot :name="`${item.prop}`" />
@@ -76,7 +70,7 @@ defineExpose({
       </el-col>
 
       <!-- 操作栏 -->
-      <el-col :sm="operSpan?.sm" :md="operSpan?.md" :lg="operSpan?.lg" class="app-form__btns">
+      <el-col v-bind="operColLayout" class="app-form__btns">
         <el-form-item>
           <slot name="oper" />
           <el-button v-if="formLine && componentList.length > collapseCount" link @click="toggleCollapse">

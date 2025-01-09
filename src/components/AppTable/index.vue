@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref, computed, PropType, onMounted, watch } from "vue";
-import { ElMessage, ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableTypeEnum, DateFormatEnum, type TableProps } from "./type";
+import { onMounted, defineExpose } from "vue";
+import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
+import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
 import useTable from "./use-table";
+import AppExportExcel from "@/components/AppExportExcel/index.vue";
+import { type ExportExcelProps } from "@/components/AppExportExcel/type";
 
 const props = withDefaults(defineProps<TableProps>(), {
-  remoteConfig: () => {},
   defaultPageNumber: 1,
   defaultPageSize: 20,
   showPagination: true,
-  tableBorder: true
+  showExportExcel: true
 });
-const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data"]);
+const emit = defineEmits(["update:currentPage", "update:pageSize", "refresh", "update:data", "cell-click"]);
 
 const {
   tableData,
@@ -33,8 +34,6 @@ const {
   clearData,
   handleCellClick,
   maskText,
-  copyText,
-  downloadFile,
   getFileUrls,
   isImageUrl,
   handleFileClick,
@@ -48,7 +47,12 @@ onMounted(() => {
     fetchData();
   }
 });
-
+const safeTableConfig = computed<TableConfig>(() => {
+  return props?.tableConfig ?? ({} as TableConfig);
+});
+const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
+  ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
+}));
 defineExpose({
   refresh,
   clearData,
@@ -62,6 +66,7 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
+        <AppExportExcel v-if="showExportExcel" v-bind="safeExportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />
@@ -69,13 +74,22 @@ defineExpose({
         <slot name="rightOperAfter" />
       </div>
     </div>
-    <el-table class="app-table__content" :data="tableData" :border="tableBorder" @cell-click="handleCellClick">
+    <el-table
+      class="app-table__content"
+      :data="tableData"
+      v-bind="safeTableConfig"
+      @selectionChange="safeTableConfig?.selectionChange"
+      @cell-click="handleCellClick"
+    >
       <el-table-column
         v-for="column in tableColumns"
         :key="column.prop"
         :label="column.label"
         :prop="column.prop"
         :width="column.width"
+        :type="column?.colType || TableColTypeEnum.DEFAULT"
+        :selectable="column?.selectableFn"
+        :index="column?.indexFn"
       >
         <template #default="scope">
           <slot v-if="column.type === TableTypeEnum.TEMPLATE" :name="column.slotName || column.prop" :row="scope.row" />
@@ -130,7 +144,9 @@ defineExpose({
           <span v-else-if="column.masked">
             {{ maskText(scope.row[column.prop]) }}
           </span>
-          <span v-else>{{ scope.row[column.prop] }}</span>
+          <span v-else-if="!Object.hasOwn(column, 'colType') || column.colType == TableColTypeEnum.DEFAULT">
+            {{ scope.row[column.prop] }}
+          </span>
         </template>
       </el-table-column>
     </el-table>

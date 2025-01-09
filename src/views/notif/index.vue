@@ -11,8 +11,10 @@
       ref="appTableRef"
       class="notif-list__table"
       :columns="tableColumns"
+      :tableConfig="tableConfig"
       :remoteConfig="remoteConfig"
       :filterParams="filterParams"
+      :exportExcelConfig="exportExcelConfig"
       @update:data="handleUpdateData"
     >
       <template #leftOper>
@@ -36,12 +38,19 @@
 import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
 import type { NotifRow } from "@/apis/interface/notif";
-import { TableTypeEnum, DateFormatEnum } from "@/components/AppTable/type";
+import { TableTypeEnum } from "@/components/AppTable/type";
 import { FormComponentEnum } from "@/components/AppForm/type";
-
 const searchForm = reactive({
   title: "",
   dateRange: []
+});
+const selectList = ref([]);
+const handleSelectionChange = (newSelList: any) => {
+  selectList.value = newSelList;
+};
+const tableConfig = reactive({
+  border: true,
+  selectionChange: handleSelectionChange
 });
 const componentList = [
   {
@@ -49,7 +58,7 @@ const componentList = [
     label: "标题",
     prop: "title",
     labelWidth: 60,
-    span: {
+    colLayout: {
       sm: 12,
       md: 6,
       lg: 5
@@ -62,7 +71,7 @@ const componentList = [
     componentName: FormComponentEnum.ElDatePicker,
     label: "通知时间",
     prop: "dateRange",
-    span: {
+    colLayout: {
       sm: 12,
       md: 8,
       lg: 6
@@ -79,6 +88,15 @@ const componentList = [
 
 // 表格列配置
 const tableColumns = [
+  { label: "", prop: "index", colType: "selection" },
+  // {
+  //   label: "序号",
+  //   prop: "index",
+  //   colType: "index",
+  //   indexFn: (index: number) => {
+  //     return index + 1;
+  //   }
+  // },
   { label: "标题", prop: "title" },
   { label: "内容", prop: "content" },
   { label: "更新人", prop: "updatedInfo", sunValue: "name", type: TableTypeEnum.OBJECT },
@@ -121,8 +139,8 @@ const handleSearch = (data: { [key: string]: any }) => {
   });
 };
 const tableData = ref([]);
-const handleUpdateData = (tableData: any[]) => {
-  tableData.value = tableData || [];
+const handleUpdateData = (data: any[]) => {
+  tableData.value = JSON.parse(JSON.stringify(data || []));
 };
 const notifFromDlgProp = reactive({
   visible: false,
@@ -141,41 +159,18 @@ const handleDelete = (row: NotifRow) => {
   // 删除逻辑...
 };
 
-// 手动请求
-// :data="tableData"
-// <!-- :pagination="pagination" -->
-// const tableData = reactive([
-// {
-//   id: 1,
-//   title: "Alice",
-//   content: "本平台通知新用户",
-//   updatedInfo: { id: 1, name: "超级管理员" },
-//   createDate: new Date(),
-//   status: 1,
-//   showUsers: [{ name: "测试1" }, { name: "测试2" }],
-//   dateRangeStart: new Date(),
-//   dateRangeEnd: new Date()
-// }
-// ]);
-// 分页配置
-// const pagination = reactive({
-//   currentPage: 1,
-//   pageSize: 10,
-//   total: tableData.length,
-//   showPagination: true
-// });
-// const handleSearch = () => {
-//   try {
-//     const response = await getNotifListApi({
-//       title: searchForm.title,
-//       startDate: searchForm.dateRange?.[0],
-//       endDate: searchForm.dateRange?.[1]
-//     });
-//     tableData.value = response.data;
-//   } catch (error) {
-//     console.error("Failed to fetch tableData:", error);
-//   }
-// };
+const exportExcelConfig = computed(() => {
+  const config = {
+    filename: `通知列表${new Date().getTime()}`,
+    excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    remoteConfig: {
+      remoteApi: getNotifListApi,
+      defaultParams: filterParams.value
+    },
+    buttonLabel: "导出表格"
+  };
+  return config;
+});
 </script>
 
 <style lang="scss" scoped>
