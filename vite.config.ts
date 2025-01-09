@@ -5,7 +5,6 @@ import * as path from "node:path";
 import { visualizer } from "rollup-plugin-visualizer"; // 打包分析
 import viteCompression from "vite-plugin-compression"; // 压缩代码
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
-import AutoImport from "unplugin-auto-import/vite";
 import viteSvgLoader from "vite-svg-loader";
 import type { PluginInfo, XastElement } from "svgo/lib/types";
 
@@ -31,19 +30,8 @@ export default ({ mode }) => {
     },
     plugins: [
       vue(),
-      Unocss({
-        /* options */
-      }),
+      Unocss({}),
       viteCompression(),
-      AutoImport({
-        imports: ["vue", "vue-router"],
-        dts: "src/auto-import.d.ts",
-        eslintrc: {
-          enabled: false, // Default `false`
-          filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
-          globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
-        }
-      }),
       VueI18nPlugin({
         jitCompilation: false,
         include: [path.resolve(__dirname, "src/locales/**")]
@@ -62,7 +50,9 @@ export default ({ mode }) => {
             }
           ]
         }
-      })
+      }),
+      ...(mode === "analyzer" ? [visualizer({ open: true, brotliSize: true })] : []),
+      ...(mode !== "development" ? [viteCompression()] : []) // 只在非开发环境使用压缩
       // vueJsx({
       //   transformOn: true,
       //   mergeProps: true,
@@ -78,8 +68,8 @@ export default ({ mode }) => {
       terserOptions: {
         // 生产环境下移除console
         compress: {
-          drop_console: true,
-          drop_debugger: true
+          drop_console: mode !== "development", // 生产环境移除 console
+          drop_debugger: mode !== "development"
         }
         // output:{
         //   chunkFileNames:'static/js/[name]-[hash].js',
@@ -122,16 +112,6 @@ export default ({ mode }) => {
       }
     }
   };
-
-  if (mode == "analyzer") {
-    config.plugins.push(
-      visualizer({
-        open: true,
-        brotliSize: true,
-        filename: "./dist/analyzer.html"
-      })
-    );
-  }
 
   return defineConfig(config as unknown as UserConfig);
 };
