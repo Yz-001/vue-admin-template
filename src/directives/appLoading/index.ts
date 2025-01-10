@@ -1,8 +1,8 @@
 export const appLoading: any = {
-  mounted(el, binding, vnode) {
+  mounted(_el: any, binding: any, vnode: any) {
     addOrRemoveTagLoadClass(binding, vnode);
   },
-  updated(el, binding, vnode) {
+  updated(_el: any, binding: any, vnode: any) {
     addOrRemoveTagLoadClass(binding, vnode);
   }
 };

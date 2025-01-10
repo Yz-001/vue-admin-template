@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, watch, ref, nextTick, onMounted } from "vue"; //全屏
+import { reactive, watch, ref, nextTick, onMounted } from "vue"; //全屏
 import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import * as defineConfig from "./config";
@@ -50,7 +50,7 @@ watch(
   () => props.readonly,
   newValue => {
     nextTick(() => {
-      if (tinymce) tinymce.activeEditor.mode.set(newValue ? "readonly" : "design");
+      if (tinymce.activeEditor) tinymce.activeEditor.mode.set(newValue ? "readonly" : "design");
     });
   },
   { immediate: true }
@@ -62,51 +62,55 @@ onMounted(() => {
 });
 
 // 设置值
-const handleSetContent = content => {
-  tinymce.activeEditor.setContent(content);
+const handleSetContent = (content: string) => {
+  if (tinymce.activeEditor) tinymce.activeEditor.setContent(content);
 };
 
 // 获取值
 const handleGetContent = () => {
-  return tinymce.activeEditor.getContent();
+  if (tinymce.activeEditor) return tinymce.activeEditor.getContent();
+  return "";
 };
 
 // 添加dom节点
 const handleDomAdd = (parentElm: Element, tagName: string, attrs: any, html: string, create: boolean) => {
-  tinymce.activeEditor.dom.add(parentElm, tagName, attrs, html, create);
+  if (tinymce.activeEditor) tinymce.activeEditor.dom.add(parentElm, tagName, attrs, html, create);
   editorRef.value.focus();
 };
 
 // 在当前光标插入节点
 const handleDomInsert = (eleStr: string, config: { [key: string]: any }) => {
-  tinymce.activeEditor.insertContent(eleStr, config);
+  if (tinymce.activeEditor) tinymce.activeEditor.insertContent(eleStr, config);
   editorRef.value.focus();
 };
 
 // 删除初始p下br
 const handlePinitBrRemove = (rootElm: Element | any) => {
   if (rootElm?.childNodes?.length == 1 && rootElm?.childNodes[0]?.tagName == "BR") {
-    tinymce.activeEditor.dom.remove(rootElm?.childNodes[0]);
+    if (tinymce.activeEditor) tinymce.activeEditor.dom.remove(rootElm?.childNodes[0]);
   }
 };
 // 获取节点
 const handleDomGet = (targetDom: Element) => {
-  return tinymce.activeEditor.dom.get(targetDom);
+  if (tinymce.activeEditor) return tinymce.activeEditor.dom.get(targetDom);
+  return null;
 };
 
 // 获取body内容
 const handleBodyGet = () => {
-  return tinymce.activeEditor.dom.get(tinymce.activeEditor.getBody());
+  if (tinymce.activeEditor) return tinymce.activeEditor.dom.get(tinymce.activeEditor.getBody());
+  return null;
 };
 
 // 重置HTML
 const handleSetHTML = (elm: Element | string, html: string) => {
-  tinymce.activeEditor.dom.setHTML(elm, html);
+  if (tinymce.activeEditor) tinymce.activeEditor.dom.setHTML(elm, html);
 };
 
 // 选择节点
 const handleDomSelect = (selector: string, scope?: any) => {
-  return tinymce.activeEditor.dom.select(selector, scope);
+  if (tinymce.activeEditor) return tinymce.activeEditor.dom.select(selector, scope);
+  return null;
 };
 
 defineExpose({

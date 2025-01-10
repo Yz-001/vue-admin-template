@@ -43,7 +43,7 @@ const {
 } = useTable(props, emit);
 
 onMounted(() => {
-  if (props.remoteConfig.autoRequest) {
+  if (props?.remoteConfig?.autoRequest) {
     fetchData();
   }
 });

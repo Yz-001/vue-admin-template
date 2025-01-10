@@ -48,8 +48,8 @@ const handleMixinMenuChange = (changeRoute: RouteLocationNormalizedLoaded) => {
   sidebarMenu.value = parentRoute.children || [];
   appStore.setSidebarOpened(!!sidebarMenu.value.length);
   // 没有二级则直接跳转到一级路由
-  if (!sidebarMenu.value.length) {
-    router.push({ name: changeRoute?.name });
+  if (!sidebarMenu.value.length && changeRoute?.name) {
+    router.push({ name: changeRoute.name });
   }
 };
 

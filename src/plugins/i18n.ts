@@ -36,7 +36,7 @@ export const localesConfigs = {
 };
 
 /** 获取对象中所有嵌套对象的key键，并将它们用点号分割组成字符串 */
-function getObjectKeys(obj) {
+function getObjectKeys(obj: any) {
   const stack: Array<{ obj: any; key: string }> = [];
   const keys: Set<string> = new Set();
 

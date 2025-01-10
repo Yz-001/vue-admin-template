@@ -21,7 +21,7 @@ const form = reactive<NotifRow>({
 // 监听 row 变化，同步更新 form
 watch(
   () => props.row,
-  newVal => {
+  (newVal: NotifRow) => {
     if (newVal) {
       form.id = newVal.id;
       form.title = newVal.title || "";

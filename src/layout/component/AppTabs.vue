@@ -81,19 +81,19 @@ watch(
     deep: true
   }
 );
-const { menuList } = useMenu();
-const createFixationTabData = () => {
-  // 创建固定tab --初始时调用
-  const fixations = menuList.value ? getFixationRoutes(menuList.value) : [];
-  if (fixations?.length) {
-    fixations.forEach((item, index) => {
-      // 排除掉当前页
-      if (item?.path != route.path) {
-        settingStore.ADD_TAB(item, index);
-      }
-    });
-  }
-};
+// const { menuList } = useMenu();
+// const createFixationTabData = () => {
+//   // 创建固定tab --初始时调用
+//   const fixations = menuList.value ? getFixationRoutes(menuList.value) : [];
+//   if (fixations?.length) {
+//     fixations.forEach((item, index) => {
+//       // 排除掉当前页
+//       if (item?.path != route.path) {
+//         settingStore.ADD_TAB(item, index);
+//       }
+//     });
+//   }
+// };
 const handleTabClick = (pane: TabsPaneContext) => {
   // 修改注意需要兼容handleTabsRemove的调用
   const curRoute = settingStore.GET_TAB_INFO(String(pane.paneName));

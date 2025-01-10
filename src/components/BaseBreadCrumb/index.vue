@@ -6,7 +6,7 @@ defineOptions({
 });
 
 const route = useRoute();
-const breadCrumbList = computed<BreadCrumb[]>(() => {
+const breadCrumbList = computed(() => {
   let routeBreadCrumb = [];
   // 隐藏面包屑
   if (route.meta?.breadcrumbHide) return;
@@ -22,7 +22,7 @@ const breadCrumbList = computed<BreadCrumb[]>(() => {
   if (route.path != "/home" && routeBreadCrumb?.length && routeBreadCrumb[0]?.path != "/home") {
     routeBreadCrumb.unshift({ path: "/home", meta: { title: "menus.Home" }, noTo: false });
   }
-  return routeBreadCrumb;
+  return routeBreadCrumb as BreadCrumb[];
 });
 interface BreadCrumb {
   path: string;
