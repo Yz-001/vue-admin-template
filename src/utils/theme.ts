@@ -1,5 +1,5 @@
 // 切换主题明暗模式 body设置class样式
-export function handleThemeMode(theme) {
+export function handleThemeMode(theme: string) {
   if (theme == "dark") {
     document.documentElement.classList.add("dark");
   } else {
@@ -8,7 +8,7 @@ export function handleThemeMode(theme) {
 }
 
 // 处理主题样式
-export function handleThemeStyle(theme) {
+export function handleThemeStyle(theme: string | null) {
   document.documentElement.style.setProperty("--el-color-primary", theme);
   for (let i = 1; i <= 9; i++) {
     document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(theme, i / 10)}`);
@@ -19,7 +19,7 @@ export function handleThemeStyle(theme) {
 }
 
 // hex颜色转rgb颜色
-export function hexToRgb(str) {
+export function hexToRgb(str: string) {
   str = str.replace("#", "");
   let hexs = str.match(/../g);
   for (let i = 0; i < 3; i++) {
@@ -29,7 +29,7 @@ export function hexToRgb(str) {
 }
 
 // rgb颜色转Hex颜色
-export function rgbToHex(r, g, b) {
+export function rgbToHex(r: string, g: string, b: string) {
   let hexs = [r.toString(16), g.toString(16), b.toString(16)];
   for (let i = 0; i < 3; i++) {
     if (hexs[i].length == 1) {
@@ -40,7 +40,7 @@ export function rgbToHex(r, g, b) {
 }
 
 // 变浅颜色值
-export function getLightColor(color, level) {
+export function getLightColor(color: string | null, level: number) {
   let rgb = hexToRgb(color);
   for (let i = 0; i < 3; i++) {
     rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i]);
@@ -49,7 +49,7 @@ export function getLightColor(color, level) {
 }
 
 // 变深颜色值
-export function getDarkColor(color, level) {
+export function getDarkColor(color: string | null, level: number) {
   let rgb = hexToRgb(color);
   for (let i = 0; i < 3; i++) {
     rgb[i] = Math.floor(rgb[i] * (1 - level));
