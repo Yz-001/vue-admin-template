@@ -12,6 +12,8 @@ import { useAppStore } from "@/stores/modules/app";
 import { useWindowSize } from "@vueuse/core";
 import useLayout from "@/hooks/use-layout";
 import useMenu from "@/hooks/use-menu";
+import { onMounted, watch } from "vue";
+import { type RouteLocationNormalizedLoaded, RouteRecordRaw, useRouter } from "vue-router";
 
 // 窗口模式相关
 const { width, height } = useWindowSize();
@@ -42,6 +44,6 @@ watch(
 const router = useRouter();
 const { setMenuList } = useMenu();
 onMounted(() => {
-  setMenuList(router.options.routes);
+  setMenuList(router.options.routes as RouteRecordRaw[]);
 });
 </script>

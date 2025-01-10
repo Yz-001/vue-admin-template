@@ -7,12 +7,12 @@ export const useSettingsStore = defineStore("settings", {
     return {
       theme: "#4248F4",
       themeMode: "light" as ThemeMode,
-      locale: "zh" as Locale,
-      enableTabs: true,
+      locale: Locale.ZH as Locale,
+      enableTabs: true as Boolean,
       tabMaps: {} as { [key: string]: RouteRecordRaw }, // tabs集合
-      tabRouteNames: [], //tab中name集合
+      tabRouteNames: [] as string[], //tab中name集合
       maxTabCount: 15, // 最大标签数
-      activeTabId: ""
+      activeTabId: undefined as string | undefined
     };
   },
   actions: {
@@ -28,10 +28,10 @@ export const useSettingsStore = defineStore("settings", {
     SET_ENABLETABS(bol: Boolean) {
       this.enableTabs = bol;
     },
-    SET_ACTIVE_TABID(tagId) {
+    SET_ACTIVE_TABID(tagId: string) {
       this.activeTabId = tagId;
     },
-    SET_MAXTABCOUNT(count) {
+    SET_MAXTABCOUNT(count: number) {
       this.maxTabCount = count;
     },
     IS_OVER_MAXTAGCOUNT() {
@@ -42,7 +42,7 @@ export const useSettingsStore = defineStore("settings", {
       // 判断此标签是否允许被重复打开；返回：true 允许多开，false 不允许多开；
       const hasAllowRepeatTabAttr = Object.hasOwn(route.meta, "allowRepeatTab");
       if (!hasAllowRepeatTabAttr || (hasAllowRepeatTabAttr && !route.meta.allowRepeatTab)) {
-        if (this.tabRouteNames.includes(route.name)) {
+        if (this.tabRouteNames.includes(String(route.name))) {
           return false;
         }
       }
@@ -69,19 +69,19 @@ export const useSettingsStore = defineStore("settings", {
       // 创建TABID
       return String(Date.now());
     },
-    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId = null) {
+    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId: string | null = null) {
       // 创建TAB
       const newTagId = customTagId != null ? customTagId : this.CREATE_NEW_TAGID();
       this.tabMaps[newTagId] = deepCopy(route);
-      if (!this.tabRouteNames.includes(route.name)) this.tabRouteNames.push(route.name);
-      return { tagId: newTagId, value: this.GET_TAB_INFO(newTagId) };
+      if (!this.tabRouteNames.includes(String(route.name))) this.tabRouteNames.push(String(route.name));
+      return { tagId: newTagId, value: this.GET_TAB_INFO(String(newTagId)) };
     },
     GET_TAB_INFO(tagId: string) {
       return deepCopy(this.tabMaps[tagId]);
     },
     REMOVE_TAB(tagId: string) {
       if (!tagId) return;
-      const oldMaps = {};
+      const oldMaps = {} as { [key: string]: any };
       if (Object.keys(this.tabMaps).length) {
         Object.keys(this.tabMaps).forEach(key => {
           if (key != tagId) {
@@ -93,10 +93,10 @@ export const useSettingsStore = defineStore("settings", {
       this.tabRouteNames = this.tabRouteNames.filter(i => i != tagId);
     },
     CLEAR_NOFIXATION_TABS() {
-      const fixationTabMaps = {};
-      const fixationNames = [];
+      const fixationTabMaps = {} as { [key: string]: any };
+      const fixationNames = [] as string[];
       if (Object.keys(this.tabMaps).length) {
-        Object.keys(this.tabMaps).forEach(key => {
+        Object.keys(this.tabMaps).forEach((key: string) => {
           const item = deepCopy(this.tabMaps[key]);
           if (Object.hasOwn(item?.meta, "tabFixation") && item?.meta?.tabFixation) {
             fixationTabMaps[key] = item;
@@ -125,7 +125,11 @@ export const useSettingsStore = defineStore("settings", {
 });
 
 export type ThemeMode = "light" | "dark";
-export type Locale = "zh" | "en" | "zh-TW";
+export enum Locale {
+  ZH = "zh",
+  EN = "en",
+  ZHTW = "zh-TW"
+}
 
 // interface MenuTab{
 //   path:string;

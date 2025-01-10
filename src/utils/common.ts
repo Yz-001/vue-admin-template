@@ -32,7 +32,7 @@ export const isFullscreen = (): boolean => {
  * @param {*} date
  * @returns
  */
-export function formatDate(date, format = "YYYY-MM-DD"): string {
+export function formatDate(date: any, format = "YYYY-MM-DD"): string {
   const year = date.getFullYear();
   const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth();
   const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
@@ -75,7 +75,7 @@ export async function checkForUpdate(versionUrl: string, interval: number = 1000
         closeOnPressEscape: false, // 禁止按Esc键关闭
         closeOnClickModal: false, // 禁止点击遮罩层关闭
         showClose: false,
-        callback: (_: Action) => {
+        callback: (_action: Action) => {
           setStorage("appVersion", remoteVersion);
           window.location.reload();
         }
@@ -110,16 +110,6 @@ export function deepCopy(obj: { [key: string]: any }, hash = new WeakMap()) {
 
   return copy;
 }
-
-/**
- * 匹配[]括号的值 并去重
- * @param {*} str 一段字符
- * @returns 匹配后的[]内字符数组
- */
-export const getTxtSquareList = (str: string) => {
-  const regex = /(?<=\[).+?(?=\])/g; // [] 中括号
-  return Array.from(new Set(str.match(regex)));
-};
 
 /**
  * 获取html的文字内容
@@ -170,7 +160,7 @@ export function haveContainsOper(str: string) {
  * @param {*} url, name
  * @returns
  */
-export function openFile(url, name) {
+export function openFile(url: string, name: string) {
   const a = document.createElement("a");
   a.href = url;
   // .replace(window.origin)
@@ -189,7 +179,7 @@ export function openFile(url, name) {
  * @param {*} data, name
  * @returns
  */
-export function exportExcel(data, name) {
+export function exportExcel(data: any, name: string) {
   const url = window.URL.createObjectURL(
     new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" })
   );
@@ -200,7 +190,7 @@ export function exportExcel(data, name) {
 export function downloadFile(fileUrl: string) {
   const link = document.createElement("a");
   link.href = fileUrl;
-  link.download = fileUrl.split("/").pop();
+  link.download = fileUrl.split("/").pop() || "";
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();
@@ -215,7 +205,7 @@ export function downloadFile(fileUrl: string) {
  * @param {*} keyToDelete 会被删除的字段
  * @returns
  */
-export function updateUrlWithoutQueryKey(keyToDelete) {
+export function updateUrlWithoutQueryKey(keyToDelete: string) {
   // 获取并解析 hash 中的查询字符串
   const [path, queryString] = window.location.hash.slice(1).split("?");
   const searchParams = new URLSearchParams(queryString || "");
@@ -267,7 +257,7 @@ export function maskText(text: string): string {
  * @event copyText
  * @description 复制
  */
-export function copyText(value, desensitize = false) {
+export function copyText(value: string, desensitize = false) {
   let text = "";
   if (desensitize) {
     text = maskText(value);

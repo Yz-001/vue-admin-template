@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<FilterFormProps>(), {
 });
 const emit = defineEmits(["on-search", "on-refresh", "on-reset", "on-search-valid-error"]);
 const formModel = defineModel("formModel") as Record<string, any>;
-const appFormRef = ref(null);
+const appFormRef = ref<any>(null);
 const handleSearch = async () => {
   try {
     await appFormRef.value.getValidate();

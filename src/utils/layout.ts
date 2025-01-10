@@ -1,9 +1,14 @@
 // 路由相关
+
+import type { RouteRecordName, RouteRecordRaw } from "vue-router";
+
 // 去除设置隐藏的路由
-export function filterHiddenRoutes(routes) {
-  return routes.filter(route => {
-    if (!route?.meta?.hidden) {
-      if (route.children && route.children.length > 0) {
+export function filterHiddenRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
+  return (routes || []).filter(route => {
+    // 如果当前路由没有被标记为 hidden，则继续处理
+    if (!route.meta?.hidden) {
+      // 如果有子路由，则递归过滤子路由
+      if (Array.isArray(route.children)) {
         route.children = filterHiddenRoutes(route.children);
       }
       return true;
@@ -12,7 +17,7 @@ export function filterHiddenRoutes(routes) {
   });
 }
 // 获取固定的路由
-export function getFixationRoutes(routes, fixedRoutes = []) {
+export function getFixationRoutes(routes: any[], fixedRoutes: any[] = []) {
   routes.forEach(route => {
     // 如果当前路由有 meta.tabFixation 并且它为 true，则添加到固定路由中
     if (route?.meta?.tabFixation) {
@@ -31,7 +36,7 @@ export function getFixationRoutes(routes, fixedRoutes = []) {
 }
 
 // 查找指定 name 的节点，并返回它的直接父级节点
-export function getNodeOrParentChildren(root, targetName) {
+export function getNodeOrParentChildren(root: { children: any }, targetName: RouteRecordName | null | undefined) {
   if (root.children) {
     for (let child of root.children) {
       // 如果找到了目标节点，并且它是第一级，则返回该节点本身

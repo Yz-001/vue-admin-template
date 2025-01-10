@@ -4,6 +4,7 @@ import type { NotifRow } from "@/apis/interface/notif";
 import { postNotifCreateApi, postNotifUpdateApi } from "@/apis/modules/notif";
 import { messageSuccess, messageError } from "@/utils/element-utils/notification-common";
 import { $t } from "@/plugins/i18n";
+import { reactive, watch } from "vue";
 
 const visible = defineModel<boolean>("visible");
 const props = withDefaults(defineProps<{ row?: NotifRow }>(), {
@@ -11,16 +12,16 @@ const props = withDefaults(defineProps<{ row?: NotifRow }>(), {
 });
 
 const form = reactive<NotifRow>({
-  id: props.row?.id || null,
+  id: props.row?.id,
   title: props.row?.title || "",
   content: props.row?.content || "",
-  timeRange: [props.row?.startTime, props.row?.endTime]
+  timeRange: [String(props.row?.startTime), String(props.row?.endTime)]
 });
 
 // 监听 row 变化，同步更新 form
 watch(
   () => props.row,
-  newVal => {
+  (newVal: NotifRow) => {
     if (newVal) {
       form.id = newVal.id;
       form.title = newVal.title || "";

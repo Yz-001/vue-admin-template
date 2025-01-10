@@ -1,9 +1,15 @@
 export const ElSelectLoadMore = {
-  mounted(el, binding, vnode) {
+  mounted(
+    el: { _selectDom: any; _selectLoadMore: () => void },
+    binding: { value: () => any },
+    vnode: {
+      children: { component: { refs: { popperRef: { contentRef: { querySelector: (arg0: string) => any } } } } }[];
+    }
+  ) {
     const selectDom = vnode.children[0].component.refs.popperRef.contentRef.querySelector(
       ".el-select-dropdown .el-select-dropdown__wrap"
     );
-    function loadMores() {
+    function loadMores(this: any) {
       // 判断是否到底
       const isBottom = this.scrollHeight - this.scrollTop <= this.clientHeight;
       if (isBottom) {
@@ -18,9 +24,9 @@ export const ElSelectLoadMore = {
     selectDom?.addEventListener("scroll", loadMores.bind(selectDom));
   },
   // 实例销毁
-  beforeUnmount(el) {
+  beforeUnmount(el: { _selectLoadMore: any; _selectDom?: { removeEventListener: (arg0: string, arg1: any) => void } }) {
     if (el._selectLoadMore) {
-      el._selectDom.removeEventListener("scroll", el._selectLoadMore);
+      if (el._selectDom) el._selectDom.removeEventListener("scroll", el._selectLoadMore);
       delete el._selectDom;
       delete el._selectLoadMore;
     }

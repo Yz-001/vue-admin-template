@@ -3,7 +3,7 @@ export const TOKEN_KEY = "v-token";
 // export const EXPIRES = new Date().getTime() + 604800000; // 7天
 const defaultStorageMode: string = "sessionStorage"; // 常规存哪个缓存上
 
-export const setToken = (token: string, expires: number = null) => {
+export const setToken = (token: string, expires: number | null = null) => {
   setStorage(TOKEN_KEY, token, "Cookies", expires);
 };
 
@@ -15,7 +15,12 @@ export const removeToken = () => {
   removeStorage(TOKEN_KEY, "Cookies");
 };
 
-export const setStorage = (key, val, mode = defaultStorageMode, cookieExpires = null) => {
+export const setStorage = (
+  key: string,
+  val: string,
+  mode = defaultStorageMode,
+  cookieExpires: number | null = null
+) => {
   switch (mode) {
     case "localStorage":
       return localStorage.setItem(key, val);
@@ -26,7 +31,7 @@ export const setStorage = (key, val, mode = defaultStorageMode, cookieExpires = 
   }
 };
 
-export const getStorage = (key, mode = defaultStorageMode) => {
+export const getStorage = (key: string, mode = defaultStorageMode) => {
   switch (mode) {
     case "localStorage":
       return localStorage.getItem(key);
@@ -37,7 +42,7 @@ export const getStorage = (key, mode = defaultStorageMode) => {
   }
 };
 
-export const removeStorage = (key, mode = defaultStorageMode) => {
+export const removeStorage = (key: string, mode = defaultStorageMode) => {
   switch (mode) {
     case "localStorage":
       localStorage.removeItem(key);

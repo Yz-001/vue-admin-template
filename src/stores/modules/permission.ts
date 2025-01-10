@@ -3,9 +3,9 @@ import { defineStore } from "pinia";
 export const usePermissionStore = defineStore("permission", {
   state: () => {
     return {
-      modules: [],
-      permissions: [],
-      menuList: []
+      modules: [] as any[],
+      permissions: [] as any[],
+      menuList: [] as any[]
     };
   },
   actions: {

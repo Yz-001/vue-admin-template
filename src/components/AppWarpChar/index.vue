@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 const props = withDefaults(defineProps<{ boxStyles: any; width: number; height: number }>(), {
   boxStyles: {

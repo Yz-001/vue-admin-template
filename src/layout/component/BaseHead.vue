@@ -36,6 +36,7 @@ import AppLayoutConfig from "@/layout/component/AppLayoutConfig.vue";
 import { useUserStore } from "@/stores/modules/user";
 import { useFullscreen } from "@vueuse/core";
 import useLayout from "@/hooks/use-layout";
+import { ref } from "vue";
 
 defineOptions({ name: "BaseHead" });
 const emit = defineEmits(["on-mobile-sidebar-click"]);
@@ -43,7 +44,7 @@ const userStore = useUserStore();
 const mobileSidebarClick = () => {
   emit("on-mobile-sidebar-click");
 };
-const { layoutDevice, mobileDevice, desktopDevice, layoutMode, horizontalMode, mixinMode, sidebarOpened } = useLayout();
+const { mobileDevice, desktopDevice, horizontalMode, mixinMode, sidebarOpened } = useLayout();
 // 顶部右侧配置相关
 const { toggle } = useFullscreen();
 const configOpenVisible = ref(false);

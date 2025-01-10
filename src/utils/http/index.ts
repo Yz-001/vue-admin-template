@@ -39,7 +39,7 @@ export default abstract class HttpClient {
         const httpCancel = useHttpCancel();
         httpCancel.requestClearRepeatQueue(config);
 
-        config.headers!.Authorization = getToken() || "";
+        config.headers.Authorization = getToken() || "";
 
         config.transformRequest = [
           function (data) {
@@ -96,7 +96,7 @@ export default abstract class HttpClient {
     if (!res.data.requestAccess) {
       // 获取错误信息
       if (!this.httpOption.noErrMsgCodes?.includes(res.data?.code)) {
-        const msg = errorCode[res.data?.code] || res.data?.msg || errorCode["default"];
+        const msg = errorCode[res?.data?.code] || res.data?.msg || errorCode["default"];
         if (msg) {
           error(msg);
         }

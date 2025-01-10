@@ -11,7 +11,7 @@ export const useUserStore = defineStore("user", {
     return {
       avatar: "",
       username: "",
-      roles: [] as Array<{ id: string }>,
+      roles: [] as Array<string>,
       tenantId: "",
       userInfoSet: { userId: "" }
     };
@@ -27,7 +27,7 @@ export const useUserStore = defineStore("user", {
       this.roles = roles;
     },
     /** 登入 */
-    async loginByUser(data) {
+    async loginByUser(data: any) {
       return new Promise((resolve, reject) => {
         postUserLoginApi(data)
           .then(data => {
@@ -42,7 +42,7 @@ export const useUserStore = defineStore("user", {
     getUserInfo() {
       getUserInfoApi({ token: getToken() })
         .then(data => {
-          this.setUserInfo(data);
+          this.setUserInfo(data as unknown as UserResult);
         })
         .catch(error => {
           if (error?.message) messageError(error.message);

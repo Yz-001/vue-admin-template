@@ -9,7 +9,7 @@ export const COMMON_UPLOAD_FILE = "/file-storage/upload";
  * @returns
  * @description 上传到服务器的文件
  */
-export const uploadServerFileApi = async data => {
+export const uploadServerFileApi = async (data: any) => {
   return await request.Post(COMMON_UPLOAD_FILE, data);
 };
 
@@ -19,7 +19,7 @@ export const uploadServerFileApi = async data => {
  * @returns
  * @description 删除上传到服务器的文件
  */
-export const delUploadServerFileApi = async data => {
+export const delUploadServerFileApi = async (data: any) => {
   return await request.Delete("/serverfile/delete", data);
 };
 
@@ -39,7 +39,7 @@ export const DeleteDirectoryApi = async (id: string) => {
  * @returns
  * @description 创建目录
  */
-export const PostDirectoryCreateApi = async data => {
+export const PostDirectoryCreateApi = async (data: any) => {
   return await request.Post("/directory/createDirectory", data);
 };
 
@@ -49,7 +49,7 @@ export const PostDirectoryCreateApi = async data => {
  * @returns
  * @description 更新目录排序
  */
-export const PostDirectoryOrderApi = async data => {
+export const PostDirectoryOrderApi = async (data: any) => {
   return await request.Post("/directory/updateDirectorySequence", data);
 };
 
@@ -59,7 +59,7 @@ export const PostDirectoryOrderApi = async data => {
  * @returns
  * @description 更新目录名称
  */
-export const PutDirectoryUpdateApi = async data => {
+export const PutDirectoryUpdateApi = async (data: any) => {
   return await request.Put("/directory/updateDirectory", data);
 };
 
@@ -70,7 +70,7 @@ export const PutDirectoryUpdateApi = async data => {
  * @returns
  * @description 查询目录列表
  */
-export const PostDirectoryListQueryApi = async data => {
+export const PostDirectoryListQueryApi = async (data: any) => {
   return await request.Post("/directory/queryDirectoryList", data);
 };
 

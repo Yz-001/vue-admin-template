@@ -50,7 +50,7 @@ export const useHttpCancel = defineStore("httpCancel", {
     clearAllHttpPromiseCancel() {
       const backHttpPromiseCancels = deepCopy(this.httpPromiseCancels);
       if (backHttpPromiseCancels.size) {
-        backHttpPromiseCancels.forEach((cancel, key) => {
+        backHttpPromiseCancels.forEach((cancel: () => void, key: any) => {
           cancel();
           this.httpPromiseCancels.delete(key);
         });

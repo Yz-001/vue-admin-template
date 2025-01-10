@@ -26,7 +26,7 @@ const USER_FROM_MAP = {
 
 const emit = defineEmits(["update:from", "default:load"]);
 const handleUseDefalutUser = () => {
-  emit("update:from", USER_FROM_MAP[prop.type]);
+  // emit("update:from", USER_FROM_MAP[prop?.type]);
 };
 </script>
 

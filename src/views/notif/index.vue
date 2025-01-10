@@ -37,9 +37,10 @@
 <script setup lang="ts">
 import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
-import type { NotifRow } from "@/apis/interface/notif";
 import { TableTypeEnum } from "@/components/AppTable/type";
+import { reactive, ref, nextTick, computed } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
+import { NotifRow } from "@/apis/interface/notif";
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -142,7 +143,7 @@ const tableData = ref([]);
 const handleUpdateData = (data: any[]) => {
   tableData.value = JSON.parse(JSON.stringify(data || []));
 };
-const notifFromDlgProp = reactive({
+const notifFromDlgProp = reactive<{ visible: boolean; row: any }>({
   visible: false,
   row: undefined
 });

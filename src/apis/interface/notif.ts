@@ -5,7 +5,7 @@ export interface NotifSearch {
 }
 
 export interface NotifRow {
-  id: number;
+  id?: number | undefined;
   title: string;
   content: string;
   startTime?: string;

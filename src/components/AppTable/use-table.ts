@@ -1,9 +1,15 @@
-import { DateFormatEnum, TagTypeEnum, type TableColumn } from "./type";
+import { DateFormatEnum, type TableProps, TagTypeEnum, type TableColumn } from "./type";
 import { useDateFormat } from "@vueuse/core";
 import { ElMessage } from "element-plus";
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 
-export default function useTable(props, emit) {
+export default function useTable(
+  props: TableProps,
+  emit: (
+    event: "update:pageSize" | "update:currentPage" | "refresh" | "update:data" | "cell-click",
+    ...args: any[]
+  ) => void
+) {
   const tableData = ref(props.data);
   const tableColumns = computed(() => props.columns);
   const tableTotal = ref(0);
@@ -29,14 +35,15 @@ export default function useTable(props, emit) {
     return row[column.prop] || "";
   }
 
-  function handlePreviewImage(_: any, __: TableColumn) {
+  function handlePreviewImage(_row: any, _column: TableColumn) {
     // 图片预览逻辑可以在这里实现
+    console.log("handlePreviewImage: ", _row, _column);
   }
 
   function getListValues(row: any, column: TableColumn): string[] {
     const items = row[column.prop] || [];
     const valueKey = column.sunValue || "name";
-    return items.map(item => item[valueKey]);
+    return items.map((item: any) => item[valueKey]);
   }
 
   function formatDate(date: string | Date, formatStr: DateFormatEnum = DateFormatEnum.YYYY_MM_DD_HH_MM_SS): string {
@@ -70,7 +77,7 @@ export default function useTable(props, emit) {
   }
 
   async function fetchData() {
-    if (props.remoteConfig.autoRequest && props.remoteConfig.remoteApi) {
+    if (props?.remoteConfig?.autoRequest && props.remoteConfig.remoteApi) {
       try {
         const params = {
           ...(props.filterParams || {}),
@@ -82,7 +89,7 @@ export default function useTable(props, emit) {
         tableData.value = result.data?.rows || [];
         tableTotal.value = result.data?.total;
         emit("update:data", JSON.parse(JSON.stringify(result.data?.rows || []))); // 更新外部组件的数据
-      } catch (error) {
+      } catch (error: any) {
         if (error?.message) ElMessage({ message: error.message, type: "error" });
       }
     }
@@ -108,7 +115,7 @@ export default function useTable(props, emit) {
     return text.slice(0, 2) + "*".repeat(text.length - 5) + text.slice(-3);
   }
 
-  function copyText(value, desensitize = false) {
+  function copyText(value: string, desensitize = false) {
     let text = "";
     if (desensitize) {
       text = maskText(value);
@@ -141,7 +148,7 @@ export default function useTable(props, emit) {
   function downloadFile(fileUrl: string) {
     const link = document.createElement("a");
     link.href = fileUrl;
-    link.download = fileUrl.split("/").pop();
+    link.download = fileUrl.split("/").pop() || "";
     link.target = "_blank";
     document.body.appendChild(link);
     link.click();
@@ -159,11 +166,12 @@ export default function useTable(props, emit) {
   function isImageUrl(url: string): boolean {
     const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
     const extensionMatch = url.match(/\.([^.]+)$/i);
-    return extensionMatch && imageExtensions.includes(extensionMatch[1].toLowerCase());
+    return !!(extensionMatch && imageExtensions.includes(extensionMatch[1].toLowerCase()));
   }
 
-  function handleFileClick(fileUrl: string, _: TableColumn) {
+  function handleFileClick(fileUrl: string, _column: TableColumn) {
     downloadFile(fileUrl);
+    console.log("handleFileClick: ", _column);
   }
 
   function formatNumber(value: number, decimalPlaces: number = 2): string {
@@ -177,9 +185,9 @@ export default function useTable(props, emit) {
   }
 
   function getTagColor(column: TableColumn, row: any): string {
-    if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return column.tagSuccess.color || undefined;
-    if (column.tagError && row[column.prop] === column.tagError.value) return column.tagError.color || undefined;
-    return undefined;
+    if (column.tagSuccess && row[column.prop] === column.tagSuccess.value) return column.tagSuccess.color || "";
+    if (column.tagError && row[column.prop] === column.tagError.value) return column.tagError.color || "";
+    return "";
   }
   return {
     tableData,

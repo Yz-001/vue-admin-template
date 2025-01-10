@@ -3,7 +3,7 @@ import { ElComponents } from "@/plugins/elementPlus";
 import type { ElForm } from "element-plus";
 import type { FormComponentEnum } from "./type";
 
-export default function useForm(props, emit) {
+export default function useForm(props: any, emit: any) {
   const formRef = ref<InstanceType<typeof ElForm> | null>(null);
 
   // 组件映射，将字符串名称映射到实际的组件
@@ -11,7 +11,9 @@ export default function useForm(props, emit) {
   const initComponentMapping = () => {
     const initMap: Record<string, any> = {};
     ElComponents.forEach(component => {
-      initMap[component.name] = component;
+      if (component?.name) {
+        initMap[component.name] = component;
+      }
     });
     componentMapping.value = initMap;
   };
@@ -27,7 +29,7 @@ export default function useForm(props, emit) {
 
   // 根据折叠状态计算出需要显示的组件列表
   const visibleComponentList = computed(() => {
-    if (props?.formLine && isCollapsed.value && props.componentList.length > props.collapseCount) {
+    if (props?.formLine && isCollapsed.value && props?.componentList.length > props?.collapseCount) {
       return props.componentList.slice(0, props.collapseCount); // 如果折叠，则只显示指定数量的组件
     }
     return props.componentList; // 否则显示所有组件

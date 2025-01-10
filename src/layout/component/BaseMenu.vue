@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { ref } from "vue";
 import { type RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
 import { useSettingsStore } from "@/stores/modules/settings";
 import { messageWarning } from "@/utils/element-utils/notification-common";
 import { $t } from "@/plugins/i18n";
 import { useAppStore } from "@/stores/modules/app";
 import useLayout from "@/hooks/use-layout";
+import { computed } from "vue";
 
 defineOptions({ name: "BaseMenu" });
 const props = withDefaults(defineProps<{ menuList?: any[]; collapse?: boolean; mode?: "horizontal" | "vertical" }>(), {
