@@ -26,8 +26,6 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/modules/settings";
-import { getFixationRoutes } from "@/utils/layout";
-import useMenu from "@/hooks/use-menu";
 import { type TabsPaneContext } from "element-plus";
 import { messageWarning } from "@/utils/element-utils/notification-common";
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
@@ -64,16 +62,16 @@ const routeTabChange = (toRoute: RouteLocationNormalizedLoaded) => {
       router.push("/404");
       return;
     }
-    const newTab = settingStore.ADD_TAB(toRoute, toRoute.params?.tagId ? Number(toRoute.params?.tagId) : null);
+    const newTab = settingStore.ADD_TAB(toRoute, toRoute.params?.tagId ? String(toRoute.params?.tagId) : null);
     settingStore.SET_ACTIVE_TABID(newTab.tagId);
   } else {
     // 不允许多开的跳转 回到已有TAG
-    settingStore.SET_ACTIVE_TABID(settingStore.GET_TABID(toRoute));
+    settingStore.SET_ACTIVE_TABID(String(settingStore.GET_TABID(toRoute)));
   }
 };
 watch(
   () => route,
-  toRoute => {
+  (toRoute: RouteLocationNormalizedLoaded) => {
     routeTabChange(toRoute);
   },
   {

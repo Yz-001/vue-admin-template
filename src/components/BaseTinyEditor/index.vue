@@ -3,7 +3,7 @@ import { reactive, watch, ref, nextTick, onMounted } from "vue"; //全屏
 import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import * as defineConfig from "./config";
-import type { BaseTinyEditorProps, CustomTinyConfig } from "./index.d.ts";
+import type { BaseTinyEditorProps } from "./index.d.ts";
 import { uploadServerFileApi } from "@/apis/common";
 
 const props = withDefaults(defineProps<BaseTinyEditorProps>(), {
@@ -48,7 +48,7 @@ const handleInit = reactive({
 // 设置编辑器只读模式
 watch(
   () => props.readonly,
-  newValue => {
+  (newValue: boolean) => {
     nextTick(() => {
       if (tinymce.activeEditor) tinymce.activeEditor.mode.set(newValue ? "readonly" : "design");
     });

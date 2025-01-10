@@ -12,7 +12,7 @@ export const useSettingsStore = defineStore("settings", {
       tabMaps: {} as { [key: string]: RouteRecordRaw }, // tabs集合
       tabRouteNames: [] as string[], //tab中name集合
       maxTabCount: 15, // 最大标签数
-      activeTabId: undefined as number | undefined
+      activeTabId: undefined as string | undefined
     };
   },
   actions: {
@@ -28,7 +28,7 @@ export const useSettingsStore = defineStore("settings", {
     SET_ENABLETABS(bol: Boolean) {
       this.enableTabs = bol;
     },
-    SET_ACTIVE_TABID(tagId: number) {
+    SET_ACTIVE_TABID(tagId: string) {
       this.activeTabId = tagId;
     },
     SET_MAXTABCOUNT(count: number) {
@@ -69,7 +69,7 @@ export const useSettingsStore = defineStore("settings", {
       // 创建TABID
       return String(Date.now());
     },
-    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId: number | null = null) {
+    ADD_TAB(route: RouteLocationNormalizedLoaded, customTagId: string | null = null) {
       // 创建TAB
       const newTagId = customTagId != null ? customTagId : this.CREATE_NEW_TAGID();
       this.tabMaps[newTagId] = deepCopy(route);
