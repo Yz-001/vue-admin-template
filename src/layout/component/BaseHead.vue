@@ -13,7 +13,7 @@
       <el-icon @click="handleConfigOpen"><Tools /></el-icon>
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
-          {{ userStore.username }}
+          <span class="truncate">{{ userStore.username }}</span>
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -75,14 +75,22 @@ const handleConfigOpen = () => {
   }
 
   &__right {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
     width: 200px;
     margin-left: auto;
     color: #666;
-    text-align: right;
 
     .el-icon {
       margin-right: 20px;
       cursor: pointer;
+    }
+
+    .el-dropdown-link {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
     }
   }
 }
