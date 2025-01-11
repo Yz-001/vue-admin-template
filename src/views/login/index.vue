@@ -40,6 +40,8 @@
         </el-form>
       </div>
     </div>
+
+    <AppAutoLoginBtn type="autoLogin" btnName="临时免登入" :form="from" />
   </div>
 </template>
 
@@ -57,7 +59,7 @@ import type { ComponentSize, FormInstance, FormRules } from "element-plus";
 import { $t } from "@/plugins/i18n";
 import { UserFilled, Key } from "@element-plus/icons-vue";
 import BaseMark from "@/layout/component/BaseMark.vue";
-
+import AppAutoLoginBtn from "@/components/AppAutoLoginBtn/index.vue";
 let from = reactive<loginForm>({
   username: "",
   password: "",
