@@ -6,13 +6,17 @@ import { $t } from "@/plugins/i18n";
 import { useAppStore } from "@/stores/modules/app";
 import useLayout from "@/hooks/use-layout";
 import { computed } from "vue";
+import { type RouteRecordRaw } from "vue-router";
 
 defineOptions({ name: "BaseMenu" });
-const props = withDefaults(defineProps<{ menuList?: any[]; collapse?: boolean; mode?: "horizontal" | "vertical" }>(), {
-  menuList: () => [],
-  collapse: false,
-  mode: "vertical"
-});
+const props = withDefaults(
+  defineProps<{ menuList?: RouteRecordRaw[]; collapse?: boolean; mode?: "horizontal" | "vertical" }>(),
+  {
+    menuList: () => [],
+    collapse: false,
+    mode: "vertical"
+  }
+);
 const route = useRoute();
 const router = useRouter();
 const { mixinMode } = useLayout();
