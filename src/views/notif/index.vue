@@ -131,7 +131,7 @@ const remoteConfig = {
   defaultParams: {},
   autoRequest: true
 };
-const appTableRef = ref(null);
+const appTableRef = ref<{ refresh: () => void } | null>(null);
 const filterParams = ref({});
 const handleSearch = (data: { [key: string]: any }) => {
   filterParams.value = data;

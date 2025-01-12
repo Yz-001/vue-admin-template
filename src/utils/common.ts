@@ -102,7 +102,7 @@ export async function checkForUpdate(versionUrl: string, interval: number = 1000
 export function deepCopy(obj: { [key: string]: any }, hash = new WeakMap()) {
   if (typeof obj !== "object" || obj === null) return obj;
   if (hash.has(obj)) return hash.get(obj);
-  const copy = Array.isArray(obj) ? [] : {};
+  const copy = (Array.isArray(obj) ? [] : {}) as { [key: string]: any };
   hash.set(obj, copy);
   Object.keys(obj).forEach(key => {
     copy[key] = deepCopy(obj[key], hash);

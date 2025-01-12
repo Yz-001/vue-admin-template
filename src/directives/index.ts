@@ -1,13 +1,12 @@
-// import type { Directive } from "vue";
-import * as Ripple from "./ripple";
+// import * as Ripple from "./ripple";
+// import { ElSelectLoading } from "./elSelectLoading";
 import { ElSelectLoadMore } from "./elSelectLoadMore";
-import { ElSelectLoading } from "./elSelectLoading";
 import { appLoading } from "./appLoading";
 
 const directivesList = [
-  { name: "ripple", fn: Ripple },
+  // { name: "ripple", fn: Ripple },
+  // { name: "elSelectLoading", fn: ElSelectLoading },
   { name: "elSelectLoadMore", fn: ElSelectLoadMore },
-  { name: "elSelectLoading", fn: ElSelectLoading },
   { name: "appLoading", fn: appLoading }
 ];
 export const directives = (app: any) => {

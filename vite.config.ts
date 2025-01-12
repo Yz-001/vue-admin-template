@@ -11,7 +11,7 @@ import type { PluginInfo, XastElement } from "svgo/lib/types";
 // import vueJsx from '@vitejs/plugin-vue-jsx';
 // https://vitejs.dev/config/
 // command, mode, ssrBuild
-export default ({ mode }) => {
+export default ({ mode }: { mode: string }) => {
   console.log(`当前环境${mode}`);
   const env = loadEnv(mode, process.cwd());
   const config = {
@@ -44,7 +44,7 @@ export default ({ mode }) => {
               name: "prefixIds",
               params: {
                 prefix: (node: XastElement, info: PluginInfo): string => {
-                  return `icon-${path.basename(info.path, ".svg")}`;
+                  return `icon-${path.basename(String(info.path), ".svg")}`;
                 }
               }
             }
@@ -107,7 +107,7 @@ export default ({ mode }) => {
           target: env.VITE_APP_API_URL, // 终端接口,
           changeOrigin: true,
           secure: false, // 如果是 https 接口需要配置这个参数
-          rewrite: path => path.replace(/^\/api/, "") // 路径重写
+          rewrite: (path: string) => path.replace(/^\/api/, "") // 路径重写
         }
       }
     }
