@@ -120,7 +120,7 @@ export default abstract class HttpClient {
   };
 }
 
-export const errorCode = {
+export const errorCode: { [key: string]: string } = {
   "401": "认证失败，无法访问系统资源",
   "403": "当前操作没有权限",
   "404": "访问资源不存在",

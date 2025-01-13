@@ -71,7 +71,7 @@ const handleThemeChange = (color: string) => {
   SET_THEME(color);
   handleThemeStyle(color);
 };
-const handleEnableTabsBolChange = (bol: Boolean) => {
+const handleEnableTabsBolChange = (bol: boolean) => {
   SET_ENABLETABS(bol);
 };
 const handleThemeModeChange = (mode: ThemeMode) => {

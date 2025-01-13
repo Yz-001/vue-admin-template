@@ -6,7 +6,7 @@ export type UserResult = {
   /** 昵称 */
   nickname: string;
   /** 当前登录用户的角色 */
-  roles: Array<string>;
+  roles: Array<{ id: string }>;
   /** `token` */
   accessToken: string;
   /** 用于调用刷新`accessToken`的接口时所需的`token` */

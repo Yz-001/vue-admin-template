@@ -87,10 +87,10 @@ export function transformI18n(message: any = "") {
   const key = message.match(/(\S*)\./)?.input;
 
   if (key && flatI18n("zh-CN").has(key)) {
-    return i18n.global.t.call(i18n.global.locale, message);
+    return i18n.global.t.call(i18n.global.locale, message, {} as Record<string, unknown>, "");
   } else if (!key && Object.hasOwn(siphonI18n("zh-CN"), message)) {
     // 兼容非嵌套形式的国际化写法
-    return i18n.global.t.call(i18n.global.locale, message);
+    return i18n.global.t.call(i18n.global.locale, message, {} as Record<string, unknown>, "");
   } else {
     return message;
   }
@@ -98,7 +98,7 @@ export function transformI18n(message: any = "") {
 
 /** 此函数只是配合i18n Ally插件来进行国际化智能提示，并无实际意义（只对提示起作用），如果不需要国际化可删除 */
 export const $t = (key: string) => {
-  return i18n.global.t.call(i18n.global.locale, key);
+  return i18n.global.t.call(i18n.global.locale, key, {} as Record<string, unknown>, "");
 };
 
 export const i18n: I18n = createI18n({

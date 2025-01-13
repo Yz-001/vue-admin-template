@@ -11,7 +11,7 @@ export const useUserStore = defineStore("user", {
     return {
       avatar: "",
       username: "",
-      roles: [] as Array<string>,
+      roles: [] as Array<{ id: string }>,
       tenantId: "",
       userInfoSet: { userId: "" }
     };
@@ -23,7 +23,7 @@ export const useUserStore = defineStore("user", {
     SET_USERNAME(username: string) {
       this.username = username;
     },
-    SET_ROLES(roles: Array<string>) {
+    SET_ROLES(roles: Array<{ id: string }>) {
       this.roles = roles;
     },
     /** 登入 */
@@ -52,7 +52,7 @@ export const useUserStore = defineStore("user", {
       this.userInfoSet = data || {};
       this.avatar = data?.avatar || "";
       this.username = data?.username || "";
-      this.roles = data?.roles || "";
+      this.roles = (data?.roles || []) as Array<{ id: string }>;
       this.tenantId = data?.tenantId || "";
     },
     /** 前端登出（不调用接口） */

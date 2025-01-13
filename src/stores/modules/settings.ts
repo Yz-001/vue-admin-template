@@ -8,7 +8,7 @@ export const useSettingsStore = defineStore("settings", {
       theme: "#4248F4",
       themeMode: "light" as ThemeMode,
       locale: Locale.ZH as Locale,
-      enableTabs: true as Boolean,
+      enableTabs: true as boolean,
       tabMaps: {} as { [key: string]: RouteRecordRaw }, // tabs集合
       tabRouteNames: [] as string[], //tab中name集合
       maxTabCount: 15, // 最大标签数
@@ -25,7 +25,7 @@ export const useSettingsStore = defineStore("settings", {
     SET_LOCALE(locale: Locale) {
       this.locale = locale;
     },
-    SET_ENABLETABS(bol: Boolean) {
+    SET_ENABLETABS(bol: boolean) {
       this.enableTabs = bol;
     },
     SET_ACTIVE_TABID(tagId: string) {

@@ -37,7 +37,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue", // 根据需要包含或排除特定类型的文件
-    "vite.config.ts"
+    "vite.config.ts",
+    "types/element-plus-locale.d.ts"
   ],
   "exclude": [
     "dist",
