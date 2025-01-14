@@ -174,8 +174,8 @@ export default function useTable(
     console.log("handleFileClick: ", _column);
   }
 
-  function formatNumber(value: number, decimalPlaces: number = 2): string {
-    return value.toFixed(decimalPlaces);
+  function formatNumber(value: number, decimalPlaces: number | undefined = undefined): string {
+    return decimalPlaces != undefined ? value.toFixed(decimalPlaces) : String(Number(value));
   }
 
   function getTagType(column: TableColumn, row: any): TagTypeEnum {

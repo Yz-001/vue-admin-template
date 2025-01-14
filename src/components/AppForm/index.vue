@@ -61,8 +61,8 @@ defineExpose({
               v-bind="item.attrs || {}"
               v-on="item.events || {}"
             >
-              <template v-if="item.slots && item.slots.default">
-                <span>{{ item.slots.default }}</span>
+              <template v-if="item.defalutSlot" #default="scope">
+                <slot :name="`${item.prop}Content`" :row="scope.row" />
               </template>
             </component>
           </template>

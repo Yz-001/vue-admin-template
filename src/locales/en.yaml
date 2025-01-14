@@ -8,6 +8,8 @@ menus:
   Version: Version
   NotifMain: Notification management
   NotifList: Notification List
+  SystemMain: System management
+  DeptList: Department management
 operate:
   create: "Create"
   newCreate: "Add"

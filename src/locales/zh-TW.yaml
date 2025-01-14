@@ -8,6 +8,8 @@ menus:
   Version: 關於版本
   NotifMain: 通知管理
   NotifList: 通知列表
+  SystemMain: 系統管理
+  DeptList: 部門管理
 operate:
   create: "創建"
   newCreate: "新增"
