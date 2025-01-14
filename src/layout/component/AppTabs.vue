@@ -29,7 +29,9 @@ import { useSettingsStore } from "@/stores/modules/settings";
 import { type TabsPaneContext } from "element-plus";
 import { messageWarning } from "@/utils/element-utils/notification-common";
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
-import { computed, watch } from "vue";
+import { computed, watch, onMounted } from "vue";
+import useMenu from "@/hooks/use-menu";
+import { getFixationRoutes } from "@/utils/layout";
 
 const emit = defineEmits(["on-click", "on-remove"]);
 const route = useRoute();
@@ -79,19 +81,20 @@ watch(
     deep: true
   }
 );
-// const { menuList } = useMenu();
-// const createFixationTabData = () => {
-//   // 创建固定tab --初始时调用
-//   const fixations = menuList.value ? getFixationRoutes(menuList.value) : [];
-//   if (fixations?.length) {
-//     fixations.forEach((item, index) => {
-//       // 排除掉当前页
-//       if (item?.path != route.path) {
-//         settingStore.ADD_TAB(item, index);
-//       }
-//     });
-//   }
-// };
+const { menuList } = useMenu();
+const createFixationTabData = () => {
+  // 创建固定tab --初始时调用
+  const fixations = menuList.value ? getFixationRoutes(menuList.value) : [];
+  if (fixations?.length) {
+    fixations.forEach((item, index) => {
+      // 排除掉当前页
+      if (item?.path != route.path) {
+        settingStore.ADD_TAB(item, index);
+      }
+    });
+  }
+};
+
 const handleTabClick = (pane: TabsPaneContext) => {
   // 修改注意需要兼容handleTabsRemove的调用
   const curRoute = settingStore.GET_TAB_INFO(String(pane.paneName));
@@ -111,6 +114,9 @@ const handleNoFixationClear = () => {
   settingStore.CLEAR_NOFIXATION_TABS();
   router.push("/");
 };
+onMounted(() => {
+  createFixationTabData();
+});
 </script>
 
 <style lang="scss" scoped>
