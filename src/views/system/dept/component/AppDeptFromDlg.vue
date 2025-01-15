@@ -8,7 +8,7 @@ import { ref, onMounted, reactive, watch, computed } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
 import { DEPT_STATUS } from "@/assets/constant/index";
 import { getDeptListApi } from "@/apis/modules/system";
-import { FULL_COL } from "@/assets/constant/form";
+import { COL_FULL } from "@/assets/constant/form";
 const visible = defineModel<boolean>("visible");
 const props = withDefaults(defineProps<{ row?: DeptRow }>(), {
   row: () => ({}) as DeptRow
@@ -33,7 +33,7 @@ const componentList = computed(() => {
       label: "上级部门",
       prop: "parentId",
       labelWidth: 60,
-      colLayout: FULL_COL,
+      colLayout: COL_FULL,
       attrs: {
         data: deptOptions,
         props: {
@@ -47,28 +47,28 @@ const componentList = computed(() => {
       type: FormComponentEnum.ElInput,
       label: "部门名称",
       prop: "deptName",
-      colLayout: FULL_COL,
+      colLayout: COL_FULL,
       attrs: {}
     },
     {
       type: FormComponentEnum.ElInputNumber,
       label: "显示排序",
       prop: "orderNum",
-      colLayout: FULL_COL,
+      colLayout: COL_FULL,
       attrs: {}
     },
     {
       type: FormComponentEnum.ElInput,
       label: " 负 责 人",
       prop: "leader",
-      colLayout: FULL_COL,
+      colLayout: COL_FULL,
       attrs: {}
     },
     {
       type: FormComponentEnum.ElRadio,
       label: "部门状态",
       prop: "status",
-      colLayout: FULL_COL,
+      colLayout: COL_FULL,
       attrs: {
         options: Object.values(DEPT_STATUS)
       }

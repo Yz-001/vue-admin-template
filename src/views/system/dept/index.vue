@@ -44,6 +44,8 @@ import { DeptListSearch, DeptRow } from "@/apis/interface/system";
 import { DEPT_STATUS } from "@/assets/constant/index";
 import { messageError } from "@/utils/element-utils/notification-common";
 import { ElSelect } from "element-plus";
+import { COL_XL } from "@/assets/constant/form";
+
 const searchForm = reactive({
   deptName: "",
   status: undefined
@@ -64,11 +66,7 @@ const componentList = [
     label: "部门名称",
     prop: "deptName",
     labelWidth: 60,
-    colLayout: {
-      sm: 12,
-      md: 6,
-      lg: 5
-    },
+    colLayout: COL_XL,
     attrs: {
       placeholder: "请输入部门名称"
     }
@@ -77,11 +75,7 @@ const componentList = [
     type: FormComponentEnum.ElSelect,
     label: "部门状态",
     prop: "status",
-    colLayout: {
-      sm: 12,
-      md: 8,
-      lg: 6
-    },
+    colLayout: COL_XL,
     attrs: {
       options: Object.values(DEPT_STATUS)
     }
