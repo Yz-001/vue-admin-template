@@ -29,10 +29,10 @@ export default function useForm(props: any, emit: any) {
 
   // 根据折叠状态计算出需要显示的组件列表
   const visibleComponentList = computed(() => {
-    if (props?.formLine && isCollapsed.value && props?.componentList.length > props?.collapseCount) {
-      return props.componentList.slice(0, props.collapseCount); // 如果折叠，则只显示指定数量的组件
+    if (props?.formLine && isCollapsed.value && props?.elemColumns.length > props?.collapseCount) {
+      return props.elemColumns.slice(0, props.collapseCount); // 如果折叠，则只显示指定数量的组件
     }
-    return props.componentList; // 否则显示所有组件
+    return props.elemColumns; // 否则显示所有组件
   });
 
   // 切换折叠状态的方法

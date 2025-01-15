@@ -2,7 +2,7 @@
   <div class="page-container dept-list">
     <AppFilterForm
       v-model:formModel="searchForm"
-      :componentList="componentList"
+      :elemColumns="elemColumns"
       @onSearch="handleSearch"
       @onReset="handleSearch"
     />
@@ -10,7 +10,7 @@
     <AppTable
       ref="appTableRef"
       class="notif-list__table"
-      :columns="tableColumns"
+      :elemColumns="tableColumns"
       :tableConfig="tableConfig"
       :data="tableData"
       :tableTotal="tableTotal"
@@ -27,9 +27,9 @@
     </AppTable>
 
     <AppDeptFromDlg
-      v-if="deptFromDlgProp.visible"
-      v-model:visible="deptFromDlgProp.visible"
-      :row="deptFromDlgProp.row"
+      v-if="baseFromDlgProp.visible"
+      v-model:visible="baseFromDlgProp.visible"
+      :row="baseFromDlgProp.row"
     />
   </div>
 </template>
@@ -60,7 +60,7 @@ const tableConfig = reactive({
   defaultExpandAll: true,
   selectionChange: handleSelectionChange
 });
-const componentList = [
+const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
     label: "部门名称",
@@ -143,16 +143,16 @@ const buildTree = (departments: DeptRow[]): DeptRow[] => {
 
   return root;
 };
-const deptFromDlgProp = reactive<{ visible: boolean; row: any }>({
+const baseFromDlgProp = reactive<{ visible: boolean; row: any }>({
   visible: false,
   row: undefined
 });
 const handleAdd = () => {
-  deptFromDlgProp.visible = true;
+  baseFromDlgProp.visible = true;
 };
 const handleEdit = (row: DeptRow) => {
-  deptFromDlgProp.visible = true;
-  deptFromDlgProp.row = row;
+  basefromDlgProp.visible = true;
+  baseFromDlgProp.row = row;
 };
 
 const handleDelete = (row: DeptRow) => {
@@ -163,7 +163,7 @@ const handleDelete = (row: DeptRow) => {
 const exportExcelConfig = computed(() => {
   const config = {
     filename: `部门列表${new Date().getTime()}`,
-    excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getDeptListApi,
       defaultParams: filterParams.value

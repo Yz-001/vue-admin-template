@@ -1,7 +1,7 @@
 import type { VNodeChild } from "vue";
 
 export interface FormProps {
-  componentList?: ComponentItem[];
+  elemColumns?: ComponentItem[];
   formRules?: Record<string, any[]>;
   labelWidth?: string;
   operColLayout?: {

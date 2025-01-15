@@ -4,7 +4,7 @@
     v-bind="$attrs"
     v-model:formModel="formModel"
     :formRules="formRules"
-    :componentList="componentList"
+    :elemColumns="elemColumns"
     :labelWidth="labelWidth"
     :formLine="formLine"
     :collapseCount="collapseCount"
@@ -30,7 +30,7 @@ import type { FilterFormProps } from "./type";
 import { Search } from "@element-plus/icons-vue";
 
 const props = withDefaults(defineProps<FilterFormProps>(), {
-  componentList: () => [],
+  elemColumns: () => [],
   formRules: () => ({}),
   labelWidth: "auto",
   formLine: true,

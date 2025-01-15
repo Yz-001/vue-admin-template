@@ -5,11 +5,11 @@ import { ElMessage } from "element-plus";
 
 export default function useExport(props: any) {
   // 格式化excel数据
-  function getFormatExcelData(exportData: any[], excelColumns: ExcelColumn[]): any[] {
+  function getFormatExcelData(exportData: any[], excelElemColumns: ExcelColumn[]): any[] {
     return exportData.map(data => {
       const formattedData = { ...data };
 
-      excelColumns.forEach(column => {
+      excelElemColumns.forEach(column => {
         let currentVal = data[column.prop];
 
         if (column.type === ExcelFormatEnum.OBJECT) {
@@ -47,7 +47,7 @@ export default function useExport(props: any) {
     const name = props.filename;
     if (props.exportModel == ExportModeEnum.LISTDATA) {
       //当前列表数据导出
-      const exportData = getFormatExcelData(props.excelData, props.excelColumns);
+      const exportData = getFormatExcelData(props.excelData, props.excelElemColumns);
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, name);
@@ -57,7 +57,7 @@ export default function useExport(props: any) {
       props.remoteConfig
         .remoteApi(props.remoteConfig.defaultParams)
         .then((res: any) => {
-          const exportData = getFormatExcelData(res?.data?.rows || [], props.excelColumns);
+          const exportData = getFormatExcelData(res?.data?.rows || [], props.excelElemColumns);
           const worksheet = XLSX.utils.json_to_sheet(exportData);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, name);

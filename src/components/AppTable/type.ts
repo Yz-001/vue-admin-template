@@ -1,7 +1,7 @@
 import type { ExportExcelProps } from "@/components/AppExportExcel/type";
 
 export interface TableProps {
-  columns: TableColumn[];
+  elemColumns: TableColumn[];
   data?: any[];
   tableTotal?: number;
   tableConfig?: TableConfig;

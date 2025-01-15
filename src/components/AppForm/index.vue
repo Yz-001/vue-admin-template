@@ -4,7 +4,7 @@ import { FormComponentEnum, type FormProps } from "./type";
 import useForm from "./use-form";
 
 const props = withDefaults(defineProps<FormProps>(), {
-  componentList: () => [],
+  elemColumns: () => [],
   formRules: () => ({}),
   labelWidth: "auto",
   formLine: false,
@@ -109,7 +109,7 @@ defineExpose({
         <el-form-item>
           <slot name="oper" />
           <el-button
-            v-if="props.formLine && props.componentList.length > props.collapseCount"
+            v-if="props.formLine && props.elemColumns.length > props.collapseCount"
             link
             @click="toggleCollapse"
           >

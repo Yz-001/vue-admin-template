@@ -11,7 +11,7 @@ export default function useTable(
   ) => void
 ) {
   const tableData = ref(props.data);
-  const tableColumns = computed(() => props.columns);
+  const tableColumns = computed(() => props.elemColumns);
   const tableTotal = ref(0);
   const pagination = reactive({
     currentPage: props.defaultPageNumber,

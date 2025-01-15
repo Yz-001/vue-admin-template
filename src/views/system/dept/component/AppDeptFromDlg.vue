@@ -25,7 +25,7 @@ const getDeptList = () => {
       if (error?.message) messageError(error.message);
     });
 };
-const componentList = computed(() => {
+const elemColumns = computed(() => {
   const deptOptions = deptList.value || [];
   return [
     {
@@ -162,7 +162,7 @@ onMounted(() => {
     :before-close="handleDialogClose"
     class="deptFrom-dlg"
   >
-    <AppForm v-model:formModel="formData" :componentList="componentList" />
+    <AppForm v-model:formModel="formData" :elemColumns="elemColumns" />
   </AppDialog>
 </template>
 
