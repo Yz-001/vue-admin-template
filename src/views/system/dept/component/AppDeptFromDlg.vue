@@ -125,25 +125,40 @@ const handleSubmit = async () => {
 const buildTree = (departments: DeptRow[]): DeptRow[] => {
   const root: DeptRow[] = [];
   const lookup: { [key: number]: DeptRow } = {};
+  let allParentIds: Set<number> = new Set();
 
-  // 创建所有节点的查找表
+  // 创建所有节点的查找表，并收集所有的 parentId
   departments.forEach(dept => {
-    lookup[dept.deptId] = { ...dept };
+    lookup[dept.deptId] = { ...dept, children: [] };
+    if (dept.parentId !== 0) {
+      allParentIds.add(dept.parentId);
+    }
   });
 
   // 遍历所有节点并构建树
   departments.forEach(dept => {
     if (dept.parentId === 0) {
-      // 如果是根节点，则直接添加到rootDepartments中
+      // 如果是根节点，则直接添加到root中
       root.push(lookup[dept.deptId]);
     } else {
       // 否则找到其父节点，并添加到父节点的children属性中
-      if (lookup[dept.parentId]) {
-        if (!lookup[dept.parentId].children) {
-          lookup[dept.parentId].children = [];
-        }
-        lookup[dept.parentId].children.push(lookup[dept.deptId]);
+      const parent = lookup[dept.parentId];
+      if (parent) {
+        parent.children.push(lookup[dept.deptId]);
+
+        // 调试信息：打印当前节点及其父节点的信息
+        console.log(`Adding child ${dept.deptId} to parent ${dept.parentId}`);
+      } else {
+        console.warn(`Parent with id ${dept.parentId} not found for dept ${dept.deptId}`);
+        // 在这里可以决定如何处理找不到父节点的情况，例如将该节点作为根节点处理
       }
+    }
+  });
+
+  // 检查是否有未匹配的 parentId
+  allParentIds.forEach(id => {
+    if (!lookup[id]) {
+      console.error(`Parent node with id ${id} does not exist.`);
     }
   });
 

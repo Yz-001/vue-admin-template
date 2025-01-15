@@ -87,7 +87,7 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
-        <AppExportExcel v-if="showExportExcel" v-bind="safeExportExcelConfig" />
+        <AppExportExcel v-if="showExportExcel" buttonLabel="导出表格" v-bind="safeExportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />

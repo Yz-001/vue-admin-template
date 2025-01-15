@@ -19,3 +19,8 @@ export interface CommonOptionString {
   label: string;
   value: string;
 }
+
+export interface BaseFromDlgProp {
+  visible: boolean;
+  row: any;
+}
