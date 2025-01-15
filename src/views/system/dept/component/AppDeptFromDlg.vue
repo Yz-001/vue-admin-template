@@ -8,7 +8,7 @@ import { ref, onMounted, reactive, watch, computed } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
 import { DEPT_STATUS } from "@/assets/constant/index";
 import { getDeptListApi } from "@/apis/modules/system";
-
+import { FULL_COL } from "@/assets/constant/form";
 const visible = defineModel<boolean>("visible");
 const props = withDefaults(defineProps<{ row?: DeptRow }>(), {
   row: () => ({}) as DeptRow
@@ -29,15 +29,11 @@ const componentList = computed(() => {
   const deptOptions = deptList.value || [];
   return [
     {
-      componentName: FormComponentEnum.ElTreeSelect,
+      type: FormComponentEnum.ElTreeSelect,
       label: "上级部门",
       prop: "parentId",
       labelWidth: 60,
-      colLayout: {
-        sm: 24,
-        md: 24,
-        lg: 24
-      },
+      colLayout: FULL_COL,
       attrs: {
         data: deptOptions,
         props: {
@@ -48,47 +44,31 @@ const componentList = computed(() => {
       }
     },
     {
-      componentName: FormComponentEnum.ElInput,
+      type: FormComponentEnum.ElInput,
       label: "部门名称",
       prop: "deptName",
-      colLayout: {
-        sm: 24,
-        md: 24,
-        lg: 24
-      },
+      colLayout: FULL_COL,
       attrs: {}
     },
     {
-      componentName: FormComponentEnum.ElInputNumber,
+      type: FormComponentEnum.ElInputNumber,
       label: "显示排序",
       prop: "orderNum",
-      colLayout: {
-        sm: 24,
-        md: 24,
-        lg: 24
-      },
+      colLayout: FULL_COL,
       attrs: {}
     },
     {
-      componentName: FormComponentEnum.ElInput,
+      type: FormComponentEnum.ElInput,
       label: " 负 责 人",
       prop: "leader",
-      colLayout: {
-        sm: 24,
-        md: 24,
-        lg: 24
-      },
+      colLayout: FULL_COL,
       attrs: {}
     },
     {
-      componentName: FormComponentEnum.ElRadio,
+      type: FormComponentEnum.ElRadio,
       label: "部门状态",
       prop: "status",
-      colLayout: {
-        sm: 24,
-        md: 24,
-        lg: 24
-      },
+      colLayout: FULL_COL,
       attrs: {
         options: Object.values(DEPT_STATUS)
       }

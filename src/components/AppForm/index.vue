@@ -56,10 +56,10 @@ defineExpose({
       <!-- 动态显示组件 -->
       <el-col v-for="(item, index) in visibleComponentList" :key="index" v-bind="item?.colLayout || {}">
         <el-form-item :prop="item.prop" :label="item.label" :rules="item.rules">
-          <template v-if="item.componentName === FormComponentEnum.CustomTemplate">
+          <template v-if="item.type === FormComponentEnum.CustomTemplate">
             <slot :name="`${item.prop}Slot`" />
           </template>
-          <template v-else-if="item.componentName === FormComponentEnum.ElSelect">
+          <template v-else-if="item.type === FormComponentEnum.ElSelect">
             <el-select v-model="formModel[item.prop]" v-bind="item.attrs || {}">
               <el-option
                 v-for="option in item.attrs?.options"
@@ -69,7 +69,7 @@ defineExpose({
               />
             </el-select>
           </template>
-          <template v-else-if="item.componentName === FormComponentEnum.ElRadio">
+          <template v-else-if="item.type === FormComponentEnum.ElRadio">
             <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}">
               <el-radio
                 v-for="option in item.attrs?.options"
@@ -79,7 +79,7 @@ defineExpose({
               />
             </el-radio-group>
           </template>
-          <template v-else-if="item.componentName === FormComponentEnum.ElRadioGroup">
+          <template v-else-if="item.type === FormComponentEnum.ElRadioGroup">
             <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}">
               <el-radio-button
                 v-for="option in item.attrs?.options"
@@ -91,7 +91,7 @@ defineExpose({
           </template>
           <template v-else>
             <component
-              :is="resolveComponent(item.componentName)"
+              :is="resolveComponent(item.type)"
               v-model="formModel[item.prop]"
               v-bind="item.attrs || {}"
               v-on="item.events || {}"

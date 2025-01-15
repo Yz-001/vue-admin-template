@@ -19,8 +19,8 @@ export default function useForm(props: any, emit: any) {
   };
 
   // 解析组件名称为实际组件
-  function resolveComponent(componentName: FormComponentEnum) {
-    const componentNameStr = String(componentName);
+  function resolveComponent(type: FormComponentEnum) {
+    const componentNameStr = String(type);
     return componentMapping.value[componentNameStr];
   }
 

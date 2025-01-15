@@ -60,7 +60,7 @@ const tableConfig = reactive({
 });
 const componentList = [
   {
-    componentName: FormComponentEnum.ElInput,
+    type: FormComponentEnum.ElInput,
     label: "部门名称",
     prop: "deptName",
     labelWidth: 60,
@@ -74,7 +74,7 @@ const componentList = [
     }
   },
   {
-    componentName: FormComponentEnum.ElSelect,
+    type: FormComponentEnum.ElSelect,
     label: "部门状态",
     prop: "status",
     colLayout: {

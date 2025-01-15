@@ -55,7 +55,7 @@ const tableConfig = reactive({
 });
 const componentList = [
   {
-    componentName: FormComponentEnum.ElInput,
+    type: FormComponentEnum.ElInput,
     label: "标题",
     prop: "title",
     labelWidth: 60,
@@ -69,7 +69,7 @@ const componentList = [
     }
   },
   {
-    componentName: FormComponentEnum.ElDatePicker,
+    type: FormComponentEnum.ElDatePicker,
     label: "通知时间",
     prop: "dateRange",
     colLayout: {
