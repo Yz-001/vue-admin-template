@@ -81,7 +81,13 @@ watch(
     deep: true
   }
 );
+
 const { menuList } = useMenu();
+watch(menuList, (newVal, oldVal) => {
+  if (enableTabs.value && newVal != oldVal) {
+    createFixationTabData();
+  }
+});
 const createFixationTabData = () => {
   // 创建固定tab --初始时调用
   const fixations = menuList.value ? getFixationRoutes(menuList.value) : [];
@@ -89,7 +95,7 @@ const createFixationTabData = () => {
     fixations.forEach((item, index) => {
       // 排除掉当前页
       if (item?.path != route.path) {
-        settingStore.ADD_TAB(item, index);
+        settingStore.ADD_TAB(item, String(index));
       }
     });
   }
@@ -114,9 +120,6 @@ const handleNoFixationClear = () => {
   settingStore.CLEAR_NOFIXATION_TABS();
   router.push("/");
 };
-onMounted(() => {
-  createFixationTabData();
-});
 </script>
 
 <style lang="scss" scoped>
@@ -156,8 +159,8 @@ onMounted(() => {
 
   :deep(.el-tabs__item) {
     margin-right: 6px;
-    border: 1px solid $--border-color-regular !important;
-    border-bottom: 1px solid $--border-color-regular !important;
+    border: 1px solid #ecf5ff !important;
+    border-bottom: 1px solid #ecf5ff !important;
   }
 
   :deep(.el-tabs__nav) {
