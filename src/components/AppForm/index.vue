@@ -52,7 +52,7 @@ defineExpose({
       <el-col v-for="(item, index) in visibleComponentList" :key="index" v-bind="item?.colLayout || {}">
         <el-form-item :prop="item.prop" :label="item.label" :rules="item.rules">
           <template v-if="item.componentName === FormComponentEnum.CustomTemplate">
-            <slot :name="`${item.prop}`" />
+            <slot :name="`${item.prop}Slot`" />
           </template>
           <template v-else>
             <component

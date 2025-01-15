@@ -1,10 +1,13 @@
 export interface DeptListSearch {
-  deptName: String;
-  status: Number;
+  deptName: string;
+  status: number;
 }
 export interface DeptRow {
-  deptName: String;
-  status: Number;
-  orderNum: Number;
-  createDate: String;
+  deptName: string;
+  status: number;
+  orderNum: number;
+  createDate: string;
+  deptId: number;
+  parentId: number;
+  children: DeptRow[];
 }

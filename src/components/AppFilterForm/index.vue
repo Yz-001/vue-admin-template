@@ -1,6 +1,7 @@
 <template>
   <AppForm
     ref="appFormRef"
+    v-bind="$attrs"
     :formModel="formModel"
     :formRules="formRules"
     :componentList="componentList"
@@ -8,6 +9,10 @@
     :formLine="formLine"
     :collapseCount="collapseCount"
   >
+    <template v-for="{ name } in renderSlots()" #[name]>
+      <slot :name="name" />
+    </template>
+
     <template #oper>
       <slot name="operBtnBefore" />
       <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -19,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useSlots, ref } from "vue";
 import AppForm from "@/components/AppForm/index.vue";
 import type { FilterFormProps } from "./type";
 import { Search } from "@element-plus/icons-vue";
@@ -35,6 +40,7 @@ const props = withDefaults(defineProps<FilterFormProps>(), {
 const emit = defineEmits(["on-search", "on-refresh", "on-reset", "on-search-valid-error"]);
 const formModel = defineModel("formModel") as Record<string, any>;
 const appFormRef = ref<any>(null);
+
 const handleSearch = async () => {
   try {
     await appFormRef.value.getValidate();
@@ -43,13 +49,20 @@ const handleSearch = async () => {
     emit("on-search-valid-error", error);
   }
 };
-const handleRefresh = () => {
-  appFormRef.value.handleReset();
-  emit("on-refresh", JSON.parse(JSON.stringify(formModel.value)));
-};
+// const handleRefresh = () => {
+//   appFormRef.value.handleReset();
+//   emit("on-refresh", JSON.parse(JSON.stringify(formModel.value)));
+// };
 const handleReset = () => {
   appFormRef.value.handleReset();
   emit("on-reset", JSON.parse(JSON.stringify(formModel.value)));
+};
+const slots: any = useSlots();
+const renderSlots = () => {
+  return Object.entries(slots).map(([name, slot]) => ({
+    name: name as keyof typeof slots,
+    slot
+  }));
 };
 </script>
 

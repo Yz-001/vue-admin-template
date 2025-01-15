@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, defineExpose, computed } from "vue";
+import { onMounted, defineExpose, computed, watch } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
 import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
 import { Refresh, Document } from "@element-plus/icons-vue";
@@ -42,17 +42,38 @@ const {
   getTagColor
 } = useTable(props, emit);
 
-onMounted(() => {
-  if (props?.remoteConfig?.autoRequest) {
-    fetchData();
+watch(
+  () => props.data,
+  (newList: any) => {
+    tableData.value = newList;
+  },
+  {
+    immediate: true,
+    deep: true
   }
-});
+);
+watch(
+  () => props.tableTotal,
+  (newNum: number | undefined) => {
+    if (typeof newNum == "number") {
+      tableTotal.value = newNum;
+    }
+  }
+);
+
 const safeTableConfig = computed<TableConfig>(() => {
   return props?.tableConfig ?? ({} as TableConfig);
 });
 const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
   ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
 }));
+
+onMounted(() => {
+  if (props?.remoteConfig?.autoRequest) {
+    fetchData();
+  }
+});
+
 defineExpose({
   refresh,
   clearData,

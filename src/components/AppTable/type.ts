@@ -3,6 +3,7 @@ import type { ExportExcelProps } from "@/components/AppExportExcel/type";
 export interface TableProps {
   columns: TableColumn[];
   data?: any[];
+  tableTotal?: number;
   tableConfig?: TableConfig;
   remoteConfig?: RemoteConfig;
   filterParams?: { [key: string]: any }; // 检索参数

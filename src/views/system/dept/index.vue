@@ -6,15 +6,15 @@
       @onSearch="handleSearch"
       @onReset="handleSearch"
     >
-      <template #status>
-        <el-select v-model="searchForm.status">
+      <template #statusSlot>
+        <ElSelect v-model="searchForm.status">
           <el-option
             v-for="item in Object.values(DEPT_STATUS)"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           />
-        </el-select>
+        </ElSelect>
       </template>
     </AppFilterForm>
 
@@ -23,10 +23,10 @@
       class="notif-list__table"
       :columns="tableColumns"
       :tableConfig="tableConfig"
-      :remoteConfig="remoteConfig"
+      :data="tableData"
+      :tableTotal="tableTotal"
       :filterParams="filterParams"
       :exportExcelConfig="exportExcelConfig"
-      @update:data="handleUpdateData"
     >
       <template #leftOper>
         <el-button type="primary" class="ml-auto" @click="handleAdd">新增</el-button>
@@ -43,10 +43,12 @@
 // import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getDeptListApi } from "@/apis/modules/system";
 import { TableTypeEnum } from "@/components/AppTable/type";
-import { reactive, ref, nextTick, computed } from "vue";
+import { reactive, ref, nextTick, computed, onMounted } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
-import { DeptRow } from "@/apis/interface/system";
+import { DeptListSearch, DeptRow } from "@/apis/interface/system";
 import { DEPT_STATUS } from "@/assets/constant/index";
+import { messageError } from "@/utils/element-utils/notification-common";
+import { ElSelect } from "element-plus";
 const searchForm = reactive({
   deptName: "",
   status: undefined
@@ -57,6 +59,8 @@ const handleSelectionChange = (newSelList: any) => {
 };
 const tableConfig = reactive({
   border: true,
+  rowKey: "id",
+  defaultExpandAll: true,
   selectionChange: handleSelectionChange
 });
 const componentList = [
@@ -84,7 +88,7 @@ const componentList = [
       lg: 6
     },
     attrs: {},
-    defalutSlot: true
+    defalutSlot: false
   }
 ];
 
@@ -104,24 +108,50 @@ const tableColumns = [
   { label: "创建时间", prop: "createTime", type: TableTypeEnum.DATE },
   { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
-
-// 远程配置
-const remoteConfig = {
-  remoteApi: getDeptListApi,
-  defaultParams: {},
-  autoRequest: true
-};
 const appTableRef = ref<{ refresh: () => void } | null>(null);
+const tableData = ref<DeptRow[]>([]);
+const tableTotal = ref();
 const filterParams = ref({});
-const handleSearch = (data: { [key: string]: any }) => {
-  filterParams.value = data;
-  nextTick(() => {
-    if (appTableRef.value) appTableRef.value.refresh();
-  });
+const handleSearch = (data?: DeptListSearch) => {
+  filterParams.value = data || {};
+  getDeptListApi(data || ({} as DeptListSearch))
+    .then((res: any) => {
+      const list = res.data?.rows || [];
+      tableData.value = buildTree(list);
+      tableTotal.value = res.data?.total || 0;
+    })
+    .catch(error => {
+      if (error?.message) messageError(error.message);
+    });
 };
-const tableData = ref([]);
-const handleUpdateData = (data: any[]) => {
-  tableData.value = JSON.parse(JSON.stringify(data || []));
+
+// 构建树形结构的函数
+const buildTree = (departments: DeptRow[]): DeptRow[] => {
+  const root: DeptRow[] = [];
+  const lookup: { [key: number]: DeptRow } = {};
+
+  // 创建所有节点的查找表
+  departments.forEach(dept => {
+    lookup[dept.deptId] = { ...dept };
+  });
+
+  // 遍历所有节点并构建树
+  departments.forEach(dept => {
+    if (dept.parentId === 0) {
+      // 如果是根节点，则直接添加到rootDepartments中
+      root.push(lookup[dept.deptId]);
+    } else {
+      // 否则找到其父节点，并添加到父节点的children属性中
+      if (lookup[dept.parentId]) {
+        if (!lookup[dept.parentId].children) {
+          lookup[dept.parentId].children = [];
+        }
+        lookup[dept.parentId].children.push(lookup[dept.deptId]);
+      }
+    }
+  });
+
+  return root;
 };
 const deptFromDlgProp = reactive<{ visible: boolean; row: any }>({
   visible: false,
@@ -151,6 +181,9 @@ const exportExcelConfig = computed(() => {
     buttonLabel: "导出表格"
   };
   return config;
+});
+onMounted(() => {
+  handleSearch();
 });
 </script>
 
