@@ -2,7 +2,7 @@
   <AppForm
     ref="appFormRef"
     v-bind="$attrs"
-    :formModel="formModel"
+    v-model:formModel="formModel"
     :formRules="formRules"
     :componentList="componentList"
     :labelWidth="labelWidth"

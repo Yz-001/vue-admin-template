@@ -5,18 +5,7 @@
       :componentList="componentList"
       @onSearch="handleSearch"
       @onReset="handleSearch"
-    >
-      <template #statusSlot>
-        <ElSelect v-model="searchForm.status">
-          <el-option
-            v-for="item in Object.values(DEPT_STATUS)"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </ElSelect>
-      </template>
-    </AppFilterForm>
+    />
 
     <AppTable
       ref="appTableRef"
@@ -36,11 +25,17 @@
         <el-button link type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </AppTable>
+
+    <AppDeptFromDlg
+      v-if="deptFromDlgProp.visible"
+      v-model:visible="deptFromDlgProp.visible"
+      :row="deptFromDlgProp.row"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-// import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
+import AppDeptFromDlg from "@/views/system/dept/component/AppDeptFromDlg.vue";
 import { getDeptListApi } from "@/apis/modules/system";
 import { TableTypeEnum } from "@/components/AppTable/type";
 import { reactive, ref, nextTick, computed, onMounted } from "vue";
@@ -79,7 +74,7 @@ const componentList = [
     }
   },
   {
-    componentName: FormComponentEnum.CustomTemplate,
+    componentName: FormComponentEnum.ElSelect,
     label: "部门状态",
     prop: "status",
     colLayout: {
@@ -87,8 +82,9 @@ const componentList = [
       md: 8,
       lg: 6
     },
-    attrs: {},
-    defalutSlot: false
+    attrs: {
+      options: Object.values(DEPT_STATUS)
+    }
   }
 ];
 

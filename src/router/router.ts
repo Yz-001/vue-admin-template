@@ -14,8 +14,8 @@ export const routes: Array<RouteRecordRaw> = [
   },
   ...BasicRouter,
   NotifRouter,
-  ExploitRouter,
   SystemRouter,
+  ExploitRouter,
   {
     path: "/:pathMatch(.*)*",
     name: "Error",

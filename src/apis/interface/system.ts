@@ -9,5 +9,6 @@ export interface DeptRow {
   createDate: string;
   deptId: number;
   parentId: number;
+  leader?: string;
   children: DeptRow[];
 }
