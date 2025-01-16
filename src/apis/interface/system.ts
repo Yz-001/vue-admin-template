@@ -35,3 +35,21 @@ export interface RoleRow {
   remark?: string; // 备注
 }
 // E 角色管理
+
+// S 菜单管理
+export interface MenuListSearch {
+  menuName?: string; //菜单名称
+  visible?: number; // 菜单状态
+}
+export interface MenuRow {
+  id?: number;
+  menuName?: string; //菜单名称
+  orderNum?: string; //排序
+  url?: string; // 请求地址
+  menuType?: number; // 类型
+  visible?: number; // 菜单状态
+  perms?: string; // 权限标识
+  icon?: string[]; // 图标
+  isRefresh?: number; //是否刷新
+}
+// E 菜单管理

@@ -11,6 +11,7 @@ menus:
   SystemMain: 系统管理
   DeptList: 部门管理
   RoleMain: 角色管理
+  MenuMain: 菜单管理
 operate:
   create: "创建"
   newCreate: "新增"

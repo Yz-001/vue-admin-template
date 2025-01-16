@@ -1,4 +1,11 @@
-import type { DeptListSearch, DeptRow, RoleListSearch, RoleRow } from "@/apis/interface/system";
+import type {
+  DeptListSearch,
+  DeptRow,
+  MenuListSearch,
+  MenuRow,
+  RoleListSearch,
+  RoleRow
+} from "@/apis/interface/system";
 import request from "../request";
 
 // S 部门管理
@@ -102,3 +109,54 @@ export const deleteSystemRoleApi = async (data: RoleRow) => {
   return await request.Delete("/system/role/del", data);
 };
 // E 角色管理
+
+// S 菜单管理
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取菜单列表
+ */
+export const getMenuListApi = async (parmas: MenuListSearch) => {
+  return await request.Get("/system/menu/list", parmas);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取菜单详情
+ */
+export const getMenuDetailApi = async ({ id }: { id: string }) => {
+  return await request.Get("/system/menu/info", id);
+};
+/**
+ *
+ * @param data
+ * @returns
+ * @description 创建菜单
+ */
+export const postMenuCreateApi = async (data: MenuRow) => {
+  return await request.Post("/system/menu/create", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 更新菜单
+ */
+export const postMenuUpdateApi = async (data: MenuRow) => {
+  return await request.Post("/system/menu/update", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 删除菜单
+ */
+export const deleteMenuApi = async (data: MenuRow) => {
+  return await request.Delete("/system/menu/del", data);
+};
+// E 菜单管理

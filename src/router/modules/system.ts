@@ -37,6 +37,20 @@ export const SystemRouter: RouteRecordRaw = {
         allowRepeatTab: false
       },
       component: () => import("@/views/system/role/index.vue")
+    },
+    {
+      path: "menuMain",
+      name: "MenuMain",
+      meta: {
+        hidden: false,
+        icon: "Tickets",
+        title: "menus.MenuMain",
+        activeMenu: "MenuMain",
+        tabTitle: "menus.MenuMain",
+        breadcrumbHide: true,
+        allowRepeatTab: false
+      },
+      component: () => import("@/views/system/menu/index.vue")
     }
   ]
 };

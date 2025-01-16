@@ -11,6 +11,7 @@ menus:
   SystemMain: System management
   DeptList: Department management
   RoleMain: Role management
+  MenuMain: Menu management
 operate:
   create: "Create"
   newCreate: "Add"
