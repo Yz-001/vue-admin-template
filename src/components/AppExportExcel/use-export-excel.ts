@@ -147,7 +147,7 @@ export default function useExport(props: any) {
   }
 
   function formatNumber(value: number, decimalPlaces: number = 2): string {
-    return value.toFixed(decimalPlaces);
+    return decimalPlaces != undefined ? Number(value)?.toFixed(decimalPlaces) : String(Number(value));
   }
 
   function maskText(text: string): string {

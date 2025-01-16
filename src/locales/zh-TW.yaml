@@ -10,6 +10,7 @@ menus:
   NotifList: 通知列表
   SystemMain: 系統管理
   DeptList: 部門管理
+  RoleMain: 角色管理
 operate:
   create: "創建"
   newCreate: "新增"

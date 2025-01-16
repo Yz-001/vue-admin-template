@@ -10,6 +10,7 @@ menus:
   NotifList: Notification List
   SystemMain: System management
   DeptList: Department management
+  RoleMain: Role management
 operate:
   create: "Create"
   newCreate: "Add"

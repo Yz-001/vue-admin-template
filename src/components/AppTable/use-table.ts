@@ -175,7 +175,7 @@ export default function useTable(
   }
 
   function formatNumber(value: number, decimalPlaces: number | undefined = undefined): string {
-    return decimalPlaces != undefined ? value.toFixed(decimalPlaces) : String(Number(value));
+    return decimalPlaces != undefined ? Number(value)?.toFixed(decimalPlaces) : String(Number(value));
   }
 
   function getTagType(column: TableColumn, row: any): TagTypeEnum {
