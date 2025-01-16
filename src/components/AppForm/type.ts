@@ -1,3 +1,4 @@
+import type { ElForm } from "element-plus";
 import type { VNodeChild } from "vue";
 
 export interface FormProps {
@@ -149,4 +150,10 @@ export enum FormComponentEnum {
   ElTour = "ElTour",
   ElTourStep = "ElTourStep",
   CustomTemplate = "CustomTemplate" // 自定义模板组件
+}
+
+export interface AppFormRef {
+  formRef: InstanceType<typeof ElForm> | null;
+  getValidate(): Promise<any>;
+  handleReset(): Promise<any>;
 }

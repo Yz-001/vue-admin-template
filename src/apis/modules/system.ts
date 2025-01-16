@@ -39,3 +39,13 @@ export const postDeptCreateApi = async (data: DeptRow) => {
 export const postDeptUpdateApi = async (data: DeptRow) => {
   return await request.Post("/system/dept/update", data);
 };
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 删除部门
+ */
+export const deleteDeptApi = async (data: DeptRow) => {
+  return await request.Delete("/system/dept/del", data);
+};

@@ -98,6 +98,7 @@ defineExpose({
     <el-table
       class="app-table__content"
       :data="tableData"
+      border
       v-bind="safeTableConfig"
       @selectionChange="safeTableConfig?.selectionChange"
       @cell-click="handleCellClick"
