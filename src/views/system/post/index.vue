@@ -42,9 +42,9 @@ const elemColumns = [
     prop: "status",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入岗位状态",
-      options: Object.values(POST_STATUS)
-    }
+      placeholder: "请输入岗位状态"
+    },
+    options: Object.values(POST_STATUS)
   }
 ];
 

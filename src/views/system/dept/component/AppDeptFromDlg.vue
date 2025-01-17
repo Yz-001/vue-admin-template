@@ -104,9 +104,7 @@ const elemColumns = computed(() => {
       label: "部门状态",
       prop: "status",
       colLayout: COL_FULL,
-      attrs: {
-        options: Object.values(DEPT_STATUS)
-      }
+      options: Object.values(DEPT_STATUS)
     }
   ];
 });

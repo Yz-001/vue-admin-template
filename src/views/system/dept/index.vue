@@ -42,9 +42,7 @@ const elemColumns = [
     label: "部门状态",
     prop: "status",
     colLayout: COL_XL,
-    attrs: {
-      options: Object.values(DEPT_STATUS)
-    }
+    options: Object.values(DEPT_STATUS)
   }
 ];
 

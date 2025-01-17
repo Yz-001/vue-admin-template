@@ -42,9 +42,9 @@ const elemColumns = [
     prop: "status",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入角色状态",
-      options: Object.values(ROLE_STATUS)
-    }
+      placeholder: "请输入角色状态"
+    },
+    options: Object.values(ROLE_STATUS)
   },
   {
     type: FormComponentEnum.ElDatePicker,

@@ -42,9 +42,7 @@ const elemColumns = [
     label: "菜单状态",
     prop: "visible",
     colLayout: COL_XL,
-    attrs: {
-      options: Object.values(MENU_STATUS)
-    }
+    options: Object.values(MENU_STATUS)
   }
 ];
 

@@ -83,9 +83,7 @@ const elemColumns = computed(() => {
       label: "菜单类型",
       prop: "status",
       colLayout: COL_FULL,
-      attrs: {
-        options: Object.values(MENU_TYPE)
-      }
+      options: Object.values(MENU_TYPE)
     },
     {
       type: FormComponentEnum.ElInput,
@@ -120,18 +118,16 @@ const elemColumns = computed(() => {
       label: "是否刷新",
       prop: "isRefresh",
       colLayout: COL_FULL,
-      attrs: {
-        options: Object.values(YESNO_TYPE)
-      }
+      attrs: {},
+      options: Object.values(YESNO_TYPE)
     },
     {
       type: FormComponentEnum.ElRadio,
       label: "菜单状态",
-      prop: "status",
+      prop: "visible",
       colLayout: COL_FULL,
-      attrs: {
-        options: Object.values(MENU_STATUS)
-      }
+      attrs: {},
+      options: Object.values(MENU_STATUS)
     }
   ];
 });

@@ -72,9 +72,8 @@ const elemColumns = computed(() => {
       label: "角色状态",
       prop: "status",
       colLayout: COL_FULL,
-      attrs: {
-        options: Object.values(ROLE_STATUS)
-      }
+      attrs: {},
+      options: Object.values(ROLE_STATUS)
     },
     {
       type: FormComponentEnum.ElInput,

@@ -60,34 +60,52 @@ defineExpose({
             <slot :name="`${item.prop}Slot`" />
           </template>
           <template v-else-if="item.type === FormComponentEnum.ElSelect">
-            <el-select v-model="formModel[item.prop]" v-bind="item.attrs || {}">
+            <el-select v-model="formModel[item.prop]" v-bind="item.attrs || {}" v-on="item?.events || {}">
               <el-option
-                v-for="option in item.attrs?.options"
-                :key="option[item.attrs?.key || item.attrs?.value || 'value']"
-                :value="option[item.attrs?.value || 'value']"
-                :label="option[item.attrs?.label || 'label']"
+                v-for="option in item?.options"
+                :key="option[item.optionAttrs?.key || item.optionAttrs?.value || 'value']"
+                :value="option[item.optionAttrs?.value || 'value']"
+                :label="option[item.optionAttrs?.label || 'label']"
+                v-bind="item?.attrs?.optionAttrs || {}"
+                v-on="item?.attrs?.optionEvents || {}"
               />
             </el-select>
           </template>
           <template v-else-if="item.type === FormComponentEnum.ElRadio">
-            <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}">
+            <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}" v-on="item?.events || {}">
               <el-radio
-                v-for="option in item.attrs?.options"
-                :key="option[item.attrs?.key || item.attrs?.value || 'value']"
-                :value="option[item.attrs?.value || 'value']"
-                :label="option[item.attrs?.label || 'label']"
+                v-for="option in item?.options"
+                :key="option[item.optionAttrs?.key || item.optionAttrs?.value || 'value']"
+                :value="option[item.optionAttrs?.value || 'value']"
+                :label="option[item.optionAttrs?.label || 'label']"
+                v-bind="item?.optionAttrs || {}"
+                v-on="item?.optionEvents || {}"
               />
             </el-radio-group>
           </template>
           <template v-else-if="item.type === FormComponentEnum.ElRadioGroup">
-            <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}">
+            <el-radio-group v-model="formModel[item.prop]" v-bind="item.attrs || {}" v-on="item?.events || {}">
               <el-radio-button
-                v-for="option in item.attrs?.options"
-                :key="option[item.attrs?.key || item.attrs?.value || 'value']"
-                :value="option[item.attrs?.value || 'value']"
-                :label="option[item.attrs?.label || 'label']"
+                v-for="option in item?.options"
+                :key="option[item.optionAttrs?.key || item.optionAttrs?.value || 'value']"
+                :value="option[item.optionAttrs?.value || 'value']"
+                :label="option[item.optionAttrs?.label || 'label']"
+                v-bind="item?.optionAttrs || {}"
+                v-on="item?.optionEvents || {}"
               />
             </el-radio-group>
+          </template>
+          <template v-else-if="item.type === FormComponentEnum.ElCheckboxGroup">
+            <el-checkbox-group v-model="formModel[item.prop]" v-bind="item.attrs || {}" v-on="item?.events || {}">
+              <el-checkbox
+                v-for="option in item?.options"
+                :key="option[item.optionAttrs?.key || item.optionAttrs?.value || 'value']"
+                :value="option[item.optionAttrs?.value || 'value']"
+                :label="option[item.optionAttrs?.label || 'label']"
+                v-bind="item?.optionAttrs || {}"
+                v-on="item?.optionEvents || {}"
+              />
+            </el-checkbox-group>
           </template>
           <template v-else>
             <component
@@ -97,7 +115,7 @@ defineExpose({
               v-on="item.events || {}"
             >
               <template v-if="item.defalutSlot" #default="scope">
-                <slot :name="`${item.prop}Content`" :row="scope.row" />
+                <slot :name="`${item.prop}Slot`" :row="scope.row" />
               </template>
             </component>
           </template>
