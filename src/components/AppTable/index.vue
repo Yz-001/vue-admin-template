@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, defineExpose, computed } from "vue";
+import { onMounted, defineExpose, computed, watch } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
-import { Refresh, Document } from "@element-plus/icons-vue";
-import useTable from "./use-table";
+import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig, type TableColumn } from "./type";
+import { Refresh, Document, ScaleToOriginal } from "@element-plus/icons-vue";
+import useTable from "./useTable";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
 import { type ExportExcelProps } from "@/components/AppExportExcel/type";
 
@@ -20,6 +20,7 @@ const {
   tableColumns,
   tableTotal,
   pagination,
+  selectColShowList,
   getObjectValue,
   getSectionValue,
   getImageSrc,
@@ -42,17 +43,51 @@ const {
   getTagColor
 } = useTable(props, emit);
 
-onMounted(() => {
-  if (props?.remoteConfig?.autoRequest) {
-    fetchData();
+watch(
+  () => props.data,
+  (newList: any) => {
+    tableData.value = newList;
+  },
+  {
+    immediate: true,
+    deep: true
   }
-});
+);
+watch(
+  () => props.tableTotal,
+  (newNum: number | undefined) => {
+    if (typeof newNum == "number") {
+      tableTotal.value = newNum;
+    }
+  }
+);
+watch(
+  () => props.elemColumns,
+  (newList: TableColumn[]) => {
+    selectColShowList.value =
+      (props?.elemColumns || [])?.map(column => {
+        return column.prop;
+      }) || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const safeTableConfig = computed<TableConfig>(() => {
   return props?.tableConfig ?? ({} as TableConfig);
 });
 const safeExportExcelConfig = computed<ExportExcelProps>(() => ({
   ...(props.exportExcelConfig ?? ({} as ExportExcelProps))
 }));
+
+onMounted(() => {
+  if (props?.remoteConfig?.autoRequest) {
+    fetchData();
+  }
+});
+
 defineExpose({
   refresh,
   clearData,
@@ -66,17 +101,32 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
-        <AppExportExcel v-if="showExportExcel" v-bind="safeExportExcelConfig" />
+        <AppExportExcel v-if="showExportExcel" buttonLabel="导出表格" v-bind="safeExportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />
         <el-button :icon="Refresh" circle @click="refresh" />
+        <el-popover v-if="props?.elemColumns?.length" placement="right" width="100" trigger="click">
+          <el-checkbox-group v-model="selectColShowList">
+            <el-checkbox
+              v-for="column in props.elemColumns"
+              :key="column.prop"
+              :label="column.label"
+              :value="column.prop"
+              class="w-full"
+            />
+          </el-checkbox-group>
+          <template v-slot:reference>
+            <el-button :icon="ScaleToOriginal" class="ml-[20px]" circle />
+          </template>
+        </el-popover>
         <slot name="rightOperAfter" />
       </div>
     </div>
     <el-table
       class="app-table__content"
       :data="tableData"
+      border
       v-bind="safeTableConfig"
       @selectionChange="safeTableConfig?.selectionChange"
       @cell-click="handleCellClick"

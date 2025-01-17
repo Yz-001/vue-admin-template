@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { withDefaults } from "vue";
-import useExportExcel from "./use-export-excel";
+import useExportExcel from "./useExportExcel";
 import { type ExportExcelProps, ExportModeEnum } from "./type";
 
 const props = withDefaults(defineProps<ExportExcelProps>(), {

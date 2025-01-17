@@ -2,7 +2,7 @@
   <div class="page-container notif-list">
     <AppFilterForm
       v-model:formModel="searchForm"
-      :componentList="componentList"
+      :elemColumns="elemColumns"
       @onSearch="handleSearch"
       @onReset="handleSearch"
     />
@@ -10,7 +10,7 @@
     <AppTable
       ref="appTableRef"
       class="notif-list__table"
-      :columns="tableColumns"
+      :elemColumns="tableColumns"
       :tableConfig="tableConfig"
       :remoteConfig="remoteConfig"
       :filterParams="filterParams"
@@ -53,9 +53,9 @@ const tableConfig = reactive({
   border: true,
   selectionChange: handleSelectionChange
 });
-const componentList = [
+const elemColumns = [
   {
-    componentName: FormComponentEnum.ElInput,
+    type: FormComponentEnum.ElInput,
     label: "标题",
     prop: "title",
     labelWidth: 60,
@@ -69,7 +69,7 @@ const componentList = [
     }
   },
   {
-    componentName: FormComponentEnum.ElDatePicker,
+    type: FormComponentEnum.ElDatePicker,
     label: "通知时间",
     prop: "dateRange",
     colLayout: {
@@ -163,7 +163,7 @@ const handleDelete = (row: NotifRow) => {
 const exportExcelConfig = computed(() => {
   const config = {
     filename: `通知列表${new Date().getTime()}`,
-    excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    excelElemColumns: tableColumns?.filter(i => !["template", "index"].includes(i.prop)) || [],
     remoteConfig: {
       remoteApi: getNotifListApi,
       defaultParams: filterParams.value

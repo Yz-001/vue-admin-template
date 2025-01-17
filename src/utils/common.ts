@@ -286,3 +286,78 @@ export function copyText(value: string, desensitize = false) {
   }
   document.body.removeChild(textarea);
 }
+
+// 定义一个接口来描述树节点的通用结构
+interface TreeNode<T extends object> {
+  id: number;
+  parentId: number;
+  children?: Array<TreeNode<T>>;
+  [key: string]: any;
+}
+
+// 构建层级结构的函数，支持自定义id和parentId的键名 根据parentId和当前id做匹配，相同则是子数据
+export const constructHierarchy = <T extends object>(
+  items: T[],
+  options: {
+    idKey?: keyof T;
+    parentIdKey?: keyof T;
+    rootId?: number;
+  } = {}
+): TreeNode<T>[] => {
+  const hierarchyRoot: TreeNode<T>[] = [];
+  const lookup: { [key: number]: TreeNode<T> } = {};
+  const allParentIds: Set<number> = new Set();
+
+  // 合并默认选项与用户提供的选项
+  const opts = {
+    idKey: "id" as keyof T,
+    parentIdKey: "parentId" as keyof T,
+    rootId: 0,
+    ...options
+  };
+
+  // 创建所有节点的查找表，并收集所有的 parentId
+  items.forEach(item => {
+    const itemId = item[opts.idKey] as unknown as number;
+    lookup[itemId] = { ...item, children: [], id: itemId, parentId: item[opts.parentIdKey] as unknown as number };
+    if (item[opts.parentIdKey] !== opts.rootId) {
+      allParentIds.add(item[opts.parentIdKey] as unknown as number);
+    }
+  });
+
+  // 遍历所有节点并构建层级结构
+  items.forEach(item => {
+    const itemId = item[opts.idKey] as unknown as number;
+    const parentId = item[opts.parentIdKey] as unknown as number;
+
+    if (parentId === opts.rootId) {
+      // 如果是根节点，则直接添加到层级结构的根中
+      hierarchyRoot.push(lookup[itemId]);
+    } else {
+      // 否则找到其父节点，并添加到父节点的children属性中
+      const parent = lookup[parentId];
+      if (parent) {
+        // 确保 parent.children 存在并且是一个数组
+        if (!Array.isArray(parent.children)) {
+          parent.children = [];
+        }
+
+        parent.children.push(lookup[itemId]);
+
+        // 调试信息：打印当前节点及其父节点的信息
+        // console.log(`Adding child ${itemId} to parent ${parentId}`);
+      } else {
+        console.warn(`Parent with id ${parentId} not found for item ${itemId}`);
+      }
+    }
+  });
+
+  // 检查是否有未匹配的 parentId
+  allParentIds.forEach(id => {
+    if (!lookup[id]) {
+      console.error(`Parent node with id ${id} does not exist.`);
+    }
+  });
+
+  return hierarchyRoot;
+};

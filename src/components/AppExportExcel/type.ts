@@ -1,6 +1,6 @@
 export interface ExportExcelProps {
   filename?: string;
-  excelColumns?: ExcelColumn[];
+  excelElemColumns?: ExcelColumn[];
   excelData?: any[];
   remoteConfig?: ExportRemoteConfig;
   buttonLabel?: string;

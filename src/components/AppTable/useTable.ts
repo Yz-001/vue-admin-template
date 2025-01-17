@@ -11,7 +11,10 @@ export default function useTable(
   ) => void
 ) {
   const tableData = ref(props.data);
-  const tableColumns = computed(() => props.columns);
+  const selectColShowList = ref<string[]>([]);
+  const tableColumns = computed(() => {
+    return (props?.elemColumns || [])?.filter(item => selectColShowList.value?.includes(item?.prop));
+  });
   const tableTotal = ref(0);
   const pagination = reactive({
     currentPage: props.defaultPageNumber,
@@ -174,8 +177,8 @@ export default function useTable(
     console.log("handleFileClick: ", _column);
   }
 
-  function formatNumber(value: number, decimalPlaces: number = 2): string {
-    return value.toFixed(decimalPlaces);
+  function formatNumber(value: number, decimalPlaces: number | undefined = undefined): string {
+    return decimalPlaces != undefined ? Number(value)?.toFixed(decimalPlaces) : String(Number(value));
   }
 
   function getTagType(column: TableColumn, row: any): TagTypeEnum {
@@ -194,6 +197,7 @@ export default function useTable(
     tableColumns,
     tableTotal,
     pagination,
+    selectColShowList,
     getObjectValue,
     getSectionValue,
     getImageSrc,
