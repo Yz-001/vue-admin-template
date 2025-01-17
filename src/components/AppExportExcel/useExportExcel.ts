@@ -6,40 +6,60 @@ import { ElMessage } from "element-plus";
 export default function useExport(props: any) {
   // 格式化excel数据
   function getFormatExcelData(exportData: any[], excelElemColumns: ExcelColumn[]): any[] {
+    // 提前准备一个 prop 列表，以便快速查找
+    const columnProps = excelElemColumns.map(column => column.prop);
     return exportData.map(data => {
-      const formattedData = { ...data };
+      const formattedData: { [key: string]: any } = {};
 
       excelElemColumns.forEach(column => {
-        let currentVal = data[column.prop];
+        // 确保 data 中存在对应的 prop 并且该列已定义
+        if (data.hasOwnProperty(column.prop) && columnProps.includes(column.prop)) {
+          let currentVal;
 
-        if (column.type === ExcelFormatEnum.OBJECT) {
-          currentVal = getObjectValue(data, column);
-        } else if (column.type === ExcelFormatEnum.SECTION) {
-          currentVal = getSectionValue(data, column);
-        } else if (column.type === ExcelFormatEnum.LIST) {
-          currentVal = getListValues(data, column).join(", ");
-        } else if (column.type === ExcelFormatEnum.DATE) {
-          if (column.dateStartProp && column.dateEndProp) {
-            currentVal = formatDateRange(
-              data[column.dateStartProp],
-              data[column.dateEndProp],
-              column.dateFormat,
-              column.separator
-            );
-          } else {
-            currentVal = formatDate(data[column.prop], column.dateFormat);
+          switch (column.type) {
+            case ExcelFormatEnum.OBJECT:
+              currentVal = getObjectValue(data, column);
+              break;
+            case ExcelFormatEnum.SECTION:
+              currentVal = getSectionValue(data, column);
+              break;
+            case ExcelFormatEnum.LIST:
+              currentVal = getListValues(data, column).join(", ");
+              break;
+            case ExcelFormatEnum.DATE:
+              if (column.dateStartProp && column.dateEndProp) {
+                currentVal = formatDateRange(
+                  data[column.dateStartProp],
+                  data[column.dateEndProp],
+                  column.dateFormat,
+                  column.separator
+                );
+              } else {
+                currentVal = formatDate(data[column.prop], column.dateFormat);
+              }
+              break;
+            case ExcelFormatEnum.NUMBER:
+              currentVal = formatNumber(data[column.prop], column.decimalPlaces);
+              break;
+            case ExcelFormatEnum.CUSTOMFORMAT:
+              if (typeof column.formatFn === "function") {
+                currentVal = column.formatFn(data[column.prop], column.dateFormat);
+              }
+              break;
+            default:
+              currentVal = data[column.prop]; // 默认情况下，直接使用原始值
           }
-        } else if (column.type === ExcelFormatEnum.NUMBER) {
-          currentVal = formatNumber(data[column.prop], column.decimalPlaces);
-        } else if (column.type === ExcelFormatEnum.CUSTOMFORMAT) {
-          if (typeof column.formatFn == "function") currentVal = column.formatFn(data[column.prop], column.dateFormat);
-        } else if (column.masked) {
-          currentVal = maskText(data[column.prop]);
-        }
-        formattedData[column.prop] = currentVal; // 更新该列的值
-      });
 
-      return formattedData;
+          // 如果有 masked 属性并且为真，则应用 maskText 函数
+          if (column.masked) {
+            currentVal = maskText(currentVal);
+          }
+
+          // 只添加那些在 excelElemColumns 中定义了的 prop
+          formattedData[column.prop] = currentVal;
+        }
+      });
+      return Object.values(formattedData);
     });
   }
 
@@ -48,7 +68,8 @@ export default function useExport(props: any) {
     if (props.exportModel == ExportModeEnum.LISTDATA) {
       //当前列表数据导出
       const exportData = getFormatExcelData(props.excelData, props.excelElemColumns);
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const headData = props?.excelElemColumns?.map((i: ExcelColumn) => i.label);
+      const worksheet = XLSX.utils.aoa_to_sheet([headData, ...exportData]);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, name);
       XLSX.writeFile(workbook, `${name}.xlsx`);
@@ -58,7 +79,8 @@ export default function useExport(props: any) {
         .remoteApi(props.remoteConfig.defaultParams)
         .then((res: any) => {
           const exportData = getFormatExcelData(res?.data?.rows || [], props.excelElemColumns);
-          const worksheet = XLSX.utils.json_to_sheet(exportData);
+          const headData = props?.excelElemColumns?.map((i: ExcelColumn) => i.label);
+          const worksheet = XLSX.utils.aoa_to_sheet([headData, ...exportData]);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, name);
           XLSX.writeFile(workbook, `${name}.xlsx`);

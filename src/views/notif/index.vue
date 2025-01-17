@@ -163,7 +163,7 @@ const handleDelete = (row: NotifRow) => {
 const exportExcelConfig = computed(() => {
   const config = {
     filename: `通知列表${new Date().getTime()}`,
-    excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    excelElemColumns: tableColumns?.filter(i => !["template", "index"].includes(i.prop)) || [],
     remoteConfig: {
       remoteApi: getNotifListApi,
       defaultParams: filterParams.value
