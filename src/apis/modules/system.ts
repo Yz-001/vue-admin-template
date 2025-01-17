@@ -3,8 +3,12 @@ import type {
   DeptRow,
   MenuListSearch,
   MenuRow,
+  PostListSearch,
+  PostRow,
   RoleListSearch,
-  RoleRow
+  RoleRow,
+  UserListSearch,
+  UserRow
 } from "@/apis/interface/system";
 import request from "../request";
 
@@ -160,3 +164,105 @@ export const deleteMenuApi = async (data: MenuRow) => {
   return await request.Delete("/system/menu/del", data);
 };
 // E 菜单管理
+
+// S 岗位管理
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取岗位列表
+ */
+export const getSystemPostListApi = async (parmas: PostListSearch) => {
+  return await request.Get("/system/post/list", parmas);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取岗位详情
+ */
+export const getSystemPostDetailApi = async ({ id }: { id: string }) => {
+  return await request.Get("/system/post/info", id);
+};
+/**
+ *
+ * @param data
+ * @returns
+ * @description 创建岗位
+ */
+export const postSystemPostCreateApi = async (data: PostRow) => {
+  return await request.Post("/system/post/create", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 更新岗位
+ */
+export const postSystemPostUpdateApi = async (data: PostRow) => {
+  return await request.Post("/system/post/update", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 删除岗位
+ */
+export const deleteSystemPostApi = async (data: PostRow) => {
+  return await request.Delete("/system/post/del", data);
+};
+// E 岗位管理
+
+// S 用户管理
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取用户列表
+ */
+export const getSystemUserListApi = async (parmas: UserListSearch) => {
+  return await request.Get("/system/user/list", parmas);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 获取用户详情
+ */
+export const getSystemUserDetailApi = async ({ id }: { id: string }) => {
+  return await request.Get("/system/user/info", id);
+};
+/**
+ *
+ * @param data
+ * @returns
+ * @description 创建用户
+ */
+export const postSystemUserCreateApi = async (data: UserRow) => {
+  return await request.Post("/system/user/create", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 更新用户
+ */
+export const postSystemUserUpdateApi = async (data: UserRow) => {
+  return await request.Post("/system/user/update", data);
+};
+
+/**
+ *
+ * @param data
+ * @returns
+ * @description 删除用户
+ */
+export const deleteSystemUserApi = async (data: UserRow) => {
+  return await request.Delete("/system/user/del", data);
+};
+// E 用户管理

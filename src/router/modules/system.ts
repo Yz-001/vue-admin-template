@@ -51,6 +51,34 @@ export const SystemRouter: RouteRecordRaw = {
         allowRepeatTab: false
       },
       component: () => import("@/views/system/menu/index.vue")
+    },
+    {
+      path: "postMain",
+      name: "PostMain",
+      meta: {
+        hidden: false,
+        icon: "Tickets",
+        title: "menus.PostMain",
+        activePost: "PostMain",
+        tabTitle: "menus.PostMain",
+        breadcrumbHide: true,
+        allowRepeatTab: false
+      },
+      component: () => import("@/views/system/post/index.vue")
+    },
+    {
+      path: "userMain",
+      name: "UserMain",
+      meta: {
+        hidden: false,
+        icon: "Tickets",
+        title: "menus.UserMain",
+        activeUser: "UserMain",
+        tabTitle: "menus.UserMain",
+        breadcrumbHide: true,
+        allowRepeatTab: false
+      },
+      component: () => import("@/views/system/user/index.vue")
     }
   ]
 };

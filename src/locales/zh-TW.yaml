@@ -12,6 +12,8 @@ menus:
   DeptList: 部門管理
   RoleMain: 角色管理
   MenuMain: 菜单管理
+  PostMain: 崗位管理
+  UserMain: 用戶管理
 operate:
   create: "創建"
   newCreate: "新增"

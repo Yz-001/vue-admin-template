@@ -51,6 +51,30 @@ export const MENU_TYPE: { [key: string]: CommonOptionString } = {
   }
 };
 
+// 岗位类型
+export const POST_STATUS: { [key: string]: CommonOptionString } = {
+  NORMAL: {
+    label: "正常",
+    value: "0"
+  },
+  PAUSE: {
+    label: "暂停",
+    value: "1"
+  }
+};
+
+// 用户类型
+export const USER_STATUS: { [key: string]: CommonOptionString } = {
+  NORMAL: {
+    label: "正常",
+    value: "0"
+  },
+  PAUSE: {
+    label: "暂停",
+    value: "1"
+  }
+};
+
 // 是否类型
 export const YESNO_TYPE: { [key: string]: CommonOptionString } = {
   YES: {

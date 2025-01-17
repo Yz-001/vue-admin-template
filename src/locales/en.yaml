@@ -12,6 +12,8 @@ menus:
   DeptList: Department management
   RoleMain: Role management
   MenuMain: Menu management
+  PostMain: Post management
+  UserMain: User management
 operate:
   create: "Create"
   newCreate: "Add"

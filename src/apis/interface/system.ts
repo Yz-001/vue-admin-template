@@ -53,3 +53,38 @@ export interface MenuRow {
   isRefresh?: number; //是否刷新
 }
 // E 菜单管理
+
+// S 岗位管理
+export interface PostListSearch {
+  postCode?: string; //岗位编码
+  postName?: string; //岗位名称
+  status?: number; // 状态
+}
+export interface PostRow {
+  id?: number;
+  postCode?: string; //岗位编码
+  postName?: string; //岗位名称
+  postSort?: number; // 显示顺序
+  status?: number; // 状态
+  createTime?: string; // 创建时间
+  remark?: string; // 备注
+}
+// E 岗位管理
+
+// S 用户管理
+export interface UserListSearch {
+  userName?: string; //登录名称
+  phonenumber?: string; // 手机号码
+  status?: number; // 用户状态
+  createTime?: number; // 创建时间
+}
+export interface UserRow {
+  id?: number; // 用户ID
+  userName?: string; //用户名称
+  phonenumber?: string; // 手机号码
+  status?: number; // 用户状态
+  createTime?: number; // 创建时间
+  deptId?: string; // 部门
+  remark?: string; // 备注
+}
+// E 用户管理
