@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, computed } from "vue";
 import { FormComponentEnum, type FormProps } from "./type";
-import useForm from "./use-form";
+import useForm from "./useForm";
 
 const props = withDefaults(defineProps<FormProps>(), {
   elemColumns: () => [],

@@ -3,7 +3,7 @@ import { onMounted, defineExpose, computed, watch } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
 import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig, type TableColumn } from "./type";
 import { Refresh, Document, ScaleToOriginal } from "@element-plus/icons-vue";
-import useTable from "./use-table";
+import useTable from "./useTable";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
 import { type ExportExcelProps } from "@/components/AppExportExcel/type";
 

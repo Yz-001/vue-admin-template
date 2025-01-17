@@ -345,7 +345,7 @@ export const constructHierarchy = <T extends object>(
         parent.children.push(lookup[itemId]);
 
         // 调试信息：打印当前节点及其父节点的信息
-        console.log(`Adding child ${itemId} to parent ${parentId}`);
+        // console.log(`Adding child ${itemId} to parent ${parentId}`);
       } else {
         console.warn(`Parent with id ${parentId} not found for item ${itemId}`);
       }
