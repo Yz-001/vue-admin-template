@@ -11,7 +11,10 @@ export default function useTable(
   ) => void
 ) {
   const tableData = ref(props.data);
-  const tableColumns = computed(() => props.elemColumns);
+  const selectColShowList = ref<string[]>([]);
+  const tableColumns = computed(() => {
+    return (props?.elemColumns || [])?.filter(item => selectColShowList.value?.includes(item?.prop));
+  });
   const tableTotal = ref(0);
   const pagination = reactive({
     currentPage: props.defaultPageNumber,
@@ -194,6 +197,7 @@ export default function useTable(
     tableColumns,
     tableTotal,
     pagination,
+    selectColShowList,
     getObjectValue,
     getSectionValue,
     getImageSrc,

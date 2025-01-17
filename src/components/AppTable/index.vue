@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, defineExpose, computed, watch } from "vue";
 import { ElTag, ElImage, ElIcon, ElButton } from "element-plus";
-import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig } from "./type";
-import { Refresh, Document } from "@element-plus/icons-vue";
+import { TableColTypeEnum, TableTypeEnum, type TableProps, type TableConfig, type TableColumn } from "./type";
+import { Refresh, Document, ScaleToOriginal } from "@element-plus/icons-vue";
 import useTable from "./use-table";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
 import { type ExportExcelProps } from "@/components/AppExportExcel/type";
@@ -20,6 +20,7 @@ const {
   tableColumns,
   tableTotal,
   pagination,
+  selectColShowList,
   getObjectValue,
   getSectionValue,
   getImageSrc,
@@ -60,6 +61,19 @@ watch(
     }
   }
 );
+watch(
+  () => props.elemColumns,
+  (newList: TableColumn[]) => {
+    selectColShowList.value =
+      (props?.elemColumns || [])?.map(column => {
+        return column.prop;
+      }) || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 const safeTableConfig = computed<TableConfig>(() => {
   return props?.tableConfig ?? ({} as TableConfig);
@@ -92,6 +106,20 @@ defineExpose({
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />
         <el-button :icon="Refresh" circle @click="refresh" />
+        <el-popover v-if="props?.elemColumns?.length" placement="right" width="100" trigger="click">
+          <el-checkbox-group v-model="selectColShowList">
+            <el-checkbox
+              v-for="column in props.elemColumns"
+              :key="column.prop"
+              :label="column.label"
+              :value="column.prop"
+              class="w-full"
+            />
+          </el-checkbox-group>
+          <template v-slot:reference>
+            <el-button :icon="ScaleToOriginal" class="ml-[20px]" circle />
+          </template>
+        </el-popover>
         <slot name="rightOperAfter" />
       </div>
     </div>
