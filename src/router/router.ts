@@ -1,6 +1,6 @@
 import { createRouter, type RouteRecordRaw, createWebHashHistory } from "vue-router";
 import { BasicRouter } from "./modules/basic";
-import { ExploitRouter } from "./modules/exploit";
+// import { ExploitRouter } from "./modules/exploit";
 import { NotifRouter } from "./modules/notif";
 import { SystemRouter } from "./modules/system";
 // import { encryptQuery, decodeQuery } from "@/utils/cryptoJS";
@@ -15,7 +15,7 @@ export const routes: Array<RouteRecordRaw> = [
   ...BasicRouter,
   NotifRouter,
   SystemRouter,
-  ExploitRouter,
+  // ExploitRouter,
   {
     path: "/:pathMatch(.*)*",
     name: "Error",
