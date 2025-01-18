@@ -2,7 +2,7 @@
   <div class="page-container notif-list">
     <AppFilterForm
       v-model:formModel="searchForm"
-      :componentList="componentList"
+      :elemColumns="elemColumns"
       @onSearch="handleSearch"
       @onReset="handleSearch"
     />
@@ -10,7 +10,7 @@
     <AppTable
       ref="appTableRef"
       class="notif-list__table"
-      :columns="tableColumns"
+      :elemColumns="tableColumns"
       :tableConfig="tableConfig"
       :remoteConfig="remoteConfig"
       :filterParams="filterParams"
@@ -37,9 +37,10 @@
 <script setup lang="ts">
 import AppNotifFromDlg from "@/views/notif/component/AppNotifFromDlg.vue";
 import { getNotifListApi } from "@/apis/modules/notif";
-import type { NotifRow } from "@/apis/interface/notif";
 import { TableTypeEnum } from "@/components/AppTable/type";
+import { reactive, ref, nextTick, computed } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
+import { NotifRow } from "@/apis/interface/notif";
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -52,9 +53,9 @@ const tableConfig = reactive({
   border: true,
   selectionChange: handleSelectionChange
 });
-const componentList = [
+const elemColumns = [
   {
-    componentName: FormComponentEnum.ElInput,
+    type: FormComponentEnum.ElInput,
     label: "标题",
     prop: "title",
     labelWidth: 60,
@@ -68,7 +69,7 @@ const componentList = [
     }
   },
   {
-    componentName: FormComponentEnum.ElDatePicker,
+    type: FormComponentEnum.ElDatePicker,
     label: "通知时间",
     prop: "dateRange",
     colLayout: {
@@ -130,7 +131,7 @@ const remoteConfig = {
   defaultParams: {},
   autoRequest: true
 };
-const appTableRef = ref(null);
+const appTableRef = ref<{ refresh: () => void } | null>(null);
 const filterParams = ref({});
 const handleSearch = (data: { [key: string]: any }) => {
   filterParams.value = data;
@@ -142,7 +143,7 @@ const tableData = ref([]);
 const handleUpdateData = (data: any[]) => {
   tableData.value = JSON.parse(JSON.stringify(data || []));
 };
-const notifFromDlgProp = reactive({
+const notifFromDlgProp = reactive<{ visible: boolean; row: any }>({
   visible: false,
   row: undefined
 });
@@ -162,7 +163,7 @@ const handleDelete = (row: NotifRow) => {
 const exportExcelConfig = computed(() => {
   const config = {
     filename: `通知列表${new Date().getTime()}`,
-    excelColumns: tableColumns?.filter(i => i.prop != "template") || [],
+    excelElemColumns: tableColumns?.filter(i => !["template", "index"].includes(i.prop)) || [],
     remoteConfig: {
       remoteApi: getNotifListApi,
       defaultParams: filterParams.value

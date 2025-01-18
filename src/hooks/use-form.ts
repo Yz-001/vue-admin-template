@@ -1,3 +1,3 @@
-import useForm from "@/components/AppForm/use-form";
+import useForm from "@/components/AppForm/useForm";
 
 export default useForm;

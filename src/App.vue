@@ -7,7 +7,8 @@
 <script lang="ts" setup>
 import { handleThemeMode, handleThemeStyle } from "@/utils/theme";
 import { ElConfigProvider } from "element-plus";
-import { useSettingsStore } from "@/stores/modules/settings";
+import { Locale, useSettingsStore } from "@/stores/modules/settings";
+import { computed, onMounted } from "vue";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import zhTw from "element-plus/dist/locale/zh-tw.mjs";
 import en from "element-plus/dist/locale/en.mjs";
@@ -15,11 +16,11 @@ import { checkForUpdate } from "@/utils/common";
 
 const settings = useSettingsStore();
 const localeMap = {
-  zh: zhCn,
-  en: en,
-  zhTW: zhTw
+  [Locale.ZH]: zhCn,
+  [Locale.EN]: en,
+  [Locale.ZHTW]: zhTw
 };
-const curLocale = computed(() => localeMap[settings.locale]);
+const curLocale = computed(() => localeMap[settings.$state.locale]);
 const { theme, themeMode } = useSettingsStore();
 
 onMounted(() => {

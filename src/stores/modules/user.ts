@@ -23,11 +23,11 @@ export const useUserStore = defineStore("user", {
     SET_USERNAME(username: string) {
       this.username = username;
     },
-    SET_ROLES(roles: Array<string>) {
+    SET_ROLES(roles: Array<{ id: string }>) {
       this.roles = roles;
     },
     /** 登入 */
-    async loginByUser(data) {
+    async loginByUser(data: any) {
       return new Promise((resolve, reject) => {
         postUserLoginApi(data)
           .then(data => {
@@ -42,7 +42,7 @@ export const useUserStore = defineStore("user", {
     getUserInfo() {
       getUserInfoApi({ token: getToken() })
         .then(data => {
-          this.setUserInfo(data);
+          this.setUserInfo(data as unknown as UserResult);
         })
         .catch(error => {
           if (error?.message) messageError(error.message);
@@ -52,7 +52,7 @@ export const useUserStore = defineStore("user", {
       this.userInfoSet = data || {};
       this.avatar = data?.avatar || "";
       this.username = data?.username || "";
-      this.roles = data?.roles || "";
+      this.roles = (data?.roles || []) as Array<{ id: string }>;
       this.tenantId = data?.tenantId || "";
     },
     /** 前端登出（不调用接口） */

@@ -39,7 +39,7 @@ export default abstract class HttpClient {
         const httpCancel = useHttpCancel();
         httpCancel.requestClearRepeatQueue(config);
 
-        config.headers!.Authorization = getToken() || "";
+        config.headers.Authorization = getToken() || "";
 
         config.transformRequest = [
           function (data) {
@@ -96,7 +96,7 @@ export default abstract class HttpClient {
     if (!res.data.requestAccess) {
       // 获取错误信息
       if (!this.httpOption.noErrMsgCodes?.includes(res.data?.code)) {
-        const msg = errorCode[res.data?.code] || res.data?.msg || errorCode["default"];
+        const msg = errorCode[res?.data?.code] || res.data?.msg || errorCode["default"];
         if (msg) {
           error(msg);
         }
@@ -120,7 +120,7 @@ export default abstract class HttpClient {
   };
 }
 
-export const errorCode = {
+export const errorCode: { [key: string]: string } = {
   "401": "认证失败，无法访问系统资源",
   "403": "当前操作没有权限",
   "404": "访问资源不存在",

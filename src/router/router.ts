@@ -1,7 +1,8 @@
 import { createRouter, type RouteRecordRaw, createWebHashHistory } from "vue-router";
 import { BasicRouter } from "./modules/basic";
-import { ExploitRouter } from "./modules/exploit";
+// import { ExploitRouter } from "./modules/exploit";
 import { NotifRouter } from "./modules/notif";
+import { SystemRouter } from "./modules/system";
 // import { encryptQuery, decodeQuery } from "@/utils/cryptoJS";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -9,16 +10,17 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "Login",
     meta: { hidden: true, title: "menus.Login" },
-    component: () => import("@views/login/index.vue")
+    component: () => import("@/views/login/index.vue")
   },
   ...BasicRouter,
   NotifRouter,
-  ExploitRouter,
+  SystemRouter,
+  // ExploitRouter,
   {
     path: "/:pathMatch(.*)*",
     name: "Error",
     meta: { hidden: true, title: "404" },
-    component: () => import("@views/error/404.vue")
+    component: () => import("@/views/error/404.vue")
   }
 ];
 

@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import packageJson from "../../../package.json";
 const props = withDefaults(defineProps<{ collapse?: boolean; isCanClick?: boolean }>(), {
   isCanClick: true

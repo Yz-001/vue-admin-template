@@ -1,5 +1,6 @@
 import { useAppStore } from "@/stores/modules/app";
 import { layoutModeEnum, layoutDeviceEnum } from "@/apis/interface/common";
+import { computed } from "vue";
 
 export default function useLayout() {
   const appStore = useAppStore();

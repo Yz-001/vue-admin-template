@@ -24,17 +24,16 @@ const handleClose = () => {
   visible.value = false;
 };
 interface LayoutConfigForm {
-  mode: layoutModeEnum;
-  collapse: boolean;
-  enableTabs: boolean;
-  theme: string;
-  themeMode: ThemeMode;
-  locale: Locale;
-  maxTabCount: Number;
+  mode: layoutModeEnum | undefined;
+  collapse: boolean | undefined;
+  enableTabs: boolean | undefined;
+  theme: string | undefined;
+  themeMode: ThemeMode | undefined;
+  locale: Locale | undefined;
+  maxTabCount: Number | undefined;
 }
 const { setSidebarCollapse, device, sidebar, layoutMode } = useAppStore();
 const appStore = useAppStore();
-const route = useRoute();
 const handleModeChange = (mode: layoutModeEnum) => {
   if (mode == layoutModeEnum.VERTICAL) {
     form.collapse = sidebar.collapse;
@@ -72,7 +71,7 @@ const handleThemeChange = (color: string) => {
   SET_THEME(color);
   handleThemeStyle(color);
 };
-const handleEnableTabsBolChange = (bol: Boolean) => {
+const handleEnableTabsBolChange = (bol: boolean) => {
   SET_ENABLETABS(bol);
 };
 const handleThemeModeChange = (mode: ThemeMode) => {

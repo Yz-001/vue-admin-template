@@ -25,7 +25,8 @@ import useMenu from "@/hooks/use-menu";
 import { useAppStore } from "@/stores/modules/app";
 import { deepCopy } from "@/utils/common";
 import { getNodeOrParentChildren } from "@/utils/layout";
-import { type RouteLocationNormalizedLoaded } from "vue-router";
+import { useRoute, useRouter, type RouteLocationNormalizedLoaded } from "vue-router";
+import { onMounted, ref } from "vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -37,7 +38,7 @@ const sidebarMenu = ref([]); //侧边栏菜单
 const headMenu = ref([]); //顶部栏菜单
 const setLayoutMenu = () => {
   const headList = deepCopy(menuList.value);
-  headMenu.value = headList.map(i => {
+  headMenu.value = headList.map((i: any) => {
     if (i.children) delete i.children;
     return i;
   });
@@ -47,8 +48,8 @@ const handleMixinMenuChange = (changeRoute: RouteLocationNormalizedLoaded) => {
   sidebarMenu.value = parentRoute.children || [];
   appStore.setSidebarOpened(!!sidebarMenu.value.length);
   // 没有二级则直接跳转到一级路由
-  if (!sidebarMenu.value.length) {
-    router.push({ name: changeRoute?.name });
+  if (!sidebarMenu.value.length && changeRoute?.name) {
+    router.push({ name: changeRoute.name });
   }
 };
 
@@ -77,8 +78,8 @@ onMounted(() => {
 
     &__right {
       display: flex;
-      flex-direction: column;
       flex-grow: 1;
+      flex-direction: column;
       height: 100%;
 
       .layout-main {

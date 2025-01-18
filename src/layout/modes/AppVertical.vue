@@ -26,6 +26,7 @@ import { BaseHead, BaseSidebar, AppTabs, AppMain } from "@/layout/component/";
 import useLayout from "@/hooks/use-layout";
 import useMenu from "@/hooks/use-menu";
 import BaseBreadCrumb from "@/components/BaseBreadCrumb/index.vue";
+import { ref } from "vue";
 
 const { menuList } = useMenu();
 const { layoutDevice, mobileDevice, desktopDevice, layoutMode, sidebarOpened } = useLayout();

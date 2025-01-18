@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { ref } from "vue";
 import { type RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
 import { useSettingsStore } from "@/stores/modules/settings";
 import { messageWarning } from "@/utils/element-utils/notification-common";
 import { $t } from "@/plugins/i18n";
 import { useAppStore } from "@/stores/modules/app";
 import useLayout from "@/hooks/use-layout";
+import { computed } from "vue";
+import { type RouteRecordRaw } from "vue-router";
 
 defineOptions({ name: "BaseMenu" });
-const props = withDefaults(defineProps<{ menuList?: any[]; collapse?: boolean; mode?: "horizontal" | "vertical" }>(), {
-  menuList: () => [],
-  collapse: false,
-  mode: "vertical"
-});
+const props = withDefaults(
+  defineProps<{ menuList?: RouteRecordRaw[]; collapse?: boolean; mode?: "horizontal" | "vertical" }>(),
+  {
+    menuList: () => [],
+    collapse: false,
+    mode: "vertical"
+  }
+);
 const route = useRoute();
 const router = useRouter();
 const { mixinMode } = useLayout();
@@ -27,7 +30,7 @@ const defaultActiveMenu = computed(() => {
 const settingStore = useSettingsStore();
 const appStore = useAppStore();
 const emit = defineEmits(["on-mixin-menu-click"]);
-const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
+const handleMenuClick = (route: any) => {
   // 混合的二级点击
   if (mixinMode.value && props.mode == "horizontal") {
     emit("on-mixin-menu-click", route);
@@ -68,7 +71,7 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
             <el-icon v-if="item?.meta?.icon">
               <component :is="item.meta.icon" />
             </el-icon>
-            <span class="menu-title">{{ item?.meta?.title ? $t(item.meta.title) : "" }}</span>
+            <span class="menu-title">{{ item?.meta?.title ? $t(String(item.meta.title)) : "" }}</span>
           </template>
           <el-menu-item-group>
             <el-menu-item
@@ -79,7 +82,7 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
               class="menu-title"
               @click="handleMenuClick(childItem)"
             >
-              {{ childItem?.meta?.title ? $t(childItem.meta.title) : "" }}
+              {{ childItem?.meta?.title ? $t(String(childItem.meta.title)) : "" }}
               <el-icon v-if="childItem?.meta?.allowRepeatTab" class="ml-auto" size="12" title="此页面允许多开">
                 <CopyDocument />
               </el-icon>
@@ -93,7 +96,7 @@ const handleMenuClick = (route: RouteLocationNormalizedLoaded) => {
           </el-icon>
           <template #title>
             <span class="menu-title">
-              {{ item?.meta?.title ? $t(item.meta.title) : "" }}
+              {{ item?.meta?.title ? $t(String(item.meta.title)) : "" }}
               <el-icon v-if="item?.meta?.allowRepeatTab" class="ml-auto" size="12" title="此页面允许多开">
                 <CopyDocument />
               </el-icon>

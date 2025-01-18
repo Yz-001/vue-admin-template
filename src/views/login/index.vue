@@ -40,6 +40,8 @@
         </el-form>
       </div>
     </div>
+
+    <AppAutoLoginBtn type="autoLogin" btnName="临时免登入" :form="from" />
   </div>
 </template>
 
@@ -57,7 +59,7 @@ import type { ComponentSize, FormInstance, FormRules } from "element-plus";
 import { $t } from "@/plugins/i18n";
 import { UserFilled, Key } from "@element-plus/icons-vue";
 import BaseMark from "@/layout/component/BaseMark.vue";
-
+import AppAutoLoginBtn from "@/components/AppAutoLoginBtn/index.vue";
 let from = reactive<loginForm>({
   username: "",
   password: "",
@@ -74,13 +76,14 @@ const loginFormRef = ref<FormInstance>();
 const submitLoading = ref(false);
 const handleSubmitLogin = async () => {
   submitLoading.value = true;
-  await loginFormRef.value.validate((valid, fields) => {
+  await loginFormRef.value?.validate((valid, fields) => {
     if (valid) {
       const apiData = JSON.parse(JSON.stringify(from));
       apiData.password = encrypt(apiData.password);
       loginByUser(apiData)
-        .then(async ({ data }: { data: UserResult }) => {
-          if (data?.token) setToken(data.token, from.exemption ? 7 : null);
+        .then(async (res: any) => {
+          const data = res?.data;
+          if (data?.token) setToken(data.token, from.exemption ? 7 : undefined);
           await setUserInfo(data as UserResult);
           messageSuccess(t("login.LoginSuccess"));
           router.push({ name: "Home" });

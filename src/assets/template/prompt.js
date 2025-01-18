@@ -1,4 +1,4 @@
-// const notEmpty = require('@utils/common.js')
+// const notEmpty = require('@/utils/common.js')
 
 module.exports = {
   description: "创建主页index",

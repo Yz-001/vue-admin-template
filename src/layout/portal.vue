@@ -4,14 +4,12 @@
     <div class="layout-container">
       <router-view />
     </div>
-    <BaseFoot />
   </div>
 </template>
 
 <script lang="ts" setup>
 import BaseHead from "./component/BaseHead.vue";
-import BaseFoot from "./component/BaseFoot.vue";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 onMounted(() => {
   console.log("进入home");
 });

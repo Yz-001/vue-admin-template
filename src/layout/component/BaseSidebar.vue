@@ -3,12 +3,12 @@ import BaseMark from "@/layout/component/BaseMark.vue";
 import BaseMenu from "@/layout/component/BaseMenu.vue";
 import { useAppStore } from "@/stores/modules/app";
 import useLayout from "@/hooks/use-layout";
-import { computed, ref } from "vue";
+import { type RouteRecordRaw } from "vue-router";
 
 defineOptions({
   name: "BaseSidebar"
 });
-const props = withDefaults(defineProps<{ markVisible?: Boolean; menuList?: any[] }>(), {
+const props = withDefaults(defineProps<{ markVisible?: boolean; menuList?: RouteRecordRaw[] }>(), {
   markVisible: true,
   menuList: () => []
 });

@@ -1,7 +1,8 @@
+import type { ElForm } from "element-plus";
 import type { VNodeChild } from "vue";
 
 export interface FormProps {
-  componentList?: ComponentItem[];
+  elemColumns?: ComponentItem[];
   formRules?: Record<string, any[]>;
   labelWidth?: string;
   operColLayout?: {
@@ -12,7 +13,7 @@ export interface FormProps {
 }
 
 export interface ComponentItem {
-  componentName: string; // 实际组件名 或 CustomTemplate自定义
+  type: string; // 实际组件名 或 CustomTemplate自定义
   prop?: string; // 表单项对应的 model 属性名
   label?: string; // 表单项标签
   rules?: any[]; // 表单项验证规则
@@ -149,4 +150,10 @@ export enum FormComponentEnum {
   ElTour = "ElTour",
   ElTourStep = "ElTourStep",
   CustomTemplate = "CustomTemplate" // 自定义模板组件
+}
+
+export interface AppFormRef {
+  formRef: InstanceType<typeof ElForm> | null;
+  getValidate(): Promise<any>;
+  handleReset(): Promise<any>;
 }
