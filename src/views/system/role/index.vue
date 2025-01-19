@@ -11,6 +11,10 @@ import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
 import { $t } from "@/plugins/i18n";
 
+defineOptions({
+  name: "RoleMain"
+});
+
 // 检索相关
 const searchForm = reactive({
   roleName: "",

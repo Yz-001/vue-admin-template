@@ -12,6 +12,10 @@ import { BaseFromDlgProp } from "@/apis/interface/common";
 import { constructHierarchy } from "@/utils/common";
 import { $t } from "@/plugins/i18n";
 
+defineOptions({
+  name: "DeptMain"
+});
+
 // 检索相关
 const searchForm = reactive({
   deptName: "",
