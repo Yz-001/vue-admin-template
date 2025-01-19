@@ -74,6 +74,8 @@ common:
   to: 至
   expand: 展开
   collapse: 折叠
+  updatedBy: 更新人
+  createDate: 创建时间
 user:
   name: 用户名称
   phone: 手机号码

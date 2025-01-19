@@ -74,6 +74,8 @@ common:
   to: To
   expand: Expand
   collapse: Collapse
+  updatedBy: regenerator
+  createDate: Creation Date
 user:
   name: User Name
   phone: Phone Number

@@ -74,6 +74,8 @@ common:
   to: 至
   expand: 展開
   collapse: 縮合
+  updatedBy: 更新人
+  createDate: 建立時間
 user:
   name: 使用者名稱
   phone: 手機號碼
