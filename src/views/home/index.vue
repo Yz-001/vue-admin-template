@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import * as echarts from "echarts";
 import { ElTable, ElTableColumn, ElTag, ElCard, ElRow, ElCol } from "element-plus";
 import { UserFilled, List, Paperclip } from "@element-plus/icons-vue";
+import { $t } from "@/plugins/i18n";
 
 // 定义组件选项
 defineOptions({
@@ -12,17 +13,17 @@ defineOptions({
 // 静态数据模拟后台首页信息
 const dashboardInfo = ref([
   {
-    title: "用户总数",
+    title: $t("home.user_total"),
     count: 12345,
     icon: UserFilled
   },
   {
-    title: "文章数量",
+    title: $t("home.article_count"),
     count: 54321,
     icon: List
   },
   {
-    title: "评论数",
+    title: $t("home.comment_count"),
     count: 9876,
     icon: Paperclip
   }
@@ -30,9 +31,9 @@ const dashboardInfo = ref([
 
 // 模拟用户列表数据
 const users = ref([
-  { key: "1", name: "John Brown", age: 32, address: "New York No. 1 Lake Park" },
-  { key: "2", name: "Jim Green", age: 42, address: "London No. 1 Lake Park" },
-  { key: "3", name: "Joe Black", age: 32, address: "Sidney No. 1 Lake Park" }
+  { key: "1", name: "John Brown", phone: 132, address: "New York No. 1 Lake Park" },
+  { key: "2", name: "Jim Green", phone: 122, address: "London No. 1 Lake Park" },
+  { key: "3", name: "Joe Black", phone: 132, address: "Sidney No. 1 Lake Park" }
 ]);
 
 // 模拟最近活动日志数据
@@ -52,7 +53,7 @@ onMounted(() => {
       right: "1%"
     },
     title: {
-      text: "访问量"
+      text: $t("home.visit_count")
     },
     xAxis: {
       type: "category",
@@ -94,14 +95,13 @@ onMounted(() => {
       <el-row :gutter="20">
         <el-col :span="18">
           <section class="mt-4">
-            <h3 class="mb-4">用户列表</h3>
+            <h3 class="mb-4">{{ `${$t("menus.User")}${$t("common.list")}` }}</h3>
             <el-table :data="users">
-              <el-table-column prop="name" label="姓名" width="180" />
-              <el-table-column prop="age" label="年龄" width="180" />
-              <el-table-column prop="address" label="地址" />
-              <el-table-column label="标签">
+              <el-table-column prop="name" :label="$t('user.name')" width="180" />
+              <el-table-column prop="phone" :label="$t('user.phone')" width="180" />
+              <el-table-column :label="$t('user.status')">
                 <template #default="scope">
-                  <el-tag>{{ scope.row.age }}</el-tag>
+                  <el-tag>{{ scope.row.address }}</el-tag>
                 </template>
               </el-table-column>
             </el-table>
@@ -109,12 +109,7 @@ onMounted(() => {
         </el-col>
         <el-col :span="6">
           <section class="mt-4">
-            <h3 class="mb-4">最近活动</h3>
-            <!-- <ul class="home-page__activities">
-              <li v-for="activity in activities" :key="activity.time" class="mb-2">
-                <strong>{{ activity.user }}</strong> 在 {{ activity.time }} {{ activity.action }}
-              </li>
-            </ul> -->
+            <h3 class="mb-4">{{ `${$t("menus.Notif")}${$t("common.list")}` }}</h3>
             <el-timeline class="home-page__activities">
               <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp">
                 {{ activity.content }}

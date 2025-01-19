@@ -19,6 +19,7 @@ menus:
   Post: 岗位
   Role: 角色
   User: 使用者
+  Notif: 通知
 operate:
   create: "創建"
   newCreate: "新增"
@@ -76,6 +77,7 @@ common:
   collapse: 縮合
   updatedBy: 更新人
   createDate: 建立時間
+  list: 列表
 user:
   name: 使用者名稱
   phone: 手機號碼
@@ -121,3 +123,26 @@ messages:
   updateSuccess: 修改成功
   createSuccess: 新增成功
   operationFailed: 操作失敗，請稍後再試
+layoutConfig:
+  system_default_config: "系統預設配置"
+  layout_config: "佈局配置"
+  sidebar_config: "側邊欄配置"
+  enable_tabs: "是否啟用標籤頁"
+  theme_color: "系統主題色"
+  theme_mode: "系統主題模式"
+  language: "系統語言"
+  max_tab_count: "最大標籤數"
+  tip_box: "螢幕適配優先級高於預設佈局配置"
+  collapse: "摺疊"
+  expand: "展開"
+  dark_mode: "深色模式"
+  light_mode: "淺色模式"
+  simplified_chinese: "簡體中文（zh-cn）"
+  english: "英語（en）"
+  traditional_chinese: "繁體中文（zh-tw）"
+  PlatformName: "平台名稱"
+home:
+  user_total: "用戶總數"
+  article_count: "文章數量"
+  comment_count: "評論數"
+  visit_count: "訪問量"

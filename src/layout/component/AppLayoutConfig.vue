@@ -92,28 +92,28 @@ onMounted(handleLayoutConfigGet);
 <template>
   <AppDrawer
     :visible="visible"
-    title="系统默认配置"
+    :title="$t('layoutConfig.system_default_config')"
     :before-close="handleClose"
     direction="rtl"
     class="layout-config custom"
   >
     <div class="layout-config__content">
       <el-form :model="form" label-width="130" label-position="left">
-        <el-form-item v-if="appStore.device != layoutDeviceEnum.MOBILE" label="布局配置">
+        <el-form-item v-if="appStore.device != layoutDeviceEnum.MOBILE" :label="$t('layoutConfig.layout_config')">
           <BaseSelectLayoutMode @onChange="handleModeChange" />
         </el-form-item>
-        <el-form-item v-if="form.mode == layoutModeEnum.VERTICAL" label="侧边栏配置">
+        <el-form-item v-if="form.mode == layoutModeEnum.VERTICAL" :label="$t('layoutConfig.sidebar_config')">
           <el-radio-group
             v-model="form.collapse"
             class="ml-4"
             :disabled="appStore.device == layoutDeviceEnum.MOBILE"
             @change="setSidebarCollapse"
           >
-            <el-radio :value="true" size="large">折叠</el-radio>
-            <el-radio :value="false" size="large">展开</el-radio>
+            <el-radio :value="true" size="large">{{ $t("layoutConfig.collapse") }}</el-radio>
+            <el-radio :value="false" size="large">{{ $t("layoutConfig.expand") }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="是否启用标签页" class="mt-[12px]">
+        <el-form-item :label="$t('layoutConfig.enable_tabs')" class="mt-[12px]">
           <el-switch
             v-model="form.enableTabs"
             class="ml-4"
@@ -122,10 +122,10 @@ onMounted(handleLayoutConfigGet);
             @change="handleEnableTabsBolChange"
           />
         </el-form-item>
-        <el-form-item label="系统主题色">
+        <el-form-item :label="$t('layoutConfig.theme_color')">
           <el-color-picker v-model="form.theme" class="ml-4" @change="handleThemeChange" />
         </el-form-item>
-        <el-form-item label="系统主题模式" class="mt-[12px]">
+        <el-form-item :label="$t('layoutConfig.theme_mode')" class="mt-[12px]">
           <el-switch
             v-model="form.themeMode"
             class="ml-4"
@@ -136,14 +136,14 @@ onMounted(handleLayoutConfigGet);
             @change="handleThemeModeChange"
           />
         </el-form-item>
-        <el-form-item label="系统语言">
+        <el-form-item :label="$t('layoutConfig.language')">
           <el-radio-group v-model="form.locale" class="ml-4" @change="handleLocaleChange">
-            <el-radio class="w-full" value="zh">简体中文（zh-cn）</el-radio>
-            <el-radio class="w-full" value="en">英语（en）</el-radio>
-            <el-radio value="zhTW">繁体中文（zh-tw）</el-radio>
+            <el-radio class="w-full" value="zh">{{ $t("layoutConfig.simplified_chinese") }}</el-radio>
+            <el-radio class="w-full" value="en">{{ $t("layoutConfig.english") }}</el-radio>
+            <el-radio value="zhTW">{{ $t("layoutConfig.traditional_chinese") }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="最大标签数">
+        <el-form-item :label="$t('layoutConfig.max_tab_count')">
           <el-input-number
             v-model="form.maxTabCount"
             class="ml-4"
@@ -155,7 +155,7 @@ onMounted(handleLayoutConfigGet);
         </el-form-item>
       </el-form>
       <p class="tip-box">
-        <el-icon><Warning /></el-icon> 屏幕适配优先级高于默认布局配置
+        <el-icon><Warning /></el-icon> {{ $t("layoutConfig.tip_box") }}
       </p>
     </div>
   </AppDrawer>

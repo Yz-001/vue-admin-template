@@ -19,6 +19,7 @@ menus:
   Post: 岗位
   Role: 角色
   User: 用户
+  Notif: 通知
 operate:
   create: "创建"
   newCreate: "新增"
@@ -76,6 +77,7 @@ common:
   collapse: 折叠
   updatedBy: 更新人
   createDate: 创建时间
+  list: 列表
 user:
   name: 用户名称
   phone: 手机号码
@@ -121,3 +123,26 @@ messages:
   updateSuccess: 修改成功
   createSuccess: 新增成功
   operationFailed: 操作失败，请稍后再试
+layoutConfig:
+  system_default_config: "系统默认配置"
+  layout_config: "布局配置"
+  sidebar_config: "侧边栏配置"
+  enable_tabs: "是否启用标签页"
+  theme_color: "系统主题色"
+  theme_mode: "系统主题模式"
+  language: "系统语言"
+  max_tab_count: "最大标签数"
+  tip_box: "屏幕适配优先级高于默认布局配置"
+  collapse: "折叠"
+  expand: "展开"
+  dark_mode: "深色模式"
+  light_mode: "浅色模式"
+  simplified_chinese: "简体中文（zh-cn）"
+  english: "英语（en）"
+  traditional_chinese: "繁体中文（zh-tw）"
+  PlatformName: "平台名称"
+home:
+  user_total: "用户总数"
+  article_count: "文章数量"
+  comment_count: "评论数"
+  visit_count: "访问量"

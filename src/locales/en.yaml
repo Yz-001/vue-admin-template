@@ -19,6 +19,7 @@ menus:
   Post: Position
   Role: Role
   User: User
+  Notif: Notif
 operate:
   create: "Create"
   newCreate: "Add"
@@ -76,6 +77,7 @@ common:
   collapse: Collapse
   updatedBy: regenerator
   createDate: Creation Date
+  list: list
 user:
   name: User Name
   phone: Phone Number
@@ -121,3 +123,26 @@ messages:
   updateSuccess: Update successful
   createSuccess: Creation successful
   operationFailed: Operation failed please try again later
+layoutConfig:
+  system_default_config: "System Default Configuration"
+  layout_config: "Layout Configuration"
+  sidebar_config: "Sidebar Configuration"
+  enable_tabs: "Enable Tabs"
+  theme_color: "System Theme Color"
+  theme_mode: "System Theme Mode"
+  language: "System Language"
+  max_tab_count: "Maximum Tab Count"
+  tip_box: "Screen adaptation takes precedence over default layout configuration"
+  collapse: "Collapse"
+  expand: "Expand"
+  dark_mode: "Dark Mode"
+  light_mode: "Light Mode"
+  simplified_chinese: "Simplified Chinese (zh-cn)"
+  english: "English (en)"
+  traditional_chinese: "Traditional Chinese (zh-tw)"
+  PlatformName: "Platform Name"
+home:
+  user_total: "Total Users"
+  article_count: "Number of Articles"
+  comment_count: "Number of Comments"
+  visit_count: "Visits"
