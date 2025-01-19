@@ -9,6 +9,7 @@ import { POST_STATUS } from "@/assets/constant/index";
 import { commonDelBox, messageError, messageSuccess } from "@/utils/element-utils/notification-common";
 import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
+import { $t } from "@/plugins/i18n";
 
 // 检索相关
 const searchForm = reactive({
@@ -20,29 +21,29 @@ const filterParams = ref({});
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "岗位名称",
+    label: $t("post.name"),
     prop: "postName",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入岗位名称"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElInput,
-    label: "岗位编码",
+    label: $t("post.code"),
     prop: "postCode",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入岗位编码"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElSelect,
-    label: "岗位状态",
+    label: $t("post.status"),
     prop: "status",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入岗位状态"
+      placeholder: $t("common.pleaseEnter")
     },
     options: Object.values(POST_STATUS)
   }
@@ -65,25 +66,22 @@ const remoteConfig = {
 };
 // 表格列配置
 const tableColumns = [
-  { label: "岗位编码", prop: "postCode" },
-  { label: "岗位名称", prop: "postName" },
-  { label: "显示顺序", prop: "postSort", type: TableTypeEnum.NUMBER },
+  { label: $t("post.code"), prop: "postCode" },
+  { label: $t("post.name"), prop: "postName" },
+  { label: $t("post.postSort"), prop: "postSort", type: TableTypeEnum.NUMBER },
   {
-    label: "岗位状态",
+    label: $t("post.status"),
     prop: "status",
     type: TableTypeEnum.SECTION,
-    tagSuccess: { value: POST_STATUS.NORMAL.value },
-    tagError: { value: POST_STATUS.PAUSE.value },
-    selectList: Object.values(POST_STATUS),
-    labelName: "label"
+    selectList: Object.values(POST_STATUS)
   },
-  { label: "创建时间", prop: "createTime", type: TableTypeEnum.DATE },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  { label: $t("post.createDate"), prop: "createTime", type: TableTypeEnum.DATE },
+  { label: $t("common.operation"), prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
 
 const exportExcelConfig = computed(() => {
   const config = {
-    filename: `导出${new Date().getTime()}`,
+    filename: `${$t("common.export")}${new Date().getTime()}`,
     excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getSystemPostListApi,
@@ -118,7 +116,7 @@ const handleDelete = (row: PostRow) => {
     .then(_ => {
       deleteSystemPostApi({ id: row.id })
         .then((_: any) => {
-          messageSuccess("删除成功");
+          messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })
         .catch(error => {

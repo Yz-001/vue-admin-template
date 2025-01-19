@@ -15,8 +15,8 @@
 
     <template #oper>
       <slot name="operBtnBefore" />
-      <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-      <el-button plain @click="handleReset">重置</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">{{ $t("operate.query") }}</el-button>
+      <el-button plain @click="handleReset">{{ $t("operate.reset") }}</el-button>
       <!-- <el-button plain @click="handleRefresh">刷新</el-button> -->
       <slot name="operBtnAfter" />
     </template>

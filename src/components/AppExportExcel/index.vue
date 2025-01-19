@@ -2,10 +2,11 @@
 import { withDefaults } from "vue";
 import useExportExcel from "./useExportExcel";
 import { type ExportExcelProps, ExportModeEnum } from "./type";
+import { $t } from "@/plugins/i18n";
 
 const props = withDefaults(defineProps<ExportExcelProps>(), {
-  filename: "导出文件",
-  buttonLabel: "导出",
+  filename: $t("common.export"),
+  buttonLabel: $t("common.export"),
   exportModel: ExportModeEnum.APILISTDATA
 });
 const { handleExport } = useExportExcel(props);

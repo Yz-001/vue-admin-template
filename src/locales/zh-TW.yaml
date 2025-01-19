@@ -14,6 +14,11 @@ menus:
   MenuMain: 菜单管理
   PostMain: 崗位管理
   UserMain: 用戶管理
+  Dept: 部門
+  Menu: 菜單
+  Post: 岗位
+  Role: 角色
+  User: 使用者
 operate:
   create: "創建"
   newCreate: "新增"
@@ -58,3 +63,59 @@ upload:
     type: "文件類型有誤，請上傳{0}格式"
   oper:
     remove: "確定是否刪除此文件"
+common:
+  pleaseEnter: 請輸入
+  pleaseEnterStartDate: 請輸入開始日期
+  pleaseEnterEndDate: 請輸入結束日期
+  operation: 操作
+  deleteSuccess: 刪除成功
+  export: 匯出
+  exportTable: 匯出表格
+  to: 至
+  expand: 展開
+  collapse: 縮合
+user:
+  name: 使用者名稱
+  phone: 手機號碼
+  status: 使用者狀態
+  createDate: 建立時間
+  remark: 備註
+role:
+  name: 角色名稱
+  permissionKey: 權限字符
+  dataScope: 資料權限
+  roleSort: 顯示順序
+  status: 角色狀態
+  remark: 備註
+  createDate: 建立時間
+post:
+  name: 岗位名稱
+  code: 岗位編碼
+  postSort: 顯示順序
+  status: 岗位狀態
+  remark: 備註
+menu:
+  parentMenu: 上級菜單
+  name: 菜單名稱
+  url: 請求地址
+  perms: 權限標識
+  orderNum: 顯示順序
+  menuType: 菜單類型
+  isRefresh: 是否刷新
+  status: 菜單狀態
+dept:
+  parentDept: 上級部門
+  name: 部門名稱
+  orderNum: 顯示順序
+  leader: 負責人
+  status: 部門狀態
+notice:
+  title: 標題
+  content: 內容
+  publishStatus: 發布狀態
+  dateRange: 通知時間
+  showUsers: 可見用戶
+messages:
+  updateSuccess: 修改成功
+  createSuccess: 新增成功
+  operationFailed: 操作失敗，請稍後再試

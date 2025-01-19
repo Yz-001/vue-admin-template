@@ -10,6 +10,7 @@ import { commonDelBox, messageError, messageSuccess } from "@/utils/element-util
 import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
 import { constructHierarchy } from "@/utils/common";
+import { $t } from "@/plugins/i18n";
 
 // 检索相关
 const searchForm = reactive({
@@ -29,17 +30,17 @@ const tableConfig = reactive({
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "部门名称",
+    label: $t("dept.name"),
     prop: "deptName",
     labelWidth: 60,
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入部门名称"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElSelect,
-    label: "部门状态",
+    label: $t("dept.status"),
     prop: "status",
     colLayout: COL_XL,
     options: Object.values(DEPT_STATUS)
@@ -48,10 +49,10 @@ const elemColumns = [
 
 // 表格列配置
 const tableColumns = [
-  { label: "部门名称", prop: "deptName" },
-  { label: "排序", prop: "orderNum", type: TableTypeEnum.NUMBER },
+  { label: $t("dept.name"), prop: "deptName" },
+  { label: $t("dept.orderNum"), prop: "orderNum", type: TableTypeEnum.NUMBER },
   {
-    label: "状态",
+    label: $t("dept.status"),
     prop: "status",
     type: TableTypeEnum.SECTION,
     tagSuccess: { value: DEPT_STATUS.NORMAL.value },
@@ -59,13 +60,13 @@ const tableColumns = [
     selectList: Object.values(DEPT_STATUS),
     labelName: "label"
   },
-  { label: "创建时间", prop: "createTime", type: TableTypeEnum.DATE },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  { label: $t("dept.createTime"), prop: "createTime", type: TableTypeEnum.DATE },
+  { label: $t("common.operation"), prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
 
 const exportExcelConfig = computed(() => {
   const config = {
-    filename: `导出${new Date().getTime()}`,
+    filename: `${$t("common.export")}${new Date().getTime()}`,
     excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getDeptListApi,
@@ -109,7 +110,7 @@ const handleDelete = (row: DeptRow) => {
     .then(_ => {
       deleteDeptApi({ id: row.id })
         .then((_: any) => {
-          messageSuccess("删除成功");
+          messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })
         .catch(error => {

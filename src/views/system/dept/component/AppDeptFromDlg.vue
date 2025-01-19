@@ -65,7 +65,7 @@ const elemColumns = computed(() => {
   return [
     {
       type: FormComponentEnum.ElTreeSelect,
-      label: "上级部门",
+      label: $t("dept.parentDept"),
       prop: "parentId",
       labelWidth: 60,
       colLayout: COL_FULL,
@@ -80,28 +80,32 @@ const elemColumns = computed(() => {
     },
     {
       type: FormComponentEnum.ElInput,
-      label: "部门名称",
+      label: $t("dept.name"),
       prop: "deptName",
       colLayout: COL_FULL,
-      attrs: {}
+      attrs: {
+        placeholder: $t("common.pleaseEnter")
+      }
     },
     {
       type: FormComponentEnum.ElInputNumber,
-      label: "显示排序",
+      label: $t("dept.orderNum"),
       prop: "orderNum",
       colLayout: COL_FULL,
       attrs: {}
     },
     {
       type: FormComponentEnum.ElInput,
-      label: " 负 责 人",
+      label: $t("dept.leader"),
       prop: "leader",
       colLayout: COL_FULL,
-      attrs: {}
+      attrs: {
+        placeholder: $t("common.pleaseEnter")
+      }
     },
     {
       type: FormComponentEnum.ElRadio,
-      label: "部门状态",
+      label: $t("dept.status"),
       prop: "status",
       colLayout: COL_FULL,
       options: Object.values(DEPT_STATUS)
@@ -128,10 +132,10 @@ const handleSubmit = async () => {
         if (formData.value.id) {
           // 修改通知
           await postDeptCreateApi(formData.value);
-          messageSuccess("修改成功");
+          messageSuccess($t("messages.updateSuccess"));
         } else {
           await postDeptUpdateApi(formData.value);
-          messageSuccess("新增成功");
+          messageSuccess($t("messages.createSuccess"));
         }
 
         handleDialogClose();
@@ -140,7 +144,7 @@ const handleSubmit = async () => {
       }
     })
     .catch((error: any) => {
-      if (error?.message) messageError(`操作失败，请稍后再试 ${error.message}`);
+      if (error?.message) messageError(`${$t("messages.operationFailed")} ${error.message}`);
     });
 };
 // const handleReset = () => {
@@ -156,7 +160,7 @@ onMounted(() => {
 <template>
   <AppDialog
     :visible="visible"
-    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}部门`"
+    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')} ${$t('menus.Dept')}`"
     :before-close="handleDialogClose"
     class="deptFrom-dlg"
   >

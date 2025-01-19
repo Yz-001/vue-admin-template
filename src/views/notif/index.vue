@@ -41,6 +41,8 @@ import { TableTypeEnum } from "@/components/AppTable/type";
 import { reactive, ref, nextTick, computed } from "vue";
 import { FormComponentEnum } from "@/components/AppForm/type";
 import { NotifRow } from "@/apis/interface/notif";
+import { $t } from "@/plugins/i18n";
+
 const searchForm = reactive({
   title: "",
   dateRange: []
@@ -56,7 +58,7 @@ const tableConfig = reactive({
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "标题",
+    label: $t("notice.title"),
     prop: "title",
     labelWidth: 60,
     colLayout: {
@@ -65,12 +67,12 @@ const elemColumns = [
       lg: 5
     },
     attrs: {
-      placeholder: "请输入标题"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElDatePicker,
-    label: "通知时间",
+    label: $t("notice.dateRange"),
     prop: "dateRange",
     colLayout: {
       sm: 12,
@@ -79,10 +81,10 @@ const elemColumns = [
     },
     attrs: {
       type: "datetimerange",
-      rangeSeparator: "至",
-      startPlaceholder: "开始日期",
-      endPlaceholder: "结束日期",
-      placeholder: "请输入标题"
+      rangeSeparator: $t("common.to"), // Assuming a translation for "至"
+      startPlaceholder: $t("common.startDate"),
+      endPlaceholder: $t("common.endDate"),
+      placeholder: $t("common.pleaseEnter")
     }
   }
 ];
@@ -90,39 +92,52 @@ const elemColumns = [
 // 表格列配置
 const tableColumns = [
   { label: "", prop: "index", colType: "selection" },
-  // {
-  //   label: "序号",
-  //   prop: "index",
-  //   colType: "index",
-  //   indexFn: (index: number) => {
-  //     return index + 1;
-  //   }
-  // },
-  { label: "标题", prop: "title" },
-  { label: "内容", prop: "content" },
-  { label: "更新人", prop: "updatedInfo", sunValue: "name", type: TableTypeEnum.OBJECT },
   {
-    label: "发布状态",
+    label: $t("notice.title"),
+    prop: "title"
+  },
+  {
+    label: $t("notice.content"),
+    prop: "content"
+  },
+  {
+    label: $t("common.updatedBy"),
+    prop: "updatedInfo",
+    sunValue: "name",
+    type: TableTypeEnum.OBJECT
+  },
+  {
+    label: $t("notice.publishStatus"),
     prop: "status",
     type: TableTypeEnum.SECTION,
-    tagSuccess: { value: 1 },
-    tagError: { value: 2 },
     selectList: [
       { value: 1, name: "已发布" },
       { value: 2, name: "未发布" }
     ]
   },
   {
-    label: "通知时间",
+    label: $t("notice.dateRange"),
     prop: "dateRange",
     type: TableTypeEnum.DATE,
     dateStartProp: "dateRangeStart",
     dateEndProp: "dateRangeEnd",
     width: 320
   },
-  { label: "创建时间", prop: "createDate", type: TableTypeEnum.DATE },
-  { label: "可见用户", prop: "showUsers", type: TableTypeEnum.LIST },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  {
+    label: $t("common.createDate"),
+    prop: "createDate",
+    type: TableTypeEnum.DATE
+  },
+  {
+    label: $t("notice.showUsers"),
+    prop: "showUsers",
+    type: TableTypeEnum.LIST
+  },
+  {
+    label: $t("common.operation"),
+    prop: "template",
+    type: TableTypeEnum.TEMPLATE
+  }
 ];
 
 // 远程配置

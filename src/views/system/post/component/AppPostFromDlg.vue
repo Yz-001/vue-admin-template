@@ -40,50 +40,48 @@ const handleInitData = () => {
     formData.value = {};
   }
 };
-const elemColumns = computed(() => {
-  return [
-    {
-      type: FormComponentEnum.ElInput,
-      label: "岗位名称",
-      prop: "postName",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入岗位名称"
-      }
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "岗位编码",
-      prop: "postCode",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入岗位编码"
-      }
-    },
-    {
-      type: FormComponentEnum.ElInputNumber,
-      label: "显示排序",
-      prop: "postSort",
-      colLayout: COL_FULL,
-      attrs: {}
-    },
-    {
-      type: FormComponentEnum.ElRadio,
-      label: "岗位状态",
-      prop: "status",
-      colLayout: COL_FULL,
-      attrs: {},
-      options: Object.values(POST_STATUS)
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "备注",
-      prop: "remark",
-      colLayout: COL_FULL,
-      attrs: {}
+const elemColumns = computed(() => [
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("post.name"),
+    prop: "postName",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
     }
-  ];
-});
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("post.code"),
+    prop: "postCode",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
+    }
+  },
+  {
+    type: FormComponentEnum.ElInputNumber,
+    label: $t("post.postSort"),
+    prop: "postSort",
+    colLayout: COL_FULL,
+    attrs: {}
+  },
+  {
+    type: FormComponentEnum.ElRadio,
+    label: $t("post.status"),
+    prop: "status",
+    colLayout: COL_FULL,
+    attrs: {},
+    options: Object.values(POST_STATUS)
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("post.remark"),
+    prop: "remark",
+    colLayout: COL_FULL,
+    attrs: {}
+  }
+]);
 // const handleDetailGet = (id: string) => {
 //   getSystemPostDetailApi({ id })
 //     .then((res: any) => {
@@ -104,10 +102,10 @@ const handleSubmit = async () => {
         if (formData.value.id) {
           // 修改通知
           await postSystemPostCreateApi(formData.value);
-          messageSuccess("修改成功");
+          messageSuccess($t("messages.updateSuccess"));
         } else {
           await postSystemPostUpdateApi(formData.value);
-          messageSuccess("新增成功");
+          messageSuccess($t("messages.createSuccess"));
         }
 
         handleDialogClose();
@@ -116,7 +114,7 @@ const handleSubmit = async () => {
       }
     })
     .catch((error: any) => {
-      if (error?.message) messageError(`操作失败，请稍后再试 ${error.message}`);
+      if (error?.message) messageError(`${$t("messages.operationFailed")} ${error.message}`);
     });
 };
 
@@ -128,7 +126,7 @@ onMounted(() => {
 <template>
   <AppDialog
     :visible="visible"
-    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}岗位`"
+    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')} ${$t('menus.Post')}`"
     :before-close="handleDialogClose"
     class="postFrom-dlg"
   >

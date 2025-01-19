@@ -6,6 +6,7 @@ import { Refresh, Document, ScaleToOriginal } from "@element-plus/icons-vue";
 import useTable from "./useTable";
 import AppExportExcel from "@/components/AppExportExcel/index.vue";
 import { type ExportExcelProps } from "@/components/AppExportExcel/type";
+import { $t } from "@/plugins/i18n";
 
 const props = withDefaults(defineProps<TableProps>(), {
   defaultPageNumber: 1,
@@ -101,7 +102,7 @@ defineExpose({
     <div class="app-table__oper">
       <div class="app-table__oper__left">
         <slot name="leftOper" />
-        <AppExportExcel v-if="showExportExcel" buttonLabel="导出表格" v-bind="safeExportExcelConfig" />
+        <AppExportExcel v-if="showExportExcel" :buttonLabel="$t('common.exportTable')" v-bind="safeExportExcelConfig" />
       </div>
       <div class="app-table__oper__right">
         <slot name="rightOperBefore" />

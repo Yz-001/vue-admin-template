@@ -51,7 +51,7 @@ const getMenuList = () => {
   getMenuListApi({} as MenuListSearch)
     .then((res: any) => {
       const list = res.data?.rows || [];
-      menuList.value = constructHierarchy<MenuRow>(list, {
+      menuList.value = constructHierarchy(list, {
         idKey: "menuId",
         parentIdKey: "parentId"
       }) as unknown as MenuRow[];
@@ -65,7 +65,7 @@ const elemColumns = computed(() => {
   return [
     {
       type: FormComponentEnum.ElTreeSelect,
-      label: "上级菜单",
+      label: $t("menu.parentMenu"),
       prop: "parentId",
       labelWidth: 60,
       colLayout: COL_FULL,
@@ -80,42 +80,48 @@ const elemColumns = computed(() => {
     },
     {
       type: FormComponentEnum.ElRadio,
-      label: "菜单类型",
-      prop: "status",
+      label: $t("menu.menuType"),
+      prop: "menuType", // 注意这里应该是 'menuType' 而不是 'status'
       colLayout: COL_FULL,
       options: Object.values(MENU_TYPE)
     },
     {
       type: FormComponentEnum.ElInput,
-      label: "菜单名称",
+      label: $t("menu.name"),
       prop: "menuName",
       colLayout: COL_FULL,
-      attrs: {}
+      attrs: {
+        placeholder: $t("common.pleaseEnter")
+      }
     },
     {
       type: FormComponentEnum.ElInput,
-      label: "请求地址",
+      label: $t("menu.url"),
       prop: "url",
       colLayout: COL_FULL,
-      attrs: {}
+      attrs: {
+        placeholder: $t("common.pleaseEnter")
+      }
     },
     {
       type: FormComponentEnum.ElInput,
-      label: "权限标识",
+      label: $t("menu.perms"),
       prop: "perms",
       colLayout: COL_FULL,
-      attrs: {}
+      attrs: {
+        placeholder: $t("common.pleaseEnter")
+      }
     },
     {
       type: FormComponentEnum.ElInputNumber,
-      label: "显示排序",
+      label: $t("menu.orderNum"),
       prop: "orderNum",
       colLayout: COL_FULL,
       attrs: {}
     },
     {
       type: FormComponentEnum.ElRadio,
-      label: "是否刷新",
+      label: $t("menu.isRefresh"),
       prop: "isRefresh",
       colLayout: COL_FULL,
       attrs: {},
@@ -123,7 +129,7 @@ const elemColumns = computed(() => {
     },
     {
       type: FormComponentEnum.ElRadio,
-      label: "菜单状态",
+      label: $t("menu.status"),
       prop: "visible",
       colLayout: COL_FULL,
       attrs: {},
@@ -151,10 +157,10 @@ const handleSubmit = async () => {
         if (formData.value.id) {
           // 修改通知
           await postMenuCreateApi(formData.value);
-          messageSuccess("修改成功");
+          messageSuccess($t("messages.updateSuccess"));
         } else {
           await postMenuUpdateApi(formData.value);
-          messageSuccess("新增成功");
+          messageSuccess($t("messages.createSuccess"));
         }
 
         handleDialogClose();
@@ -163,7 +169,7 @@ const handleSubmit = async () => {
       }
     })
     .catch((error: any) => {
-      if (error?.message) messageError(`操作失败，请稍后再试 ${error.message}`);
+      if (error?.message) messageError(`${$t("messages.operationFailed")} ${error.message}`);
     });
 };
 
@@ -175,7 +181,7 @@ onMounted(() => {
 <template>
   <AppDialog
     :visible="visible"
-    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}菜单`"
+    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')} ${$t('menus.Menu')}`"
     :before-close="handleDialogClose"
     class="menuFrom-dlg"
   >

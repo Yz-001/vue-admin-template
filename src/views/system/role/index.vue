@@ -9,6 +9,7 @@ import { ROLE_STATUS } from "@/assets/constant/index";
 import { commonDelBox, messageError, messageSuccess } from "@/utils/element-utils/notification-common";
 import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
+import { $t } from "@/plugins/i18n";
 
 // 检索相关
 const searchForm = reactive({
@@ -20,43 +21,42 @@ const filterParams = ref({});
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "角色名称",
+    label: $t("role.name"),
     prop: "roleName",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入角色名称"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElInput,
-    label: "权限字符",
+    label: $t("role.permissionKey"),
     prop: "roleKey",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入权限字符"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElSelect,
-    label: "角色状态",
+    label: $t("role.status"),
     prop: "status",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入角色状态"
-    },
-    options: Object.values(ROLE_STATUS)
+      placeholder: $t("common.pleaseEnter")
+    }
   },
   {
     type: FormComponentEnum.ElDatePicker,
-    label: "创建时间",
+    label: $t("role.createDate"),
     prop: "createDate",
     colLayout: COL_XL,
     attrs: {
       type: "datetimerange",
-      rangeSeparator: "至",
-      startPlaceholder: "开始日期",
-      endPlaceholder: "结束日期",
-      placeholder: "请输入标题"
+      rangeSeparator: $t("common.to"),
+      startPlaceholder: $t("common.pleaseEnterStartDate"),
+      endPlaceholder: $t("common.pleaseEnterEndDate"),
+      placeholder: $t("common.pleaseEnter")
     }
   }
 ];
@@ -78,12 +78,12 @@ const remoteConfig = {
 };
 // 表格列配置
 const tableColumns = [
-  { label: "角色名称", prop: "roleName" },
-  { label: "权限字符", prop: "roleKey" },
-  { label: "数据权限", prop: "dataScope" },
-  { label: "显示顺序", prop: "roleSort", type: TableTypeEnum.NUMBER },
+  { label: $t("role.name"), prop: "roleName" },
+  { label: $t("role.permissionKey"), prop: "roleKey" },
+  { label: $t("role.dataScope"), prop: "dataScope" },
+  { label: $t("role.roleSort"), prop: "roleSort", type: TableTypeEnum.NUMBER },
   {
-    label: "角色状态",
+    label: $t("role.status"),
     prop: "status",
     type: TableTypeEnum.SECTION,
     tagSuccess: { value: ROLE_STATUS.NORMAL.value },
@@ -91,14 +91,14 @@ const tableColumns = [
     selectList: Object.values(ROLE_STATUS),
     labelName: "label"
   },
-  { label: "备注", prop: "remark" },
-  { label: "创建时间", prop: "createTime", type: TableTypeEnum.DATE },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  { label: $t("role.remark"), prop: "remark" },
+  { label: $t("role.createDate"), prop: "createTime", type: TableTypeEnum.DATE },
+  { label: $t("common.operation"), prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
 
 const exportExcelConfig = computed(() => {
   const config = {
-    filename: `导出${new Date().getTime()}`,
+    filename: `${$t("common.export")}${new Date().getTime()}`,
     excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getSystemRoleListApi,
@@ -133,7 +133,7 @@ const handleDelete = (row: RoleRow) => {
     .then(_ => {
       deleteSystemRoleApi({ id: row.id })
         .then((_: any) => {
-          messageSuccess("删除成功");
+          messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })
         .catch(error => {

@@ -40,43 +40,41 @@ const handleInitData = () => {
     formData.value = {};
   }
 };
-const elemColumns = computed(() => {
-  return [
-    {
-      type: FormComponentEnum.ElInput,
-      label: "用户名称",
-      prop: "userName",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入用户名称"
-      }
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "手机号码",
-      prop: "phonenumber",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入手机号码"
-      }
-    },
-    {
-      type: FormComponentEnum.ElRadio,
-      label: "用户状态",
-      prop: "status",
-      colLayout: COL_FULL,
-      attrs: {},
-      options: Object.values(USER_STATUS)
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "备注",
-      prop: "remark",
-      colLayout: COL_FULL,
-      attrs: {}
+const elemColumns = computed(() => [
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("user.name"),
+    prop: "userName",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
     }
-  ];
-});
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("user.phone"),
+    prop: "phonenumber",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
+    }
+  },
+  {
+    type: FormComponentEnum.ElRadio,
+    label: $t("user.status"),
+    prop: "status",
+    colLayout: COL_FULL,
+    attrs: {},
+    options: Object.values(USER_STATUS)
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("user.remark"),
+    prop: "remark",
+    colLayout: COL_FULL,
+    attrs: {}
+  }
+]);
 // const handleDetailGet = (id: string) => {
 //   getSystemUserDetailApi({ id })
 //     .then((res: any) => {
@@ -97,10 +95,10 @@ const handleSubmit = async () => {
         if (formData.value.id) {
           // 修改通知
           await postSystemUserCreateApi(formData.value);
-          messageSuccess("修改成功");
+          messageSuccess($t("messages.updateSuccess"));
         } else {
           await postSystemUserUpdateApi(formData.value);
-          messageSuccess("新增成功");
+          messageSuccess($t("messages.createSuccess"));
         }
 
         handleDialogClose();
@@ -109,7 +107,7 @@ const handleSubmit = async () => {
       }
     })
     .catch((error: any) => {
-      if (error?.message) messageError(`操作失败，请稍后再试 ${error.message}`);
+      if (error?.message) messageError(`${$t("messages.operationFailed")} ${error.message}`);
     });
 };
 
@@ -121,7 +119,7 @@ onMounted(() => {
 <template>
   <AppDialog
     :visible="visible"
-    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}用户`"
+    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')} ${$t('menus.User')}`"
     :before-close="handleDialogClose"
     class="userFrom-dlg"
   >
