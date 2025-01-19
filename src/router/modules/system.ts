@@ -59,7 +59,7 @@ export const SystemRouter: RouteRecordRaw = {
         hidden: false,
         icon: "Tickets",
         title: "menus.PostMain",
-        activePost: "PostMain",
+        activeMenu: "PostMain",
         tabTitle: "menus.PostMain",
         breadcrumbHide: true,
         allowRepeatTab: false
@@ -73,7 +73,7 @@ export const SystemRouter: RouteRecordRaw = {
         hidden: false,
         icon: "Tickets",
         title: "menus.UserMain",
-        activeUser: "UserMain",
+        activeMenu: "UserMain",
         tabTitle: "menus.UserMain",
         breadcrumbHide: true,
         allowRepeatTab: false

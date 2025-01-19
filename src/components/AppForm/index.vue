@@ -131,7 +131,7 @@ defineExpose({
             link
             @click="toggleCollapse"
           >
-            {{ isCollapsed ? "展开" : "折叠" }}
+            {{ isCollapsed ? $t("common.expand") : $t("common.collapse") }}
             <el-icon class="ml-[6px]">
               <ArrowDown v-if="isCollapsed" />
               <ArrowUp v-else />

@@ -9,6 +9,11 @@ import { USER_STATUS } from "@/assets/constant/index";
 import { commonDelBox, messageError, messageSuccess } from "@/utils/element-utils/notification-common";
 import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
+import { $t } from "@/plugins/i18n";
+
+defineOptions({
+  name: "UserMain"
+});
 
 // 检索相关
 const searchForm = reactive({
@@ -20,43 +25,43 @@ const filterParams = ref({});
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "用户名称",
+    label: $t("user.name"),
     prop: "userName",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入用户名称"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElInput,
-    label: "手机号码",
+    label: $t("user.phone"),
     prop: "phonenumber",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入手机号码"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElSelect,
-    label: "用户状态",
+    label: $t("user.status"),
     prop: "status",
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入用户状态"
+      placeholder: $t("common.pleaseEnter")
     },
     options: Object.values(USER_STATUS)
   },
   {
     type: FormComponentEnum.ElDatePicker,
-    label: "创建时间",
+    label: $t("user.createDate"),
     prop: "createDate",
     colLayout: COL_XL,
     attrs: {
       type: "datetimerange",
-      rangeSeparator: "至",
-      startPlaceholder: "开始日期",
-      endPlaceholder: "结束日期",
-      placeholder: "请输入标题"
+      rangeSeparator: $t("common.to"),
+      startPlaceholder: $t("common.pleaseEnterStartDate"),
+      endPlaceholder: $t("common.pleaseEnterEndDate"),
+      placeholder: $t("common.pleaseEnter")
     }
   }
 ];
@@ -78,10 +83,10 @@ const remoteConfig = {
 };
 // 表格列配置
 const tableColumns = [
-  { label: "用户名称", prop: "userName" },
-  { label: "手机号码", prop: "phonenumber" },
+  { label: $t("user.name"), prop: "userName" },
+  { label: $t("user.phone"), prop: "phonenumber" },
   {
-    label: "用户状态",
+    label: $t("user.status"),
     prop: "status",
     type: TableTypeEnum.SECTION,
     tagSuccess: { value: USER_STATUS.NORMAL.value },
@@ -89,14 +94,14 @@ const tableColumns = [
     selectList: Object.values(USER_STATUS),
     labelName: "label"
   },
-  { label: "备注", prop: "remark" },
-  { label: "创建时间", prop: "createTime", type: TableTypeEnum.DATE },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  { label: $t("user.remark"), prop: "remark" },
+  { label: $t("user.createDate"), prop: "createTime", type: TableTypeEnum.DATE },
+  { label: $t("common.operation"), prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
 
 const exportExcelConfig = computed(() => {
   const config = {
-    filename: `导出${new Date().getTime()}`,
+    filename: `${$t("common.export")}${new Date().getTime()}`,
     excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getSystemUserListApi,
@@ -131,7 +136,7 @@ const handleDelete = (row: UserRow) => {
     .then(_ => {
       deleteSystemUserApi({ id: row.id })
         .then((_: any) => {
-          messageSuccess("删除成功");
+          messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })
         .catch(error => {

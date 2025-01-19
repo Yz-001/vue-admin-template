@@ -10,6 +10,11 @@ import { commonDelBox, messageError, messageSuccess } from "@/utils/element-util
 import { COL_XL } from "@/assets/constant/form";
 import { BaseFromDlgProp } from "@/apis/interface/common";
 import { constructHierarchy } from "@/utils/common";
+import { $t } from "@/plugins/i18n";
+
+defineOptions({
+  name: "MenuMain"
+});
 
 // 检索相关
 const searchForm = reactive({
@@ -29,17 +34,17 @@ const tableConfig = reactive({
 const elemColumns = [
   {
     type: FormComponentEnum.ElInput,
-    label: "菜单名称",
+    label: $t("menu.name"),
     prop: "menuName",
     labelWidth: 60,
     colLayout: COL_XL,
     attrs: {
-      placeholder: "请输入菜单名称"
+      placeholder: $t("common.pleaseEnter")
     }
   },
   {
     type: FormComponentEnum.ElSelect,
-    label: "菜单状态",
+    label: $t("menu.status"),
     prop: "visible",
     colLayout: COL_XL,
     options: Object.values(MENU_STATUS)
@@ -48,28 +53,38 @@ const elemColumns = [
 
 // 表格列配置
 const tableColumns = [
-  { label: "菜单名称", prop: "menuName" },
-  { label: "排序", prop: "orderNum", type: TableTypeEnum.NUMBER },
-  { label: "请求地址", prop: "url" },
-  { label: "类型", prop: "menuType", type: TableTypeEnum.SECTION, selectList: Object.values(MENU_TYPE) },
+  { label: $t("menu.name"), prop: "menuName" },
+  { label: $t("menu.orderNum"), prop: "orderNum", type: TableTypeEnum.NUMBER },
+  { label: $t("menu.url"), prop: "url" },
   {
-    label: "状态",
-    prop: "visible",
+    label: $t("menu.menuType"),
+    prop: "menuType",
     type: TableTypeEnum.SECTION,
     tagSuccess: { value: MENU_STATUS.VISIBLE.value },
     tagError: { value: MENU_STATUS.HIDDEN.value },
     selectList: Object.values(MENU_STATUS),
     labelName: "label"
   },
-  { label: "权限标识", prop: "perms" },
-  { label: "图标", prop: "icon" },
-  { label: "是否刷新", prop: "isRefresh", type: TableTypeEnum.SECTION, selectList: Object.values(YESNO_TYPE) },
-  { label: "操作", prop: "template", type: TableTypeEnum.TEMPLATE }
+  {
+    label: $t("menu.status"),
+    prop: "visible",
+    type: TableTypeEnum.SECTION,
+    selectList: Object.values(MENU_STATUS)
+  },
+  { label: $t("menu.perms"), prop: "perms" },
+  { label: $t("menu.icon"), prop: "icon" },
+  {
+    label: $t("menu.isRefresh"),
+    prop: "isRefresh",
+    type: TableTypeEnum.SECTION,
+    selectList: Object.values(YESNO_TYPE)
+  },
+  { label: $t("common.operation"), prop: "template", type: TableTypeEnum.TEMPLATE }
 ];
 
 const exportExcelConfig = computed(() => {
   const config = {
-    filename: `导出${new Date().getTime()}`,
+    filename: `${$t("common.export")}${new Date().getTime()}`,
     excelElemColumns: tableColumns?.filter(i => i.prop != "template") || [],
     remoteConfig: {
       remoteApi: getMenuListApi,
@@ -84,7 +99,7 @@ const handleSearch = (data?: MenuListSearch) => {
   getMenuListApi(data || ({} as MenuListSearch))
     .then((res: any) => {
       const list = res.data?.rows || [];
-      tableData.value = constructHierarchy<MenuRow>(list, {
+      tableData.value = constructHierarchy(list, {
         idKey: "menuId",
         parentIdKey: "parentId"
       }) as unknown as MenuRow[];
@@ -113,7 +128,7 @@ const handleDelete = (row: MenuRow) => {
     .then(_ => {
       deleteMenuApi({ id: row.id })
         .then((_: any) => {
-          messageSuccess("删除成功");
+          messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })
         .catch(error => {

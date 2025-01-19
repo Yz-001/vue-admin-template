@@ -40,65 +40,63 @@ const handleInitData = () => {
     formData.value = {};
   }
 };
-const elemColumns = computed(() => {
-  return [
-    {
-      type: FormComponentEnum.ElInput,
-      label: "角色名称",
-      prop: "roleName",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入角色名称"
-      }
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "权限字符",
-      prop: "roleKey",
-      colLayout: COL_FULL,
-      attrs: {
-        placeholder: "请输入权限字符"
-      }
-    },
-    {
-      type: FormComponentEnum.ElInputNumber,
-      label: "显示排序",
-      prop: "roleSort",
-      colLayout: COL_FULL,
-      attrs: {}
-    },
-    {
-      type: FormComponentEnum.ElRadio,
-      label: "角色状态",
-      prop: "status",
-      colLayout: COL_FULL,
-      attrs: {},
-      options: Object.values(ROLE_STATUS)
-    },
-    {
-      type: FormComponentEnum.ElInput,
-      label: "备注",
-      prop: "remark",
-      colLayout: COL_FULL,
-      attrs: {}
+const elemColumns = computed(() => [
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("role.name"),
+    prop: "roleName",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
     }
-    // {
-    //   type: FormComponentEnum.ElTreeSelect,
-    //   label: "菜单权限",
-    //   prop: "menuId",
-    //   labelWidth: 60,
-    //   colLayout: COL_FULL,
-    //   attrs: {
-    //     data: [],
-    //     props: {
-    //       children: "children",
-    //       label: "menuName",
-    //       value: "menuId"
-    //     }
-    //   }
-    // },
-  ];
-});
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("role.permissionKey"),
+    prop: "roleKey",
+    colLayout: COL_FULL,
+    attrs: {
+      placeholder: $t("common.pleaseEnter")
+    }
+  },
+  {
+    type: FormComponentEnum.ElInputNumber,
+    label: $t("role.roleSort"),
+    prop: "roleSort",
+    colLayout: COL_FULL,
+    attrs: {}
+  },
+  {
+    type: FormComponentEnum.ElRadio,
+    label: $t("role.status"),
+    prop: "status",
+    colLayout: COL_FULL,
+    attrs: {},
+    options: Object.values(ROLE_STATUS)
+  },
+  {
+    type: FormComponentEnum.ElInput,
+    label: $t("role.remark"),
+    prop: "remark",
+    colLayout: COL_FULL,
+    attrs: {}
+  }
+  // {
+  //   type: FormComponentEnum.ElTreeSelect,
+  //   label: '',
+  //   prop: "menuId",
+  //   labelWidth: 60,
+  //   colLayout: COL_FULL,
+  //   attrs: {
+  //     data: [],
+  //     props: {
+  //       children: "children",
+  //       label: "menuName",
+  //       value: "menuId"
+  //     }
+  //   }
+  // },
+]);
 // const handleDetailGet = (id: string) => {
 //   getSystemRoleDetailApi({ id })
 //     .then((res: any) => {
@@ -119,10 +117,10 @@ const handleSubmit = async () => {
         if (formData.value.id) {
           // 修改通知
           await postSystemRoleCreateApi(formData.value);
-          messageSuccess("修改成功");
+          messageSuccess($t("messages.updateSuccess"));
         } else {
           await postSystemRoleUpdateApi(formData.value);
-          messageSuccess("新增成功");
+          messageSuccess($t("messages.createSuccess"));
         }
 
         handleDialogClose();
@@ -131,7 +129,7 @@ const handleSubmit = async () => {
       }
     })
     .catch((error: any) => {
-      if (error?.message) messageError(`操作失败，请稍后再试 ${error.message}`);
+      if (error?.message) messageError(`${$t("messages.operationFailed")} ${error.message}`);
     });
 };
 
@@ -143,7 +141,7 @@ onMounted(() => {
 <template>
   <AppDialog
     :visible="visible"
-    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')}角色`"
+    :title="`${row?.id ? $t('operate.edit') : $t('operate.newCreate')} ${$t('menus.Role')}`"
     :before-close="handleDialogClose"
     class="roleFrom-dlg"
   >

@@ -14,13 +14,18 @@ menus:
   MenuMain: Menu management
   PostMain: Post management
   UserMain: User management
+  Dept: Department
+  Menu: Menu
+  Post: Position
+  Role: Role
+  User: User
 operate:
   create: "Create"
   newCreate: "Add"
   edit: "Modify"
   delete: "Delete"
   Update: "Update"
-  reset: Reset"
+  reset: Reset
   see: See"
   save: "Save"
   ok: "Confirm"
@@ -53,8 +58,64 @@ form:
   meg:
     centertip: "Click or drag the file here to upload"
     accept: "Support extensions"
-    exceed: "{0} files are currently selected, {1} files are selected this time"
-    size: "File size out of range, please upload {0}M below"
-    type: "File type is incorrect, please upload {0} format"
+    exceed: "{0} files are currently selected {1} files are selected this time"
+    size: "File size out of range please upload {0}M below"
+    type: "File type is incorrect please upload {0} format"
   oper:
     remove: "Determine whether to delete this file"
+common:
+  pleaseEnter: Please enter
+  pleaseEnterStartDate: Please enter start date
+  pleaseEnterEndDate: Please enter end date
+  operation: Operation
+  deleteSuccess: Delete successful
+  export: Export
+  exportTable: Export table
+  to: To
+  expand: Expand
+  collapse: Collapse
+user:
+  name: User Name
+  phone: Phone Number
+  status: User Status
+  createDate: Creation Date
+  remark: Remark
+role:
+  name: Role Name
+  permissionKey: Permission Key
+  dataScope: Data Scope
+  roleSort: Display Order
+  status: Role Status
+  remark: Remark
+  createDate: Creation Date
+post:
+  name: Post Name
+  code: Post Code
+  postSort: Display Order
+  status: Post Status
+  remark: Remark
+menu:
+  parentMenu: Parent Menu
+  name: Menu Name
+  url: Request URL
+  perms: Permissions
+  orderNum: Display Order
+  menuType: Menu Type
+  isRefresh: Is Refresh
+  status: Menu Status
+dept:
+  parentDept: Parent Department
+  name: Department Name
+  orderNum: Display Order
+  leader: Leader
+  status: Department Status
+notice:
+  title: Title
+  content: Content
+  publishStatus: Publish Status
+  dateRange: Notice Time
+  showUsers: Visible Users
+messages:
+  updateSuccess: Update successful
+  createSuccess: Creation successful
+  operationFailed: Operation failed please try again later
