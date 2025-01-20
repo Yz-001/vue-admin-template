@@ -82,8 +82,8 @@ const elemColumns = [
     attrs: {
       type: "datetimerange",
       rangeSeparator: $t("common.to"), // Assuming a translation for "至"
-      startPlaceholder: $t("common.startDate"),
-      endPlaceholder: $t("common.endDate"),
+      startPlaceholder: $t("common.pleaseEnterStartDate"),
+      endPlaceholder: $t("common.pleaseEnterEndDate"),
       placeholder: $t("common.pleaseEnter")
     }
   }
