@@ -9,7 +9,7 @@
     :formLine="formLine"
     :collapseCount="collapseCount"
   >
-    <template v-for="{ name } in renderSlots()" #[name]>
+    <template v-for="{ name } in renderSlots()" :key="name">
       <slot :name="name" />
     </template>
 

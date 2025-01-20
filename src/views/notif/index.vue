@@ -43,7 +43,7 @@ import { FormComponentEnum } from "@/components/AppForm/type";
 import { NotifRow } from "@/apis/interface/notif";
 import { $t } from "@/plugins/i18n";
 
-const searchForm = reactive({
+let searchForm = reactive({
   title: "",
   dateRange: []
 });

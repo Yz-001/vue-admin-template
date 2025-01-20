@@ -16,7 +16,7 @@ defineOptions({
 });
 
 // 检索相关
-const searchForm = reactive({
+let searchForm = reactive({
   userName: "",
   userKey: "",
   status: undefined

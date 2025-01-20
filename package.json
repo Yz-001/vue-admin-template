@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
-    "build": "vue-tsc --noEmit && vite build --mode production && node ./build/addVersion.cjs",
-    "build:test": "vue-tsc --noEmit && vite build --mode test && node ./build/addVersion.cjs",
-    "analyzer": "vue-tsc --noEmit && vite build --mode analyzer",
+    "build": "vite build --mode production && node ./build/addVersion.cjs",
+    "build:test": "vite build --mode test && node ./build/addVersion.cjs",
+    "analyzer": "vite build --mode analyzer",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -17,6 +17,7 @@
     "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{html,vue,css,scss}\" --cache-location node_modules/.cache/stylelint/",
     "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm lint:stylelint",
+    "vuetsc": "vue-tsc --noEmit",
     "prepare": "husky"
   },
   "repository": {
