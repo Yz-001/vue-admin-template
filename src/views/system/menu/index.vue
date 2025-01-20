@@ -17,7 +17,7 @@ defineOptions({
 });
 
 // 检索相关
-const searchForm = reactive({
+let searchForm = reactive({
   menuName: "",
   status: undefined
 });

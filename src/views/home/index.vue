@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, shallowRef } from "vue";
 import * as echarts from "echarts";
 import { ElTable, ElTableColumn, ElTag, ElCard, ElRow, ElCol } from "element-plus";
 import { UserFilled, List, Paperclip } from "@element-plus/icons-vue";
@@ -11,7 +11,7 @@ defineOptions({
 });
 
 // 静态数据模拟后台首页信息
-const dashboardInfo = ref([
+const dashboardInfo = shallowRef([
   {
     title: $t("home.user_total"),
     count: 12345,
