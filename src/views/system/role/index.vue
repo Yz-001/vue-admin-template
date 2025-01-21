@@ -136,7 +136,7 @@ const handleDelete = (row: RoleRow) => {
   commonDelBox({})
     .then(_ => {
       deleteSystemRoleApi({ id: row.id })
-        .then((_: any) => {
+        .then(_ => {
           messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })

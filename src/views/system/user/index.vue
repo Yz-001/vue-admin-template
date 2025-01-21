@@ -135,7 +135,7 @@ const handleDelete = (row: UserRow) => {
   commonDelBox({})
     .then(_ => {
       deleteSystemUserApi({ id: row.id })
-        .then((_: any) => {
+        .then(_ => {
           messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })

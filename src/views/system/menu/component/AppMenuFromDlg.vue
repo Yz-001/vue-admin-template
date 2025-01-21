@@ -49,7 +49,7 @@ const handleInitData = () => {
 const menuList = ref<MenuRow[]>([]);
 const getMenuList = () => {
   getMenuListApi({} as MenuListSearch)
-    .then((res: any) => {
+    .then(res => {
       const list = res.data?.rows || [];
       menuList.value = constructHierarchy(list, {
         idKey: "menuId",
@@ -139,7 +139,7 @@ const elemColumns = computed(() => {
 });
 // const handleDetailGet = (id: string) => {
 //   getMenuDetailApi({ id })
-//     .then((res: any) => {
+//     .then(res => {
 //       formData.value = res?.data || ({} as MenuRow);
 //     })
 //     .catch(err => {

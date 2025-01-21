@@ -62,23 +62,23 @@ export default abstract class HttpClient {
   private _initializeResponseInterceptor = () => {
     this.instance.interceptors.response.use(this._handleResponse, this._handleError);
   };
-  public async Get<T = any>(url: string, params?: any) {
-    return await this.instance.get<Wapper<T>>(url, { params });
+  public async Get<T = any>(url: string, params?: any): Promise<Wapper<T>> {
+    return await this.instance.get<AxiosResponse<Wapper<T>>, any>(url, { params });
   }
 
-  public async Post<T = any>(url: string, data?: any) {
-    return await this.instance.post<Wapper<T>>(url, data);
+  public async Post<T = any>(url: string, data?: any): Promise<Wapper<T>> {
+    return await this.instance.post<AxiosResponse<Wapper<T>>, any>(url, data);
   }
-  public async Put<T = any>(url: string, data?: any) {
-    return await this.instance.put<Wapper<T>>(url, data);
+  public async Put<T = any>(url: string, data?: any): Promise<Wapper<T>> {
+    return await this.instance.put<AxiosResponse<Wapper<T>>, any>(url, data);
   }
-  public async Patch<T = any>(url: string, data?: any) {
-    return await this.instance.patch<Wapper<T>>(url, data);
+  public async Patch<T = any>(url: string, data?: any): Promise<Wapper<T>> {
+    return await this.instance.patch<AxiosResponse<Wapper<T>>, any>(url, data);
   }
-  public async Delete<T = any>(url: string, data?: any) {
-    return await this.instance.delete<Wapper<T>>(url, data);
+  public async Delete<T = any>(url: string, data?: any): Promise<Wapper<T>> {
+    return await this.instance.delete<AxiosResponse<Wapper<T>>, any>(url, data);
   }
-  public async Request<T = any>(option: AxiosRequestConfig) {
+  public async Request<T = any>(option: AxiosRequestConfig): Promise<Wapper<T>> {
     return await this.instance.request<T>(option);
   }
   private _handleResponse = (res: AxiosResponse) => {

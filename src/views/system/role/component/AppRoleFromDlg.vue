@@ -99,7 +99,7 @@ const elemColumns = computed(() => [
 ]);
 // const handleDetailGet = (id: string) => {
 //   getSystemRoleDetailApi({ id })
-//     .then((res: any) => {
+//     .then(res => {
 //       formData.value = res?.data || ({} as RoleRow);
 //     })
 //     .catch(err => {

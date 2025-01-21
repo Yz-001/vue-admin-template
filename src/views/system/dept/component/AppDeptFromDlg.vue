@@ -49,7 +49,7 @@ const handleInitData = () => {
 const deptList = ref<DeptRow[]>([]);
 const getDeptList = () => {
   getDeptListApi({} as DeptListSearch)
-    .then((res: any) => {
+    .then(res => {
       const list = res.data?.rows || [];
       deptList.value = constructHierarchy<DeptRow>(list, {
         idKey: "deptId",
@@ -114,7 +114,7 @@ const elemColumns = computed(() => {
 });
 // const handleDetailGet = (id: string) => {
 //   getDeptDetailApi({ id })
-//     .then((res: any) => {
+//     .then(res => {
 //       formData.value = res?.data || ({} as DeptRow);
 //     })
 //     .catch(err => {
