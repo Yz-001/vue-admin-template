@@ -77,7 +77,7 @@ const elemColumns = computed(() => [
 ]);
 // const handleDetailGet = (id: string) => {
 //   getSystemUserDetailApi({ id })
-//     .then((res: any) => {
+//     .then(res => {
 //       formData.value = res?.data || ({} as UserRow);
 //     })
 //     .catch(err => {

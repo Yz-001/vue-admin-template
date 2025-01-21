@@ -5,6 +5,7 @@ import { getToken, removeToken, setToken } from "@/utils/storage";
 import { messageError } from "@/utils/element-utils/notification-common";
 import { defineStore } from "pinia";
 import { useSettingsStore } from "@/stores/modules/settings";
+import type { Wapper } from "@/utils/http/types";
 
 export const useUserStore = defineStore("user", {
   state: () => {
@@ -27,7 +28,7 @@ export const useUserStore = defineStore("user", {
       this.roles = roles;
     },
     /** 登入 */
-    async loginByUser(data: any) {
+    async loginByUser(data: any): Promise<Wapper<any>> {
       return new Promise((resolve, reject) => {
         postUserLoginApi(data)
           .then(data => {

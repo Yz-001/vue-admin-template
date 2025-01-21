@@ -37,7 +37,7 @@ const handleInit = reactive({
       formData.append("file", file);
       console.log(formData);
       uploadServerFileApi(formData)
-        .then((res: any) => {
+        .then(res => {
           resolve(res.data.url);
         })
         .catch();

@@ -83,7 +83,7 @@ const exportExcelConfig = computed(() => {
 const handleSearch = (data?: DeptListSearch) => {
   filterParams.value = data || {};
   getDeptListApi(data || ({} as DeptListSearch))
-    .then((res: any) => {
+    .then(res => {
       const list = res.data?.rows || [];
       tableData.value = constructHierarchy<DeptRow>(list, {
         idKey: "deptId",
@@ -113,7 +113,7 @@ const handleDelete = (row: DeptRow) => {
   commonDelBox({})
     .then(_ => {
       deleteDeptApi({ id: row.id })
-        .then((_: any) => {
+        .then(_ => {
           messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })

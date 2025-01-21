@@ -81,7 +81,7 @@ const handleSubmitLogin = async () => {
       const apiData = JSON.parse(JSON.stringify(from));
       apiData.password = encrypt(apiData.password);
       loginByUser(apiData)
-        .then(async (res: any) => {
+        .then(async res => {
           const data = res?.data;
           if (data?.token) setToken(data.token, from.exemption ? 7 : undefined);
           await setUserInfo(data as UserResult);

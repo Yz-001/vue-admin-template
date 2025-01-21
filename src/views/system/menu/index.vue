@@ -97,7 +97,7 @@ const exportExcelConfig = computed(() => {
 const handleSearch = (data?: MenuListSearch) => {
   filterParams.value = data || {};
   getMenuListApi(data || ({} as MenuListSearch))
-    .then((res: any) => {
+    .then(res => {
       const list = res.data?.rows || [];
       tableData.value = constructHierarchy(list, {
         idKey: "menuId",
@@ -127,7 +127,7 @@ const handleDelete = (row: MenuRow) => {
   commonDelBox({})
     .then(_ => {
       deleteMenuApi({ id: row.id })
-        .then((_: any) => {
+        .then(_ => {
           messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })

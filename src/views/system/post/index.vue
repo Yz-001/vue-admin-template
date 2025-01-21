@@ -119,7 +119,7 @@ const handleDelete = (row: PostRow) => {
   commonDelBox({})
     .then(_ => {
       deleteSystemPostApi({ id: row.id })
-        .then((_: any) => {
+        .then(_ => {
           messageSuccess($t("common.deleteSuccess"));
           handleSearch();
         })

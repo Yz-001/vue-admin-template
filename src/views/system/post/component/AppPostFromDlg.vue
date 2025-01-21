@@ -84,7 +84,7 @@ const elemColumns = computed(() => [
 ]);
 // const handleDetailGet = (id: string) => {
 //   getSystemPostDetailApi({ id })
-//     .then((res: any) => {
+//     .then(res => {
 //       formData.value = res?.data || ({} as PostRow);
 //     })
 //     .catch(err => {
