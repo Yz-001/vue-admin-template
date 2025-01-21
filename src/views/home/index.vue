@@ -47,7 +47,7 @@ const activities = ref([
 const visitCountOptions = ref({
   color: ["#80FFA5", "#00DDFF", "#37A2FF"],
   title: {
-    text: "Gradient Stacked Area Chart"
+    text: $t("home.visit_count")
   },
   tooltip: {
     trigger: "axis",
@@ -66,9 +66,6 @@ const visitCountOptions = ref({
     right: "3%",
     bottom: "3%",
     containLabel: true
-  },
-  title: {
-    text: $t("home.visit_count")
   },
   xAxis: [
     {
