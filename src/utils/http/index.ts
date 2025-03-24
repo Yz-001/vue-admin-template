@@ -43,7 +43,32 @@ export default abstract class HttpClient {
 
         config.transformRequest = [
           function (data) {
-            return qs.stringify(data);
+            const contentType = String(config.headers["Content-Type"])?.toLowerCase() || "";
+
+            // x-www-form-urlencoded 格式
+            if (contentType.includes("application/x-www-form-urlencoded")) {
+              return qs.stringify(data);
+            }
+
+            // multipart/form-data 格式（如文件上传）
+            if (contentType.includes("multipart/form-data")) {
+              // 若 data 已经是 FormData，直接返回（无需处理）
+              return data instanceof FormData ? data : new FormData();
+            }
+
+            // text/plain 或其他文本类型
+            if (contentType.includes("text/")) {
+              return typeof data === "string" ? data : String(data);
+            }
+
+            // 默认 JSON 处理（排除已处理的类型）
+            // 若 data 是对象或数组，序列化为 JSON
+            if (typeof data === "object" || Array.isArray(data)) {
+              return JSON.stringify(data);
+            }
+
+            // 其他类型（如 Blob、ArrayBuffer 等二进制数据）
+            return data;
           }
         ];
 
